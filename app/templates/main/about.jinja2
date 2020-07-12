@@ -1,0 +1,44 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}About{% endblock %}
+
+{% block content_before %}
+
+  <div class="jumbotron shadow-sm py-0">
+    <div class="container">
+
+      {# Text #}
+      <div class="text-center">
+        <span class="h3 mb-0"><br/>Interior Least Tern Data Colletion</span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block content %}
+  <div class='card mx-auto mt-5 shadow-sm'>
+    <div class='card-header text-center'>
+        This application was made in collaboration with a supportive boyfriend
+    </div>
+    <div class="card-body">
+      <h4 class="text-center">Contributors</h4>
+      <div class="row">
+        <div class="col text-right">
+          Aaron Kimbrell
+        </div>
+        <div class="col">
+          Programmer and Boyfriend
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-right">
+          Carice Godbey
+        </div>
+        <div class="col">
+          Inspiration and Researcher
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
