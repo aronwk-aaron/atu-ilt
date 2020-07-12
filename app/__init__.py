@@ -2,18 +2,17 @@ from flask import Flask
 from flask_assets import Environment
 from webassets import Bundle
 
-# from app.forms.forms import CustomUserManager
 from app.models import db, migrate
-# from flask_marshmallow import Marshmallow
-# from flask_wtf.csrf import CSRFProtect
+from flask_marshmallow import Marshmallow
+from flask_wtf.csrf import CSRFProtect
 
 # from app.models import User, Role, UsersRoles
 from app.commands import init_db
 
 
 # Instantiate Flask extensions
-# ma = Marshmallow()
-# csrf_protect = CSRFProtect()
+ma = Marshmallow()
+csrf_protect = CSRFProtect()
 # db and migrate is instantiated in models.py
 
 
@@ -46,9 +45,10 @@ def register_extensions(app):
         app (Flask): Flask app to register for
     """
     db.init_app(app)
-    # migrate.init_app(app, db)
-    # ma.init_app(app)
-    # csrf_protect.init_app(app)
+    migrate.init_app(app, db)
+    ma.init_app(app)
+    csrf_protect.init_app(app)
+
 
     assets = Environment(app)
     assets.url = app.static_url_path

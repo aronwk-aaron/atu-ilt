@@ -96,11 +96,12 @@ class survey(db.Model):
     cwdn3 = db.Column(db.Integer, nullable=False)
     cwdlog = db.Column(db.Integer, nullable=False)
 
-    w_temp = db.Column(db.Float, nullable=False)
-    a_temp = db.Column(db.Float, nullable=False)
-    perc_dio = db.Column(db.Float, nullable=False)
-    sal = db.Column(db.Float, nullable=False)
-    ppt = db.Column(db.Float, nullable=False)
+    w_temp = db.Column(db.Float)
+    a_temp = db.Column(db.Float)
+    perc_dio = db.Column(db.Float)
+    sal = db.Column(db.Float)
+    sp_condu = db.Column(db.Float)
+    condu = db.Column(db.Float)
 
 
 class survey_camera_card(db.Model):

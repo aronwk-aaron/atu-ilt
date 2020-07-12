@@ -7,12 +7,6 @@ import os
 # DO NOT use "DEBUG = True" in production environments
 DEBUG = True
 
-# Folders for uploading and supporting documents
-# THESE FOLDER MUST EXIST ON THE FILE SYSTEM
-SIGNATURE_FOLDER = '/data/signatures'
-SUBMISSION_FOLDER = '/data/submissions'
-DOCUMENTS_FOLDER = '/data/documents'
-
 # DO NOT use Unsecure Secrets in production environments
 # Generate a safe one with:
 #     python -c "import os; print repr(os.urandom(24));"
