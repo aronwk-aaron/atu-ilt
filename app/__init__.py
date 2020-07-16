@@ -49,7 +49,6 @@ def register_extensions(app):
     ma.init_app(app)
     csrf_protect.init_app(app)
 
-
     assets = Environment(app)
     assets.url = app.static_url_path
     scss = Bundle('scss/site.scss', filters='libsass', output='site.css')
@@ -66,8 +65,11 @@ def register_blueprints(app):
     """
     from .main import main_blueprint
     app.register_blueprint(main_blueprint)
-
-    # from .submissions import submissions_blueprint
-    # app.register_blueprint(submissions_blueprint, url_prefix='/submissions')
-    # from .revisions import revisions_blueprint
-    # app.register_blueprint(revisions_blueprint, url_prefix='/revisions')
+    from .cameras import cameras_blueprint
+    app.register_blueprint(cameras_blueprint, url_prefix='/cameras')
+    from .cards import cards_blueprint
+    app.register_blueprint(cards_blueprint, url_prefix='/cards')
+    from .predators import predators_blueprint
+    app.register_blueprint(predators_blueprint, url_prefix='/predators')
+    from .sites import sites_blueprint
+    app.register_blueprint(sites_blueprint, url_prefix='/sites')

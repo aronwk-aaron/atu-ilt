@@ -1,0 +1,29 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}New Predator{% endblock %}
+
+{% block content_before %}
+
+  <div class="jumbotron shadow-sm py-0">
+    <div class="container">
+
+      {# Text #}
+      <div class="text-center">
+        <span class="h3 mb-0"><br/>New Predator</span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block content %}
+    <form method=post>
+        <dl>
+            {{ form.csrf_token }}
+            {{ render_field(form.species) }}
+            {{ render_field(form.predator_type) }}
+            {{ render_field(form.volatility) }}
+            {{ render_field(form.submit) }}
+        </dl>
+    </form>
+{% endblock %}

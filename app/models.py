@@ -12,6 +12,10 @@ class card(db.Model):
     name = db.Column(db.String(255), nullable=False)
     size = db.Column(db.Integer, nullable=False)
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
 
 class camera(db.Model):
     __tablename__ = 'cameras'
@@ -20,18 +24,26 @@ class camera(db.Model):
     name = db.Column(db.String(255), nullable=False)
     brand = db.Column(db.String(255), nullable=False)
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
 
 class site(db.Model):
     __tablename__ = 'sites'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-    size = db.Column(db.String(255), nullable=False)
-    site_type = db.Column(db.String(255), nullable=False)
+    loc_type = db.Column(db.String(255), nullable=False)
+    size_type = db.Column(db.String(255), nullable=False)
     est_area = db.Column(db.Float)
     length = db.Column(db.Float)
 
     site_data = db.relationship('survey', backref='sites')
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 
 class predator(db.Model):
@@ -41,6 +53,10 @@ class predator(db.Model):
     species = db.Column(db.String(255), nullable=False)
     predator_type = db.Column(db.String(255), nullable=False)
     volatility = db.Column(db.Integer)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 
 class survey(db.Model):
@@ -103,6 +119,10 @@ class survey(db.Model):
     sp_condu = db.Column(db.Float)
     condu = db.Column(db.Float)
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
 
 class survey_camera_card(db.Model):
     __tablename__ = 'survey_camera_card'
@@ -129,6 +149,10 @@ class survey_camera_card(db.Model):
     functional = db.Column(db.Boolean, nullable=False)
     comment = db.Column(db.String(1024))
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
 
 class survey_predator(db.Model):
     survey_id = db.Column(
@@ -147,6 +171,10 @@ class survey_predator(db.Model):
     )
     count = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.String(1024))
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 
 class survey_predator_camera(db.Model):
@@ -174,3 +202,7 @@ class survey_predator_camera(db.Model):
     chick_mort = db.Column(db.Boolean, nullable=False)
     nest_dest = db.Column(db.Boolean, nullable=False)
     comment = db.Column(db.String(1024))
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()

@@ -8,18 +8,13 @@ from wtforms import (
     TimeField,
     IntegerField,
     HiddenField,
-    TextAreaField
+    TextAreaField,
+    SubmitField
 )
 from wtforms.validators import (
     DataRequired,
     NumberRange,
     Optional
-)
-from app.models import (
-    site,
-    camera,
-    predator,
-    card
 )
 
 
@@ -40,6 +35,7 @@ class camera_form(FlaskForm):
             DataRequired()
         ]
     )
+    submit = SubmitField()
 
 
 class card_form(FlaskForm):
@@ -50,7 +46,8 @@ class card_form(FlaskForm):
         ]
     )
     size = SelectField(
-        label='Brand',
+        label='Size',
+        coerce=int,
         choices=[
             (32, '32GB'),
             (64, '64GB'),
@@ -60,6 +57,7 @@ class card_form(FlaskForm):
             DataRequired()
         ]
     )
+    submit = SubmitField()
 
 
 class site_form(FlaskForm):
@@ -69,16 +67,40 @@ class site_form(FlaskForm):
             DataRequired()
         ]
     )
-    brand = SelectField(
-        label='Brand',
+    loc_type = SelectField(
+        label='Location Type',
         choices=[
-            ('browning', 'Browning'),
-            ('spypoint', 'SpyPoint'),
+            ('rooftop', 'Rooftop'),
+            ('sandbar', 'Sandbar'),
         ],
         validators=[
             DataRequired()
         ]
     )
+    size_type = SelectField(
+        label='Size',
+        choices=[
+            ('small', 'Small'),
+            ('medium', 'Medium'),
+            ('large', 'Large')
+        ],
+        validators=[
+            DataRequired()
+        ]
+    )
+    est_area = FloatField(
+        label='Estimated Area',
+        validators=[
+            Optional(),
+        ]
+    )
+    length = FloatField(
+        label='Length',
+        validators=[
+            Optional(),
+        ]
+    )
+    submit = SubmitField()
 
 
 class predator_form(FlaskForm):
@@ -88,7 +110,7 @@ class predator_form(FlaskForm):
             DataRequired()
         ]
     )
-    type = SelectField(
+    predator_type = SelectField(
         label='Type',
         choices=[
             ('mammal', 'Mammal'),
@@ -108,15 +130,13 @@ class predator_form(FlaskForm):
             NumberRange(min=0, max=10),
         ]
     )
+    submit = SubmitField()
 
 
 class survey_form(FlaskForm):
-    site_choices = list()
-    for item in site.Query.all():
-        site_choices.append((item.id, item.name))
     site = SelectField(
         label='Site',
-        choices=site_choices,
+        choices=[],
         validators=[
             DataRequired()
         ]
@@ -395,6 +415,7 @@ class survey_form(FlaskForm):
     conducttivity = FloatField(
         label='Conductivity'
     )
+    submit = SubmitField()
 
 
 class survey_camera_form(FlaskForm):
@@ -404,29 +425,23 @@ class survey_camera_form(FlaskForm):
             DataRequired()
         ]
     )
-    camera_choices = list()
-    for camera_item in camera.Query.all():
-        camera_choices.append((camera_item.id, camera_item.name))
     camera = SelectField(
         label='Camera',
-        choices=camera_choices,
+        choices=[],
         validators=[
             DataRequired()
         ]
     )
-    card_choices = list()
-    for card_item in card.Query.all():
-        card_choices.append((card_item.id, card_item.name))
     card_in = SelectField(
         label='Card In',
-        choices=card_choices,
+        choices=[],
         validators=[
             DataRequired()
         ]
     )
     card_out = SelectField(
         label='Card Out',
-        choices=card_choices,
+        choices=[],
         validators=[
             DataRequired()
         ]
@@ -446,6 +461,7 @@ class survey_camera_form(FlaskForm):
     comment = TextAreaField(
         label='Comments'
     )
+    submit = SubmitField()
 
 
 class survey_predator_form(FlaskForm):
@@ -470,12 +486,9 @@ class survey_predator_form(FlaskForm):
             DataRequired()
         ]
     )
-    predator_choices = list()
-    for predator_item in predator.Query.all():
-        predator_choices.append((predator_item.id, predator_item.species))
     predator_in = SelectField(
         label='Predator',
-        choices=predator_choices,
+        choices=[],
         validators=[
             DataRequired()
         ]
@@ -489,6 +502,7 @@ class survey_predator_form(FlaskForm):
     comment = TextAreaField(
         label='Comments'
     )
+    submit = SubmitField()
 
 
 class survey_camera_predator_form(FlaskForm):
@@ -498,12 +512,9 @@ class survey_camera_predator_form(FlaskForm):
             DataRequired()
         ]
     )
-    predator_choices = list()
-    for predator_item in predator.Query.all():
-        predator_choices.append((predator_item.id, predator_item.species))
     predator_in = SelectField(
         label='Predator',
-        choices=predator_choices,
+        choices=[],
         validators=[
             DataRequired()
         ]
@@ -524,8 +535,9 @@ class survey_camera_predator_form(FlaskForm):
         label='Chick Mortality?'
     )
     nest_dest = BooleanField(
-        label='NEst Destruction?'
+        label='Nest Destruction?'
     )
     comment = TextAreaField(
         label='Comments'
     )
+    submit = SubmitField()

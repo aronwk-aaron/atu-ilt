@@ -1,0 +1,74 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Cameras{% endblock %}
+
+{% block content_before %}
+
+  <div class="jumbotron shadow-sm py-0">
+    <div class="container">
+
+      {# Text #}
+      <div class="text-center">
+        <span class="h3 mb-0"><br/>Cameras</span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('cameras.new') }}"
+                   class="btn btn-primary"
+                   role="button"
+                   aria-disabled="true">
+      New Camera
+    </a>
+    <hr/>
+  {% if cameras %}
+  <table class="table table-white table-striped table-bordered table-hover"
+         id="table_id"
+         data-order='[[ 1, "asc" ]]'
+         data-page-length='25'>
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Brand</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for camera in cameras %}
+        <tr>
+          <td>
+            {{ camera.name }}
+          </td>
+          <td>
+            {{ camera.brand }}
+          </td>
+          <td>
+            <a href="{{ url_for('cameras.edit', id=camera.id) }}"
+               class="btn btn-primary"
+               role="button"
+               aria-disabled="true">
+                Edit Camera
+              </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    No Cameras to show
+  {% endif %}
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script>
+    $(document).ready( function () {
+      $('#table_id').DataTable({
+        "columnDefs": [{ "orderable": false, "targets": 2 }]
+      });
+    });
+  </script>
+{% endblock %}

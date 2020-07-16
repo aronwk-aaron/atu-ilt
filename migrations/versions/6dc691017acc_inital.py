@@ -1,8 +1,8 @@
-"""Initial migration
+"""inital
 
-Revision ID: 86f2a4934286
+Revision ID: 6dc691017acc
 Revises: 
-Create Date: 2020-07-11 21:57:12.092676
+Create Date: 2020-07-15 22:52:19.061800
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '86f2a4934286'
+revision = '6dc691017acc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,8 +40,8 @@ def upgrade():
     op.create_table('sites',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
-    sa.Column('size', sa.String(length=255), nullable=False),
-    sa.Column('site_type', sa.String(length=255), nullable=False),
+    sa.Column('loc_type', sa.String(length=255), nullable=False),
+    sa.Column('size_type', sa.String(length=255), nullable=False),
     sa.Column('est_area', sa.Float(), nullable=True),
     sa.Column('length', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id')
@@ -88,7 +88,6 @@ def upgrade():
     sa.Column('a_temp', sa.Float(), nullable=True),
     sa.Column('perc_dio', sa.Float(), nullable=True),
     sa.Column('sal', sa.Float(), nullable=True),
-    sa.Column('ppt', sa.Float(), nullable=True),
     sa.Column('sp_condu', sa.Float(), nullable=True),
     sa.Column('condu', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['site_id'], ['sites.id'], ),

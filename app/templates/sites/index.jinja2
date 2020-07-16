@@ -1,0 +1,86 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Sites{% endblock %}
+
+{% block content_before %}
+
+  <div class="jumbotron shadow-sm py-0">
+    <div class="container">
+
+      {# Text #}
+      <div class="text-center">
+        <span class="h3 mb-0"><br/>Sites</span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('sites.new') }}"
+                   class="btn btn-primary"
+                   role="button"
+                   aria-disabled="true">
+      New site
+    </a>
+    <hr/>
+  {% if sites %}
+  <table class="table table-white table-striped table-bordered table-hover"
+         id="table_id"
+         data-order='[[ 1, "asc" ]]'
+         data-page-length='25'>
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Location Type</th>
+      <th scope="col">Size Type</th>
+      <th scope="col">Estimated Area</th>
+      <th scope="col">Length</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for site in sites %}
+        <tr>
+          <td>
+            {{ site.name }}
+          </td>
+          <td>
+            {{ site.loc_type }}
+          </td>
+           <td>
+            {{ site.size_type }}
+          </td>
+          <td>
+            {{ site.est_area }}
+          </td>
+          <td>
+            {{ site.length }}
+          </td>
+          <td>
+            <a href="{{ url_for('sites.edit', id=site.id) }}"
+               class="btn btn-primary"
+               role="button"
+               aria-disabled="true">
+                Edit site
+              </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    No sites to show
+  {% endif %}
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script>
+    $(document).ready( function () {
+      $('#table_id').DataTable({
+        "columnDefs": [{ "orderable": false, "targets": 5 }]
+      });
+    });
+  </script>
+{% endblock %}

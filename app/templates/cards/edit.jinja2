@@ -1,0 +1,28 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Edit SD Card{% endblock %}
+
+{% block content_before %}
+
+  <div class="jumbotron shadow-sm py-0">
+    <div class="container">
+
+      {# Text #}
+      <div class="text-center">
+        <span class="h3 mb-0"><br/>Edit SD Card</span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block content %}
+  <form method=post>
+    <dl>
+        {{ form.csrf_token }}
+        {{ render_field(form.name) }}
+        {{ render_field(form.size) }}
+        {{ render_field(form.submit) }}
+    </dl>
+  </form>
+{% endblock %}

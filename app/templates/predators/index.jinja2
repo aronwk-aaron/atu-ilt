@@ -1,0 +1,78 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Predators{% endblock %}
+
+{% block content_before %}
+
+  <div class="jumbotron shadow-sm py-0">
+    <div class="container">
+
+      {# Text #}
+      <div class="text-center">
+        <span class="h3 mb-0"><br/>Predators</span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('predators.new') }}"
+                   class="btn btn-primary"
+                   role="button"
+                   aria-disabled="true">
+      New Predator
+    </a>
+    <hr/>
+  {% if predators %}
+  <table class="table table-white table-striped table-bordered table-hover"
+         id="table_id"
+         data-order='[[ 1, "asc" ]]'
+         data-page-length='25'>
+    <thead>
+    <tr>
+      <th scope="col">Species</th>
+      <th scope="col">Type</th>
+      <th scope="col">Volatility</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for predator in predators %}
+        <tr>
+          <td>
+            {{ predator.species }}
+          </td>
+          <td>
+            {{ predator.predator_type }}
+          </td>
+          <td>
+            {{ predator.volatility }}
+          </td>
+          <td>
+            <a href="{{ url_for('predators.edit', id=predator.id) }}"
+               class="btn btn-primary"
+               role="button"
+               aria-disabled="true">
+                Edit predator
+              </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    No predators to show
+  {% endif %}
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script>
+    $(document).ready( function () {
+      $('#table_id').DataTable({
+        "columnDefs": [{ "orderable": false, "targets": 2 }]
+      });
+    });
+  </script>
+{% endblock %}

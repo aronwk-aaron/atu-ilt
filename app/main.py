@@ -1,4 +1,5 @@
-from flask import render_template, Blueprint, url_for, redirect, request
+from flask import render_template, Blueprint
+from app.models import camera
 
 main_blueprint = Blueprint('main', __name__)
 
