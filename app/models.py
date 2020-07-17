@@ -11,6 +11,16 @@ class card(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     size = db.Column(db.Integer, nullable=False)
+    card_in = db.relationship(
+        'survey_camera_card',
+        primaryjoin="or_(card.id==survey_camera_card.card_in_id)",
+        back_populates="card_in"
+    )
+    card_out = db.relationship(
+        'survey_camera_card',
+        primaryjoin="or_(card.id==survey_camera_card.card_out_id)",
+        back_populates="card_out"
+    )
 
     def save(self):
         db.session.add(self)
@@ -23,6 +33,10 @@ class camera(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     brand = db.Column(db.String(255), nullable=False)
+    survey_camera = db.relationship(
+        'survey_camera_card',
+        back_populates="camera"
+    )
 
     def save(self):
         db.session.add(self)
@@ -39,7 +53,7 @@ class site(db.Model):
     est_area = db.Column(db.Float)
     length = db.Column(db.Float)
 
-    site_data = db.relationship('survey', backref='sites')
+    survey = db.relationship('survey', back_populates="site")
 
     def save(self):
         db.session.add(self)
@@ -53,6 +67,14 @@ class predator(db.Model):
     species = db.Column(db.String(255), nullable=False)
     predator_type = db.Column(db.String(255), nullable=False)
     volatility = db.Column(db.Integer)
+    survey_predator = db.relationship(
+        'survey_predator',
+        back_populates="predator"
+    )
+    recorded_predator = db.relationship(
+        'survey_predator_camera',
+        back_populates="predator"
+    )
 
     def save(self):
         db.session.add(self)
@@ -63,11 +85,14 @@ class survey(db.Model):
     __tablename__ = 'surveys'
 
     id = db.Column(db.Integer, primary_key=True)
+
     site_id = db.Column(
         db.Integer(),
         db.ForeignKey(site.id),
         nullable=False
     )
+    site = db.relationship('site')
+
     date = db.Column(db.Date(), nullable=False)
     crew = db.Column(db.Integer, nullable=False)
     time_in = db.Column(db.Time(), nullable=False)
@@ -86,6 +111,7 @@ class survey(db.Model):
     chick02 = db.Column(db.Integer, nullable=False)
     chick39 = db.Column(db.Integer, nullable=False)
     chick1017 = db.Column(db.Integer, nullable=False)
+    fledgling = db.Column(db.Integer, nullable=False)
 
     ef1 = db.Column(db.String(3), nullable=False)
     ef2 = db.Column(db.String(3), nullable=False)
@@ -128,23 +154,31 @@ class survey_camera_card(db.Model):
     __tablename__ = 'survey_camera_card'
 
     survey_id = db.Column(
-        db.Integer,
+        db.Integer(),
         db.ForeignKey(survey.id),
         primary_key=True
     )
+
     camera_id = db.Column(
-        db.Integer,
+        db.Integer(),
         db.ForeignKey(camera.id),
         primary_key=True
     )
+
+    camera = db.relationship('camera')
+
     card_in_id = db.Column(
         db.Integer,
-        db.ForeignKey(camera.id)
+        db.ForeignKey(card.id)
     )
+    card_in = db.relationship('card', foreign_keys=[card_in_id])
+
     card_out_id = db.Column(
         db.Integer,
-        db.ForeignKey(camera.id)
+        db.ForeignKey(card.id)
     )
+    card_out = db.relationship('card', foreign_keys=[card_out_id])
+    cleared = db.Column(db.Boolean, nullable=False)
     ch_bat = db.Column(db.Boolean, nullable=False)
     functional = db.Column(db.Boolean, nullable=False)
     comment = db.Column(db.String(1024))
@@ -165,6 +199,7 @@ class survey_predator(db.Model):
         db.ForeignKey(predator.id),
         primary_key=True
     )
+    predator = db.relationship('predator')
     sighting_type = db.Column(
         db.String(64),
         primary_key=True
@@ -188,6 +223,8 @@ class survey_predator_camera(db.Model):
         db.ForeignKey(predator.id),
         primary_key=True
     )
+    predator = db.relationship('predator')
+
     start = db.Column(
         db.DateTime(),
         primary_key=True

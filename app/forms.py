@@ -2,15 +2,20 @@ from flask_wtf import FlaskForm
 from wtforms import (
     StringField,
     SelectField,
-    FloatField,
     BooleanField,
-    DateField,
-    TimeField,
-    IntegerField,
     HiddenField,
     TextAreaField,
     SubmitField
 )
+
+from wtforms.fields.html5 import (
+    IntegerField,
+    DateField,
+    TimeField,
+    DateTimeLocalField,
+    DecimalField
+)
+
 from wtforms.validators import (
     DataRequired,
     NumberRange,
@@ -88,13 +93,13 @@ class site_form(FlaskForm):
             DataRequired()
         ]
     )
-    est_area = FloatField(
+    est_area = DecimalField(
         label='Estimated Area',
         validators=[
             Optional(),
         ]
     )
-    length = FloatField(
+    length = DecimalField(
         label='Length',
         validators=[
             Optional(),
@@ -136,6 +141,7 @@ class predator_form(FlaskForm):
 class survey_form(FlaskForm):
     site = SelectField(
         label='Site',
+        coerce=int,
         choices=[],
         validators=[
             DataRequired()
@@ -186,7 +192,7 @@ class survey_form(FlaskForm):
         ]
     )
     ac1 = IntegerField(
-        label='Animal Count 1',
+        label='Adult Tern Count 1',
         default=0,
         validators=[
             NumberRange(min=0),
@@ -194,7 +200,7 @@ class survey_form(FlaskForm):
         ]
     )
     ac2 = IntegerField(
-        label='Animal Count 2',
+        label='Adult Tern Count 2',
         default=0,
         validators=[
             NumberRange(min=0),
@@ -202,7 +208,7 @@ class survey_form(FlaskForm):
         ]
     )
     ac3 = IntegerField(
-        label='Animal Count 3',
+        label='Adult Tern Count 3',
         default=0,
         validators=[
             NumberRange(min=0),
@@ -249,7 +255,7 @@ class survey_form(FlaskForm):
             DataRequired()
         ]
     )
-    chick01017 = IntegerField(
+    chick1017 = IntegerField(
         label='Chicks 10-17 days old',
         default=0,
         validators=[
@@ -293,10 +299,10 @@ class survey_form(FlaskForm):
         label='Egg Float #4',
         choices=ef_choices
     )
-    ef_comm = TextAreaField(
+    ef_com = TextAreaField(
         label='Egg Float Comments'
     )
-    elevation = FloatField(
+    elevation = DecimalField(
         label='Elevation'
     )
     scrape = BooleanField(
@@ -397,29 +403,29 @@ class survey_form(FlaskForm):
             DataRequired()
         ]
     )
-    water_temp = FloatField(
+    water_temp = DecimalField(
         label='Water Temperature'
     )
-    ambient_temp = FloatField(
+    ambient_temp = DecimalField(
         label='Ambient Temperature'
     )
-    precentage_disolved_oxygen = FloatField(
+    precentage_disolved_oxygen = DecimalField(
         label='% Disolved Oxygen'
     )
-    salinity = FloatField(
+    salinity = DecimalField(
         label='Salinity in ppt'
     )
-    specific_conductance = FloatField(
+    specific_conductance = DecimalField(
         label='Specific Conductance'
     )
-    conducttivity = FloatField(
+    conducttivity = DecimalField(
         label='Conductivity'
     )
     submit = SubmitField()
 
 
 class survey_camera_form(FlaskForm):
-    survey = HiddenField(
+    survey_id = HiddenField(
         label='survey',
         validators=[
             DataRequired()
@@ -427,6 +433,7 @@ class survey_camera_form(FlaskForm):
     )
     camera = SelectField(
         label='Camera',
+        coerce=int,
         choices=[],
         validators=[
             DataRequired()
@@ -434,6 +441,7 @@ class survey_camera_form(FlaskForm):
     )
     card_in = SelectField(
         label='Card In',
+        coerce=int,
         choices=[],
         validators=[
             DataRequired()
@@ -441,6 +449,7 @@ class survey_camera_form(FlaskForm):
     )
     card_out = SelectField(
         label='Card Out',
+        coerce=int,
         choices=[],
         validators=[
             DataRequired()
@@ -465,7 +474,7 @@ class survey_camera_form(FlaskForm):
 
 
 class survey_predator_form(FlaskForm):
-    survey = HiddenField(
+    survey_id = HiddenField(
         label='survey',
         validators=[
             DataRequired()
@@ -479,15 +488,16 @@ class survey_predator_form(FlaskForm):
         ('adult_mort', 'Adult Mortality'),
         ('nest_dest', 'Nest Destruction'),
     ]
-    sighting = SelectField(
-        lablel='Sighting Method',
+    sighting_type = SelectField(
+        label='Sighting Method',
         choices=sighting_choices,
         validators=[
             DataRequired()
         ]
     )
-    predator_in = SelectField(
+    predator_id = SelectField(
         label='Predator',
+        coerce=int,
         choices=[],
         validators=[
             DataRequired()
@@ -505,16 +515,31 @@ class survey_predator_form(FlaskForm):
     submit = SubmitField()
 
 
-class survey_camera_predator_form(FlaskForm):
-    survey = HiddenField(
+class survey_predator_camera_form(FlaskForm):
+    survey_id = HiddenField(
         label='survey',
         validators=[
             DataRequired()
         ]
     )
-    predator_in = SelectField(
+    predator_id = SelectField(
         label='Predator',
+        coerce=int,
         choices=[],
+        validators=[
+            DataRequired()
+        ]
+    )
+    start = DateTimeLocalField(
+        label='Time In',
+        format='%Y-%m-%dT%H:%M',
+        validators=[
+            DataRequired()
+        ]
+    )
+    end = DateTimeLocalField(
+        label='Time Out',
+        format='%Y-%m-%dT%H:%M',
         validators=[
             DataRequired()
         ]

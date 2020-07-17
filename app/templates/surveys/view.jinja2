@@ -1,0 +1,235 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Survey{% endblock %}
+
+{% block content_before %}
+
+  <div class="jumbotron shadow-sm py-0">
+    <div class="container">
+
+      {# Text #}
+      <div class="text-center">
+        <span class="h3 mb-0"><br/>Survey</span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block content %}
+    <a href="{{ url_for('surveys.new_camera', survey_id=survey.id) }}"
+                   class="btn btn-primary"
+                   role="button"
+                   aria-disabled="true">
+      New Camera
+    </a>
+    <a href="{{ url_for('surveys.new_surveyed_predator', survey_id=survey.id) }}"
+                   class="btn btn-primary"
+                   role="button"
+                   aria-disabled="true">
+      New Surveyed Predator
+    </a>
+    <a href="{{ url_for('surveys.new_recorded_predator', survey_id=survey.id) }}"
+                   class="btn btn-primary"
+                   role="button"
+                   aria-disabled="true">
+      New Camera Recorded Predator
+    </a>
+    <hr/>
+    <h3 class='center'>Cameras</h3>
+    {% if cameras %}
+    <table class="table table-white table-striped table-bordered table-hover"
+            id="camera_table_id"
+            data-order='[[ 1, "asc" ]]'
+            data-page-length='25'>
+        <thead>
+        <tr>
+        <th scope="col">Camera</th>
+        <th scope="col">Card In</th>
+        <th scope="col">Card Out</th>
+        <th scope="col">Cleared Out Card</th>
+        <th scope="col">Changed Battery</th>
+        <th scope="col">Functional</th>
+        <th scope="col">Comment</th>
+        <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for camera in cameras %}
+            <tr>
+            <td>
+                {{ camera.camera.name }}
+            </td>
+            <td>
+                {{ camera.card_in.name }}
+            </td>
+            <td>
+                {{ camera.card_out.name }}
+            </td>
+            <td>
+                {{ camera.cleared }}
+            </td>
+            <td>
+                {{ camera.ch_bat }}
+            </td>
+            <td>
+                {{ camera.functional }}
+            </td>
+            <td>
+                {{ camera.comment }}
+            </td>
+            <td>
+                <a href="{{ url_for('surveys.edit_camera', survey_id=survey.id, camera_id=camera.camera.id) }}"
+                class="btn btn-primary"
+                role="button"
+                aria-disabled="true">
+                    Edit
+                </a>
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  {% else %}
+    No cameras to show
+  {% endif %}
+    <hr/>
+    <h3 class='center'>Survey Predators</h3>
+    {% if surveyed_predators %}
+    <table class="table table-white table-striped table-bordered table-hover"
+            id="sp_table_id"
+            data-order='[[ 1, "asc" ]]'
+            data-page-length='25'>
+        <thead>
+        <tr>
+        <th scope="col">Species</th>
+        <th scope="col">Sighting Type</th>
+        <th scope="col">Count</th>
+        <th scope="col">Comment</th>
+        <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for surveyed_predator in surveyed_predators %}
+            <tr>
+            <td>
+                {{surveyed_predator.predator.species }}
+            </td>
+            <td>
+                {{surveyed_predator.sighting_type }}
+            </td>
+            <td>
+                {{ surveyed_predator.count }}
+            </td>
+            <td>
+                {{ surveyed_predator.comment }}
+            </td>
+            <td>
+                <a href="{{ url_for('surveys.edit_surveyed_predator', survey_id=survey.id, predator_id=surveyed_predator.predator.id, sighting_type=surveyed_predator.sighting_type) }}"
+                class="btn btn-primary"
+                role="button"
+                aria-disabled="true">
+                    Edit
+                </a>
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  {% else %}
+    No Surveyed Predators to show
+  {% endif %}
+    <hr/>
+    <h3 class='center'>Recorded Predators</h3>
+    {% if recorded_predators %}
+    <table class="table table-white table-striped table-bordered table-hover"
+            id="rp_table_id"
+            data-order='[[ 1, "asc" ]]'
+            data-page-length='25'>
+        <thead>
+        <tr>
+        <th scope="col">Species</th>
+        <th scope="col">Start Time</th>
+        <th scope="col">End Time</th>
+        <th scope="col">Count</th>
+        <th scope="col">Scat?</th>
+        <th scope="col">Adult Mortality?</th>
+        <th scope="col">Chick Mortality?</th>
+        <th scope="col">Nest Destruction?</th>
+        <th scope="col">Comments</th>
+        <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for recorded_predator in recorded_predators %}
+            <tr>
+            <td>
+                {{ recorded_predator.predator.species }}
+            </td>
+            <td>
+                {{ recorded_predator.start }}
+            </td>
+            <td>
+                {{ recorded_predator.end }}
+            </td>
+            <td>
+                {{ recorded_predator.count }}
+            </td>
+            <td>
+                {{ recorded_predator.scat }}
+            </td>
+            <td>
+                {{ recorded_predator.adult_mort }}
+            </td>
+            <td>
+                {{ recorded_predator.chick_mort }}
+            </td>
+            <td>
+                {{ recorded_predator.nest_dest }}
+            </td>
+            <td>
+                {{ recorded_predator.comment }}
+            </td>
+            <td>
+                <a href="{{ url_for('surveys.edit_recorded_predator', predator_id=recorded_predator.predator.id, survey_id=survey.id, start=recorded_predator.start, end=recorded_predator.end) }}"
+                class="btn btn-primary"
+                role="button"
+                aria-disabled="true">
+                    Edit
+                </a>
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  {% else %}
+    No Recorded Predators to show
+  {% endif %}
+    <hr/>
+    <dl>
+        {% for field in form %}
+            {{ render_view(field)}}
+        {% endfor %}
+    </dl>
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script>
+    $(document).ready( function () {
+      $('#camera_table_id').DataTable({
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": 7 }]
+      });
+    });
+    $(document).ready( function () {
+      $('#sp_table_id').DataTable({
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": 4 }]
+      });
+    });
+    $(document).ready( function () {
+      $('#rp_table_id').DataTable({
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": 9 }]
+      });
+    });
+  </script>
+{% endblock %}

@@ -6,7 +6,6 @@ from app.models import db, migrate
 from flask_marshmallow import Marshmallow
 from flask_wtf.csrf import CSRFProtect
 
-# from app.models import User, Role, UsersRoles
 from app.commands import init_db
 
 
@@ -73,3 +72,5 @@ def register_blueprints(app):
     app.register_blueprint(predators_blueprint, url_prefix='/predators')
     from .sites import sites_blueprint
     app.register_blueprint(sites_blueprint, url_prefix='/sites')
+    from .surveys import surveys_blueprint
+    app.register_blueprint(surveys_blueprint, url_prefix='/surveys')

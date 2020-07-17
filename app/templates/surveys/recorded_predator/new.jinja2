@@ -1,0 +1,27 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}New Recorded Predator{% endblock %}
+
+{% block content_before %}
+
+  <div class="jumbotron shadow-sm py-0">
+    <div class="container">
+
+      {# Text #}
+      <div class="text-center">
+        <span class="h3 mb-0"><br/>New Recorded Predator</span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block content %}
+    <form method=post>
+        <dl>
+            {% for field in form %}
+              {{ render_field(field)}}
+            {% endfor %}
+        </dl>
+    </form>
+{% endblock %}

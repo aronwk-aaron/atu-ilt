@@ -1,8 +1,8 @@
-"""inital
+"""initial migrate
 
-Revision ID: 6dc691017acc
+Revision ID: a707192be4fd
 Revises: 
-Create Date: 2020-07-15 22:52:19.061800
+Create Date: 2020-07-17 15:35:16.865614
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6dc691017acc'
+revision = 'a707192be4fd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -64,6 +64,7 @@ def upgrade():
     sa.Column('chick02', sa.Integer(), nullable=False),
     sa.Column('chick39', sa.Integer(), nullable=False),
     sa.Column('chick1017', sa.Integer(), nullable=False),
+    sa.Column('fledgling', sa.Integer(), nullable=False),
     sa.Column('ef1', sa.String(length=3), nullable=False),
     sa.Column('ef2', sa.String(length=3), nullable=False),
     sa.Column('ef3', sa.String(length=3), nullable=False),
@@ -98,12 +99,13 @@ def upgrade():
     sa.Column('camera_id', sa.Integer(), nullable=False),
     sa.Column('card_in_id', sa.Integer(), nullable=True),
     sa.Column('card_out_id', sa.Integer(), nullable=True),
+    sa.Column('cleared', sa.Boolean(), nullable=False),
     sa.Column('ch_bat', sa.Boolean(), nullable=False),
     sa.Column('functional', sa.Boolean(), nullable=False),
     sa.Column('comment', sa.String(length=1024), nullable=True),
     sa.ForeignKeyConstraint(['camera_id'], ['cameras.id'], ),
-    sa.ForeignKeyConstraint(['card_in_id'], ['cameras.id'], ),
-    sa.ForeignKeyConstraint(['card_out_id'], ['cameras.id'], ),
+    sa.ForeignKeyConstraint(['card_in_id'], ['cards.id'], ),
+    sa.ForeignKeyConstraint(['card_out_id'], ['cards.id'], ),
     sa.ForeignKeyConstraint(['survey_id'], ['surveys.id'], ),
     sa.PrimaryKeyConstraint('survey_id', 'camera_id')
     )

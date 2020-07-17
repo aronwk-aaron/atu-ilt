@@ -1,0 +1,87 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Surveys{% endblock %}
+
+{% block content_before %}
+
+  <div class="jumbotron shadow-sm py-0">
+    <div class="container">
+
+      {# Text #}
+      <div class="text-center">
+        <span class="h3 mb-0"><br/>Surveys</span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('surveys.new') }}"
+                   class="btn btn-primary"
+                   role="button"
+                   aria-disabled="true">
+      New Survey
+    </a>
+    <hr/>
+  {% if surveys %}
+  <table class="table table-white table-striped table-bordered table-hover"
+         id="table_id"
+         data-order='[[ 1, "asc" ]]'
+         data-page-length='25'>
+    <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Date</th>
+      <th scope="col">Site</th>
+      <th scope="col">Avg Adult Count</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for survey in surveys %}
+        <tr>
+        <td>
+            <a href="{{ url_for('surveys.view', id=survey.id) }}"
+               class="btn btn-primary"
+               role="button"
+               aria-disabled="true">
+                View Survey
+              </a>
+          </td>
+          <td>
+            {{ survey.date }}
+          </td>
+          <td>
+            {{ survey.name }}
+          </td>
+          <td>
+            {{ ((survey.ac1 + survey.ac2 + survey.ac3)/3)|round(1, 'floor') }}
+          </td>
+          <td>
+            <a href="{{ url_for('surveys.edit', id=survey.id) }}"
+               class="btn btn-primary"
+               role="button"
+               aria-disabled="true">
+                Edit Survey
+              </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    No surveys to show
+  {% endif %}
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script>
+    $(document).ready( function () {
+      $('#table_id').DataTable({
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": [0,4] }]
+      });
+    });
+  </script>
+{% endblock %}
