@@ -1,7 +1,6 @@
-FROM python:3.8.4-slim
+FROM python:3.8.4-buster
 
 COPY requirements.txt requirements.txt
-RUN apt install libpq-dev
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
 COPY wsgi.py wsgi.py
