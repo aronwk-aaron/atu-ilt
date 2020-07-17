@@ -1,4 +1,4 @@
-FROM python:3.8.4-buster
+FROM python:3.7.8-buster
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
