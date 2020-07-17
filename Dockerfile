@@ -1,9 +1,7 @@
-FROM python:3.8.4-alpine3.12
+FROM python:3.8.4-slim
 
 COPY requirements.txt requirements.txt
-RUN apk add --no-cache postgresql-libs
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
-RUN apk --purge del .build-deps
+RUN apt install libpq-dev
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
 COPY wsgi.py wsgi.py
