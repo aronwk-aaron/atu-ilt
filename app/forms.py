@@ -77,7 +77,8 @@ class site_form(FlaskForm):
         label='Location Type',
         choices=[
             ('rooftop', 'Rooftop'),
-            ('sandbar', 'Sandbar'),
+            ('sandbar-island', 'Island - Sandbar'),
+            ('sandbar-main', 'Main - Sandbar'),
         ],
         validators=[
             DataRequired()
