@@ -38,7 +38,7 @@ def edit(id):
         data.size_type = form.size_type.data,
         data.est_area = form.est_area.data,
         data.length = form.length.data
-        data.data.save()
+        data.save()
         return redirect('/sites')
 
     form.name.data = data.name
