@@ -1,2 +1,2 @@
 app/static/* linguist-vendored
-*.jinja2 linguist-language=Jinja
+*.jinja2 linguist-language=Jinja2
