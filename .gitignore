@@ -7,7 +7,7 @@ __pycache__/
 
 # C extensions
 *.so
-
+app/static/site.css
 # Distribution / packaging
 .Python
 build/
