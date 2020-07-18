@@ -54,6 +54,7 @@ class card_form(FlaskForm):
         label='Size',
         coerce=int,
         choices=[
+            (16, '16GB'),
             (32, '32GB'),
             (64, '64GB'),
             (128, '128GB'),
