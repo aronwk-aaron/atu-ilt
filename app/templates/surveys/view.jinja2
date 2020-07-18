@@ -16,27 +16,20 @@
 
 {% endblock %}
 
-{% block content %}
-    <a href="{{ url_for('surveys.new_camera', survey_id=survey.id) }}"
-                   class="btn btn-primary"
-                   role="button"
-                   aria-disabled="true">
-      New Camera
-    </a>
-    <a href="{{ url_for('surveys.new_surveyed_predator', survey_id=survey.id) }}"
-                   class="btn btn-primary"
-                   role="button"
-                   aria-disabled="true">
-      New Surveyed Predator
-    </a>
-    <a href="{{ url_for('surveys.new_recorded_predator', survey_id=survey.id) }}"
-                   class="btn btn-primary"
-                   role="button"
-                   aria-disabled="true">
-      New Camera Recorded Predator
-    </a>
-    <hr/>
-    <h3 class='center'>Cameras</h3>
+{% block content %}    
+    <div class="row justify-content-start">
+      <div class="col-6 col-sm-3">
+        <h3>Cameras</h3>
+      </div>
+      <div class="col-6 col-sm-3">
+        <a href="{{ url_for('surveys.new_camera', survey_id=survey.id) }}"
+                  class="btn btn-primary btn-block"
+                  role="button"
+                  aria-disabled="true">
+          New Camera
+        </a>
+      </div>
+    </div>
     {% if cameras %}
     <table class="table table-white table-striped table-bordered table-hover"
             id="camera_table_id"
@@ -94,7 +87,19 @@
     No cameras to show
   {% endif %}
     <hr/>
-    <h3 class='center'>Survey Predators</h3>
+    <div class="row justify-content-start">
+      <div class="col-6 col-sm-3">
+        <h3>Survey Predators</h3>
+      </div>
+      <div class="col-6 col-sm-3">
+        <a href="{{ url_for('surveys.new_surveyed_predator', survey_id=survey.id) }}"
+                   class="btn btn-primary btn-block"
+                   role="button"
+                   aria-disabled="true">
+          New Surveyed Predator
+        </a>
+      </div>
+    </div>
     {% if surveyed_predators %}
     <table class="table table-white table-striped table-bordered table-hover"
             id="sp_table_id"
@@ -140,7 +145,19 @@
     No Surveyed Predators to show
   {% endif %}
     <hr/>
-    <h3 class='center'>Recorded Predators</h3>
+    <div class="row justify-content-start">
+      <div class="col-6 col-sm-3">
+        <h3>Recorded Predators</h3>
+      </div>
+      <div class="col-6 col-sm-3">
+        <a href="{{ url_for('surveys.new_recorded_predator', survey_id=survey.id) }}"
+                   class="btn btn-primary btn-block"
+                   role="button"
+                   aria-disabled="true">
+          New Recorded Predator
+        </a>
+      </div>
+    </div>
     {% if recorded_predators %}
     <table class="table table-white table-striped table-bordered table-hover"
             id="rp_table_id"
@@ -206,13 +223,48 @@
     No Recorded Predators to show
   {% endif %}
     <hr/>
-    <dl>
-        {% for field in form %}
-            {{ render_view(field)}}
-        {% endfor %}
-    </dl>
+    <div class="row">
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h3 class="my-1">Date: {{ survey.date }}</h3>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Site: {{ survey.site.name }}</li>
+            <li class="list-group-item">Crew: {{ survey.crew }}</li>
+            <li class="list-group-item">Time In: {{ survey.time_in }}</li>
+            <li class="list-group-item">Time Out: {{ survey.time_out }}</li>
+            <li class="list-group-item">Surveyed %: {{ survey.surveyed }}%</li>
+            <li class="list-group-item">Method: {{ survey.method }}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="my-1">Counts</h3>
+          </div>
+          <div class="card-body">
+            <div class='row'>
+              <div class='col'>
+                Adults:
+              </div>
+              <div class='col-sm-2'>
+                {{ survey.ac1 }}
+              </div>
+              <div class='col-sm-2'>
+                {{ survey.ac2 }}
+              </div>
+              <div class='col-sm-2'>
+                {{ survey.ac3 }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 {% endblock %}
-
+  
 {% block js %}
   {{ super() }}
   <script>

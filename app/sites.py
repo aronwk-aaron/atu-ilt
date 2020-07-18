@@ -18,6 +18,16 @@ def new():
         new_site = site(
             name=form.name.data,
             loc_type=form.loc_type.data,
+            elev=form.elevation.data,
+            snag_perch=form.snag_perch.data,
+
+            psub=form.primary_substrate.data,
+            perc_psub=form.precentage_primary_substrate.data,
+            silt_clay=form.silt_clay.data,
+            sand=form.sand.data,
+            gravel=form.gravel.data,
+            sm_rocks=form.sm_rocks.data,
+
             size_type=form.size_type.data,
             est_area=form.est_area.data,
             length=form.length.data
@@ -33,10 +43,20 @@ def edit(id):
     data = site.query.filter(site.id == id).first()
 
     if form.validate_on_submit():
-        data.name = form.name.data,
-        data.loc_type = form.loc_type.data,
-        data.size_type = form.size_type.data,
-        data.est_area = form.est_area.data,
+        data.name = form.name.data
+        data.loc_type = form.loc_type.data
+        data.elev = form.elevation.data
+        data.snag_perch = form.snag_perch.data
+
+        data.psub = form.primary_substrate.data
+        data.perc_psub = form.precentage_primary_substrate.data
+        data.silt_clay = form.silt_clay.data
+        data.sand = form.sand.data
+        data.gravel = form.gravel.data
+        data.sm_rocks = form.sm_rocks.data
+
+        data.size_type = form.size_type.data
+        data.est_area = form.est_area.data
         data.length = form.length.data
         data.save()
         return redirect('/sites')
@@ -44,6 +64,17 @@ def edit(id):
     form.name.data = data.name
     form.loc_type.data = data.loc_type
     form.size_type.data = data.size_type
+
+    form.elevation.data = data.elev
+    form.snag_perch.data = data.snag_perch
+
+    form.primary_substrate.data = data.psub
+    form.precentage_primary_substrate.data = data.perc_psub
+    form.silt_clay.data = data.silt_clay
+    form.sand.data = data.sand
+    form.gravel.data = data.gravel
+    form.sm_rocks.data = data.sm_rocks
+
     form.est_area.data = data.est_area
     form.length.data = data.length
 

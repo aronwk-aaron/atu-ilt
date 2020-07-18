@@ -33,6 +33,8 @@ class camera(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     brand = db.Column(db.String(255), nullable=False)
+    functional = db.Column(db.Boolean, default=True, nullable=False)
+    comment = db.Column(db.String(1024))
     survey_camera = db.relationship(
         'survey_camera_card',
         back_populates="camera"
@@ -49,6 +51,17 @@ class site(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     loc_type = db.Column(db.String(255), nullable=False)
+    elev = db.Column(db.Float, nullable=False)
+
+    snag_perch = db.Column(db.Integer, nullable=False)
+
+    psub = db.Column(db.String(50), nullable=False)
+    perc_psub = db.Column(db.Integer, nullable=False)
+    silt_clay = db.Column(db.Boolean, nullable=False)
+    sand = db.Column(db.Boolean, nullable=False)
+    gravel = db.Column(db.Boolean, nullable=False)
+    sm_rocks = db.Column(db.Boolean, nullable=False)
+
     size_type = db.Column(db.String(255), nullable=False)
     est_area = db.Column(db.Float)
     length = db.Column(db.Float)
@@ -119,16 +132,7 @@ class survey(db.Model):
     ef4 = db.Column(db.String(3), nullable=False)
     ef_com = db.Column(db.String(1024), nullable=False)
 
-    elev = db.Column(db.Float, nullable=False)
     scrape = db.Column(db.Boolean, nullable=False)
-    snag_perch = db.Column(db.Integer, nullable=False)
-
-    psub = db.Column(db.String(50), nullable=False)
-    perc_psub = db.Column(db.Integer, nullable=False)
-    silt_clay = db.Column(db.Boolean, nullable=False)
-    sand = db.Column(db.Boolean, nullable=False)
-    gravel = db.Column(db.Boolean, nullable=False)
-    sm_rocks = db.Column(db.Boolean, nullable=False)
 
     pveg = db.Column(db.String(50), nullable=False)
     perc_pveg = db.Column(db.Integer, nullable=False)

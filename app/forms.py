@@ -40,6 +40,14 @@ class camera_form(FlaskForm):
             DataRequired()
         ]
     )
+    functional = BooleanField(
+        label='Is/was the camera functional?',
+        default=False
+    )
+    comment = TextAreaField(
+        label='Comments',
+        default=''
+    )
     submit = SubmitField()
 
 
@@ -94,6 +102,50 @@ class site_form(FlaskForm):
         validators=[
             DataRequired()
         ]
+    )
+    elevation = DecimalField(
+        label='Elevation'
+    )
+    snag_perch = IntegerField(
+        label='Snag/Perch Count',
+        default=0,
+        validators=[
+            NumberRange(min=0),
+            DataRequired()
+        ]
+    )
+    substrate_choices = [
+        ('silt_clay', 'Silt/Clay'),
+        ('gravel', 'Gravel'),
+        ('sand', 'Sand'),
+        ('sm_rocks', 'Small Rocks'),
+    ]
+    primary_substrate = SelectField(
+        label='Primary Substrate',
+        choices=substrate_choices,
+        validators=[
+            DataRequired()
+        ]
+    )
+    precentage_primary_substrate = IntegerField(
+        label='Precentage Primary Substrate',
+        default=0,
+        validators=[
+            NumberRange(min=0, max=100),
+            DataRequired()
+        ]
+    )
+    silt_clay = BooleanField(
+        label='Silt/Clay Presence'
+    )
+    sand = BooleanField(
+        label='Sand Presence'
+    )
+    gravel = BooleanField(
+        label='Gravel Presence'
+    )
+    sm_rocks = BooleanField(
+        label='Small Rocks Presence'
     )
     est_area = DecimalField(
         label='Estimated Area',
@@ -304,52 +356,8 @@ class survey_form(FlaskForm):
     ef_com = TextAreaField(
         label='Egg Float Comments'
     )
-    elevation = DecimalField(
-        label='Elevation'
-    )
     scrape = BooleanField(
         label='Scrape Presence'
-    )
-    snag_perch = IntegerField(
-        label='Snag/Perch Count',
-        default=0,
-        validators=[
-            NumberRange(min=0),
-            DataRequired()
-        ]
-    )
-    substrate_choices = [
-        ('silt_clay', 'Silt/Clay'),
-        ('gravel', 'Gravel'),
-        ('sand', 'Sand'),
-        ('sm_rocks', 'Small Rocks'),
-    ]
-    primary_substrate = SelectField(
-        label='Primary Substrate',
-        choices=substrate_choices,
-        validators=[
-            DataRequired()
-        ]
-    )
-    precentage_primary_substrate = IntegerField(
-        label='Precentage Primary Substrate',
-        default=0,
-        validators=[
-            NumberRange(min=0, max=100),
-            DataRequired()
-        ]
-    )
-    silt_clay = BooleanField(
-        label='Silt/Clay Presence'
-    )
-    sand = BooleanField(
-        label='Sand Presence'
-    )
-    gravel = BooleanField(
-        label='Gravel Presence'
-    )
-    sm_rocks = BooleanField(
-        label='Small Rocks Presence'
     )
     vegetation_choices = [
         ('grass', 'Grass'),
@@ -470,7 +478,8 @@ class survey_camera_form(FlaskForm):
         default=False
     )
     comment = TextAreaField(
-        label='Comments'
+        label='Comments',
+        default=''
     )
     submit = SubmitField()
 
@@ -512,7 +521,8 @@ class survey_predator_form(FlaskForm):
         ]
     )
     comment = TextAreaField(
-        label='Comments'
+        label='Comments',
+        default=''
     )
     submit = SubmitField()
 
@@ -565,6 +575,7 @@ class survey_predator_camera_form(FlaskForm):
         label='Nest Destruction?'
     )
     comment = TextAreaField(
-        label='Comments'
+        label='Comments',
+        default=''
     )
     submit = SubmitField()

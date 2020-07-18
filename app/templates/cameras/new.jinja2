@@ -19,10 +19,9 @@
 {% block content %}
     <form method=post>
         <dl>
-            {{ form.csrf_token }}
-            {{ render_field(form.name) }}
-            {{ render_field(form.brand) }}
-            {{ render_field(form.submit) }}
+        {% for field in form %}
+          {{ render_field(field)}}
+        {% endfor %}
         </dl>
     </form>
 {% endblock %}

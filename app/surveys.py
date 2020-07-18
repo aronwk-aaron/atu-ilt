@@ -72,16 +72,7 @@ def new():
             ef4=form.ef4.data,
             ef_com=form.ef_com.data,
 
-            elev=form.elevation.data,
             scrape=form.scrape.data,
-            snag_perch=form.snag_perch.data,
-
-            psub=form.primary_substrate.data,
-            perc_psub=form.precentage_primary_substrate.data,
-            silt_clay=form.silt_clay.data,
-            sand=form.sand.data,
-            gravel=form.gravel.data,
-            sm_rocks=form.sm_rocks.data,
 
             pveg=form.primary_vegitation.data,
             perc_pveg=form.precentage_primary_vegitation.data,
@@ -138,16 +129,7 @@ def edit(id):
         data.ef4 = form.ef4.data
         data.ef_com = form.ef_com.data
 
-        data.elev = form.elevation.data
         data.scrape = form.scrape.data
-        data.snag_perch = form.snag_perch.data
-
-        data.psub = form.primary_substrate.data
-        data.perc_psub = form.precentage_primary_substrate.data
-        data.silt_clay = form.silt_clay.data
-        data.sand = form.sand.data
-        data.gravel = form.gravel.data
-        data.sm_rocks = form.sm_rocks.data
 
         data.pveg = form.primary_vegitation.data
         data.perc_pveg = form.precentage_primary_vegitation.data
@@ -193,16 +175,7 @@ def edit(id):
     form.ef4.data = data.ef4
     form.ef_com.data = data.ef_com
 
-    form.elevation.data = data.elev
     form.scrape.data = data.scrape
-    form.snag_perch.data = data.snag_perch
-
-    form.primary_substrate.data = data.psub
-    form.precentage_primary_substrate.data = data.perc_psub
-    form.silt_clay.data = data.silt_clay
-    form.sand.data = data.sand
-    form.gravel.data = data.gravel
-    form.sm_rocks.data = data.sm_rocks
 
     form.primary_vegitation.data = data.pveg
     form.precentage_primary_vegitation.data = data.perc_pveg
@@ -224,62 +197,7 @@ def edit(id):
 
 @surveys_blueprint.route('/view/<id>')
 def view(id):
-    form = survey_form()
-    form.site.choices = [(s.id, s.name) for s in site.query.all()]
-
     data = survey.query.filter(survey.id == id).first()
-    form.site.data = data.site_id
-    form.date.data = data.date
-    form.crew.data = data.crew
-    form.time_in.data = data.time_in
-    form.time_out.data = data.time_out
-    form.precentage_surveyed.data = data.surveyed
-    form.method.data = data.method
-
-    form.ac1.data = data.ac1
-    form.ac2.data = data.ac2
-    form.ac3.data = data.ac3
-
-    form.egg1.data = data.egg1
-    form.egg2.data = data.egg2
-    form.egg3.data = data.egg3
-
-    form.chick02.data = data.chick02
-    form.chick39.data = data.chick39
-    form.chick1017.data = data.chick1017
-    form.fledgling.data = data.fledgling
-
-    form.ef1.data = data.ef1
-    form.ef2.data = data.ef2
-    form.ef3.data = data.ef3
-    form.ef4.data = data.ef4
-    form.ef_com.data = data.ef_com
-
-    form.elevation.data = data.elev
-    form.scrape.data = data.scrape
-    form.snag_perch.data = data.snag_perch
-
-    form.primary_substrate.data = data.psub
-    form.precentage_primary_substrate.data = data.perc_psub
-    form.silt_clay.data = data.silt_clay
-    form.sand.data = data.sand
-    form.gravel.data = data.gravel
-    form.sm_rocks.data = data.sm_rocks
-
-    form.primary_vegitation.data = data.pveg
-    form.precentage_primary_vegitation.data = data.perc_pveg
-
-    form.cwdn1.data = data.cwdn1
-    form.cwdn2.data = data.cwdn2
-    form.cwdn3.data = data.cwdn3
-    form.cwdlog.data = data.cwdlog
-
-    form.water_temp.data = data.w_temp
-    form.ambient_temp.data = data.a_temp
-    form.precentage_disolved_oxygen.data = data.perc_dio
-    form.salinity.data = data.sal
-    form.specific_conductance.data = data.sp_condu
-    form.conducttivity.data = data.condu
 
     cameras = survey_camera_card.query \
         .filter(data.id == survey_camera_card.survey_id).all()
@@ -290,7 +208,6 @@ def view(id):
 
     return render_template(
         'surveys/view.jinja2',
-        form=form,
         survey=data,
         cameras=cameras,
         surveyed_predators=surveyed_predators,
