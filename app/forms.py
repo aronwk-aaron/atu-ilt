@@ -18,6 +18,7 @@ from wtforms.fields.html5 import (
 
 from wtforms.validators import (
     DataRequired,
+    InputRequired,
     NumberRange,
     Optional
 )
@@ -111,7 +112,7 @@ class site_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     substrate_choices = [
@@ -250,7 +251,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     ac2 = IntegerField(
@@ -258,7 +259,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     ac3 = IntegerField(
@@ -266,7 +267,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     egg1 = IntegerField(
@@ -274,7 +275,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     egg2 = IntegerField(
@@ -282,7 +283,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     egg3 = IntegerField(
@@ -290,7 +291,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     chick02 = IntegerField(
@@ -298,7 +299,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     chick39 = IntegerField(
@@ -306,7 +307,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     chick1017 = IntegerField(
@@ -314,7 +315,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     fledgling = IntegerField(
@@ -322,7 +323,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     ef_choices = [
@@ -386,7 +387,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     cwdn2 = IntegerField(
@@ -394,7 +395,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     cwdn3 = IntegerField(
@@ -402,7 +403,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     cwdlog = IntegerField(
@@ -410,7 +411,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0),
-            DataRequired()
+            InputRequired()
         ]
     )
     water_temp = DecimalField(

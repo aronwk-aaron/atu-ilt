@@ -247,16 +247,10 @@
           <div class="card-body">
             <div class='row'>
               <div class='col'>
-                Adults:
+                Adults: {{ survey.ac1 }},{{ survey.ac2 }},{{ survey.ac3 }}
               </div>
               <div class='col-sm-2'>
-                {{ survey.ac1 }}
-              </div>
-              <div class='col-sm-2'>
-                {{ survey.ac2 }}
-              </div>
-              <div class='col-sm-2'>
-                {{ survey.ac3 }}
+                Avg: {{ ((survey.ac1 + survey.ac2 + survey.ac3)/3)|round(1, 'floor') }}
               </div>
             </div>
           </div>
