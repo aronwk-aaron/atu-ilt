@@ -467,7 +467,7 @@
           <div class="card-body">
             <div class='row'>
               <div class='col'>
-                {{ survey.ef1 }}, {{ survey.ef2 }}, {{ survey.ef3 }}, {{ survey.ef3 }}
+                {{ survey.ef1 }}, {{ survey.ef2 }}, {{ survey.ef3 }}, {{ survey.ef4 }}
               </div>
               <div class='col'>
                 {{ survey.ef_com }}
@@ -489,6 +489,13 @@
         </div>
       </div>
     </div>
+    <hr/>
+    <a href="{{ url_for('surveys.edit', id=survey.id) }}"
+                   class="btn btn-primary btn-lg btn-block"
+                   role="button"
+                   aria-disabled="true">
+          Edit
+        </a>
 {% endblock %}
   
 {% block js %}
