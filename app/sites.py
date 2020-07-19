@@ -55,7 +55,6 @@ def edit(id):
         data.gravel = form.gravel.data
         data.sm_rocks = form.sm_rocks.data
 
-        data.size_type = form.size_type.data
         data.est_area = form.est_area.data
         data.length = form.length.data
         data.comment = form.comment.data
