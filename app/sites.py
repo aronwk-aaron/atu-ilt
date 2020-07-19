@@ -79,3 +79,9 @@ def edit(id):
     form.length.data = data.length
 
     return render_template('sites/edit.jinja2', form=form)
+
+
+@sites_blueprint.route('/view/<id>')
+def view(id):
+    data = site.query.filter(site.id == id).first()
+    return render_template('sites/view.jinja2', site=data)

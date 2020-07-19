@@ -65,6 +65,7 @@ class site(db.Model):
     size_type = db.Column(db.String(255), nullable=False)
     est_area = db.Column(db.Float)
     length = db.Column(db.Float)
+    comment = db.Column(db.String(1024))
 
     survey = db.relationship('survey', back_populates="site")
 
@@ -148,6 +149,8 @@ class survey(db.Model):
     sal = db.Column(db.Float)
     sp_condu = db.Column(db.Float)
     condu = db.Column(db.Float)
+    
+    comment = db.Column(db.String(1024))
 
     def save(self):
         db.session.add(self)

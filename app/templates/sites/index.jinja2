@@ -9,7 +9,7 @@
 
       {# Text #}
       <div class="text-center">
-        <span class="h3 mb-0"><br/>Sites</span>
+        <span class="h3 mb-0"><br/>Sites<br/><br/></span>
       </div>
     </div>
   </div>
@@ -31,17 +31,27 @@
          data-page-length='25'>
     <thead>
     <tr>
+      <th scope="col"></th>
       <th scope="col">Name</th>
       <th scope="col">Location Type</th>
       <th scope="col">Size Type</th>
-      <th scope="col">Estimated Area</th>
-      <th scope="col">Length</th>
+      <th scope="col">Elevation</th>
+      <th scope="col">Snag/Perch</th>
+      <th scope="col">Primary Substrate</th>
       <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
       {% for site in sites %}
         <tr>
+          <td>
+            <a href="{{ url_for('sites.view', id=site.id) }}"
+               class="btn btn-primary"
+               role="button"
+               aria-disabled="true">
+                View
+              </a>
+          </td>
           <td>
             {{ site.name }}
           </td>
@@ -52,17 +62,20 @@
             {{ site.size_type }}
           </td>
           <td>
-            {{ site.est_area }}
+            {{ site.elevation }}
           </td>
           <td>
-            {{ site.length }}
+            {{ site.snag_perch }}
+          </td>
+          <td>
+            {{ site.psub }}
           </td>
           <td>
             <a href="{{ url_for('sites.edit', id=site.id) }}"
                class="btn btn-primary"
                role="button"
                aria-disabled="true">
-                Edit site
+                Edit
               </a>
           </td>
         </tr>
@@ -79,7 +92,7 @@
   <script>
     $(document).ready( function () {
       $('#table_id').DataTable({
-        "columnDefs": [{ "orderable": false, "targets": 5 }]
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": [0,7] }]
       });
     });
   </script>

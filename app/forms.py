@@ -160,6 +160,10 @@ class site_form(FlaskForm):
             Optional(),
         ]
     )
+    comment = TextAreaField(
+        label='Comments',
+        default=''
+    )
     submit = SubmitField()
 
 
@@ -431,6 +435,10 @@ class survey_form(FlaskForm):
     )
     conductivity = DecimalField(
         label='Conductivity'
+    )
+    comment = TextAreaField(
+        label='Comments',
+        default=''
     )
     submit = SubmitField()
 
