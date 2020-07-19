@@ -230,7 +230,7 @@
             <h3 class="my-1">Date: {{ survey.date }}</h3>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="{{ url_for('sites.edit', id = survey.site_id) }}">Site:</a> {{ survey.site.name }}</li>
+            <li class="list-group-item"><a href="{{ url_for('sites.view', id = survey.site_id) }}">Site:</a> {{ survey.site.name }}</li>
             <li class="list-group-item">Crew: {{ survey.crew }}</li>
             <li class="list-group-item">Time In: {{ survey.time_in }}</li>
             <li class="list-group-item">Time Out: {{ survey.time_out }}</li>
@@ -447,7 +447,13 @@
                 Size:
               </div>
               <div class='col-sm-4'>
-                {{ survey.size_type }} µs/cm
+                {% if survey.size_type == 1 %}
+                  Small
+                {% elif survey.size_type == 2 %}
+                 Medium
+                {% else %}
+                 Large
+                {% endif%}
               </div>
             </div>
           </div>
