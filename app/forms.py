@@ -376,7 +376,7 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0, max=100),
-            DataRequired()
+            InputRequired()
         ]
     )
     size_type = SelectField(
@@ -424,21 +424,33 @@ class survey_form(FlaskForm):
         ]
     )
     water_temp = DecimalField(
+        default=0,
+        places=1,
         label='Water Temperature'
     )
     ambient_temp = DecimalField(
+        default=0,
+        places=1,
         label='Ambient Temperature'
     )
     precentage_disolved_oxygen = DecimalField(
+        default=0,
+        places=1,
         label='% Disolved Oxygen'
     )
     salinity = DecimalField(
+        default=0,
+        places=2,
         label='Salinity in ppt'
     )
     specific_conductance = DecimalField(
+        default=0,
+        places=1,
         label='Specific Conductance'
     )
     conductivity = DecimalField(
+        default=0,
+        places=1,
         label='Conductivity'
     )
     comment = TextAreaField(
