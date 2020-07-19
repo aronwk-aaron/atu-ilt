@@ -357,11 +357,12 @@ class survey_form(FlaskForm):
         label='Egg Float Comments'
     )
     vegetation_choices = [
+        ('none', 'none'),
         ('grass', 'Grass'),
         ('herb', 'Herb'),
         ('vine', 'Vine'),
         ('woody', 'Woody'),
-        ('treey', 'Treey'),
+        ('treey', 'Trees'),
     ]
     primary_vegitation = SelectField(
         label='Primary Vegetation',
