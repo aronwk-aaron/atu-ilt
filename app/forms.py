@@ -294,6 +294,9 @@ class survey_form(FlaskForm):
             InputRequired()
         ]
     )
+    scrape = BooleanField(
+        label='Scrape Presence'
+    )
     chick02 = IntegerField(
         label='Chicks 0-2 day(s) old',
         default=0,
@@ -356,9 +359,6 @@ class survey_form(FlaskForm):
     )
     ef_com = TextAreaField(
         label='Egg Float Comments'
-    )
-    scrape = BooleanField(
-        label='Scrape Presence'
     )
     vegetation_choices = [
         ('grass', 'Grass'),

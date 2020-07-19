@@ -117,6 +117,7 @@ def edit(id):
         data.egg1 = form.egg1.data
         data.egg2 = form.egg2.data
         data.egg3 = form.egg3.data
+        data.scrape = form.scrape.data
 
         data.chick02 = form.chick02.data
         data.chick39 = form.chick39.data
@@ -128,8 +129,6 @@ def edit(id):
         data.ef3 = form.ef3.data
         data.ef4 = form.ef4.data
         data.ef_com = form.ef_com.data
-
-        data.scrape = form.scrape.data
 
         data.pveg = form.primary_vegitation.data
         data.perc_pveg = form.precentage_primary_vegitation.data

@@ -230,7 +230,7 @@
             <h3 class="my-1">Date: {{ survey.date }}</h3>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Site: {{ survey.site.name }}</li>
+            <li class="list-group-item"><a href="{{ url_for('sites.edit', id = survey.site_id) }}">Site:</a> {{ survey.site.name }}</li>
             <li class="list-group-item">Crew: {{ survey.crew }}</li>
             <li class="list-group-item">Time In: {{ survey.time_in }}</li>
             <li class="list-group-item">Time Out: {{ survey.time_out }}</li>
@@ -242,20 +242,229 @@
       <div class="col">
         <div class="card">
           <div class="card-header">
-            <h3 class="my-1">Counts</h3>
+            <h3 class="my-1">ILT Counts</h3>
           </div>
           <div class="card-body">
             <div class='row'>
-              <div class='col'>
-                Adults: {{ survey.ac1 }},{{ survey.ac2 }},{{ survey.ac3 }}
+              <div class='col-sm-3 text-right'>
+                Adults:
               </div>
-              <div class='col-sm-2'>
-                Avg: {{ ((survey.ac1 + survey.ac2 + survey.ac3)/3)|round(1, 'floor') }}
+              <div class='col-sm-3'>
+                {{ survey.ac1 }}, {{ survey.ac2 }}, {{ survey.ac3 }}
+              </div>
+              <div class='col-sm-3 text-right'>
+                Avg:
+              </div>
+              <div class='col-sm-3'>
+                {{ ((survey.ac1 + survey.ac2 + survey.ac3)/3)|round(1, 'floor') }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3 text-right'>
+                Scrapes:
+              </div>
+              <div class='col-sm-3'>
+                {{ survey.scrape }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3 text-right'>
+                Nests w/ 1 egg:
+              </div>
+              <div class='col-sm-3'>
+                {{ survey.egg1 }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3 text-right'>
+                Nests w/ 2 egg:
+              </div>
+              <div class='col-sm-3'>
+                {{ survey.egg2 }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3 text-right'>
+                Nests w/ 3 egg:
+              </div>
+              <div class='col-sm-3'>
+                {{ survey.egg3 }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3 text-right'>
+                Chicks 0-2:
+              </div>
+              <div class='col-sm-3'>
+                {{ survey.chick02 }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3 text-right'>
+                Chicks 3-9:
+              </div>
+              <div class='col-sm-3'>
+                {{ survey.chick39 }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3 text-right'>
+                Chicks 10-17:
+              </div>
+              <div class='col-sm-3'>
+                {{ survey.chick1017 }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3 text-right'>
+                Fledglings:
+              </div>
+              <div class='col-sm-3'>
+                {{ survey.fledgling }}
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="row mt-3">
+    
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h3 class="my-1">Variable Site Characteristics</h3>
+          </div>
+          <div class="card-body">
+            <h4 class='card-title'>
+              Course Woody Debris
+            </h4>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Nest 1:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.cwdn1 }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Nest 2:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.cwdn2 }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Nest 3:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.cwdn3 }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Logs:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.cwdlog }}
+              </div>
+            </div>
+            <hr/>
+            <h4 class='card-title'>
+              Vegetation
+            </h4>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Primary Vegetation:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.pveg }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Precentage:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.perc_pveg }}
+              </div>
+            </div>
+            <hr/>
+            <h4 class='card-title'>
+              Water Analysis
+            </h4>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Water Temperature:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.w_temp }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Ambient Temperature:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.a_temp }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                % Disolved Oxygen:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.perc_dio }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Salinity:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.sal }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Specific Conductance:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.sp_condu }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-4 text-right'>
+                Conductivity:
+              </div>
+              <div class='col-sm-4'>
+                {{ survey.condu }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h3 class="my-1">Egg Floats</h3>
+          </div>
+          <div class="card-body">
+            <div class='row'>
+              <div class='col'>
+                {{ survey.ef1 }}, {{ survey.ef2 }}, {{ survey.ef3 }}, {{ survey.ef3 }}
+              </div>
+              <div class='col'>
+                {{ survey.ef_com }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      
     </div>
 {% endblock %}
   
