@@ -93,17 +93,6 @@ class site_form(FlaskForm):
             DataRequired()
         ]
     )
-    size_type = SelectField(
-        label='Size',
-        choices=[
-            ('small', 'Small'),
-            ('medium', 'Medium'),
-            ('large', 'Large')
-        ],
-        validators=[
-            DataRequired()
-        ]
-    )
     elevation = DecimalField(
         label='Elevation'
     )
@@ -383,6 +372,18 @@ class survey_form(FlaskForm):
         default=0,
         validators=[
             NumberRange(min=0, max=100),
+            DataRequired()
+        ]
+    )
+    size_type = SelectField(
+        label='Size',
+        coerce=int,
+        choices=[
+            (1, 'Small'),
+            (2, 'Medium'),
+            (3, 'Large')
+        ],
+        validators=[
             DataRequired()
         ]
     )

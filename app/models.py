@@ -62,7 +62,6 @@ class site(db.Model):
     gravel = db.Column(db.Boolean, nullable=False)
     sm_rocks = db.Column(db.Boolean, nullable=False)
 
-    size_type = db.Column(db.String(255), nullable=False)
     est_area = db.Column(db.Float)
     length = db.Column(db.Float)
     comment = db.Column(db.String(1024))
@@ -137,6 +136,7 @@ class survey(db.Model):
 
     pveg = db.Column(db.String(50), nullable=False)
     perc_pveg = db.Column(db.Integer, nullable=False)
+    size_type = db.Column(db.String(255), nullable=False)
 
     cwdn1 = db.Column(db.Integer, nullable=False)
     cwdn2 = db.Column(db.Integer, nullable=False)

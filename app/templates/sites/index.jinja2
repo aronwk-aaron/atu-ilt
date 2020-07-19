@@ -34,10 +34,9 @@
       <th scope="col"></th>
       <th scope="col">Name</th>
       <th scope="col">Location Type</th>
-      <th scope="col">Size Type</th>
       <th scope="col">Elevation</th>
       <th scope="col">Snag/Perch</th>
-      <th scope="col">Primary Substrate</th>
+      <th scope="col">Comments</th>
       <th scope="col"></th>
     </tr>
     </thead>
@@ -58,17 +57,14 @@
           <td>
             {{ site.loc_type }}
           </td>
-           <td>
-            {{ site.size_type }}
-          </td>
           <td>
-            {{ site.elevation }}
+            {{ site.elev }}
           </td>
           <td>
             {{ site.snag_perch }}
           </td>
           <td>
-            {{ site.psub }}
+            {{ site.comment }}
           </td>
           <td>
             <a href="{{ url_for('sites.edit', id=site.id) }}"
@@ -92,7 +88,7 @@
   <script>
     $(document).ready( function () {
       $('#table_id').DataTable({
-        "columnDefs": [{ "orderable": false, "searchable": false, "targets": [0,7] }]
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": [0,6] }]
       });
     });
   </script>

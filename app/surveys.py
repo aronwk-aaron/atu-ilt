@@ -76,6 +76,7 @@ def new():
 
             pveg=form.primary_vegitation.data,
             perc_pveg=form.precentage_primary_vegitation.data,
+            size_type=form.size_type.data,
 
             cwdn1=form.cwdn1.data,
             cwdn2=form.cwdn2.data,
@@ -133,6 +134,7 @@ def edit(id):
 
         data.pveg = form.primary_vegitation.data
         data.perc_pveg = form.precentage_primary_vegitation.data
+        data.size_type = form.size_type.data
 
         data.cwdn1 = form.cwdn1.data
         data.cwdn2 = form.cwdn2.data
@@ -180,6 +182,7 @@ def edit(id):
 
     form.primary_vegitation.data = data.pveg
     form.precentage_primary_vegitation.data = data.perc_pveg
+    form.size_type.data = data.size_type
 
     form.cwdn1.data = data.cwdn1
     form.cwdn2.data = data.cwdn2

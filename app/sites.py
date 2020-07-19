@@ -28,7 +28,6 @@ def new():
             gravel=form.gravel.data,
             sm_rocks=form.sm_rocks.data,
 
-            size_type=form.size_type.data,
             est_area=form.est_area.data,
             length=form.length.data,
             comment=form.comment.data
@@ -65,7 +64,6 @@ def edit(id):
 
     form.name.data = data.name
     form.loc_type.data = data.loc_type
-    form.size_type.data = data.size_type
 
     form.elevation.data = data.elev
     form.snag_perch.data = data.snag_perch
