@@ -24,25 +24,60 @@
           <div class="card shadow-sm">
             <div class="card-header">
               <h3 class="my-1">Date: {{ form.date }}</h3>
+              {% if form.date.errors %}
+                {% for e in form.date.errors %}
+                    <p class="help-block text-danger">{{ e }}</p>
+                {% endfor %}
+              {% endif %}
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item"><a href="{{ url_for('sites.edit', id = form.site_id) }}">
                 Site:</a> {{ form.site }}
+                {% if form.site.errors %}
+                  {% for e in form.site.errors %}
+                    <p class="help-block text-danger">{{ e }}</p>
+                  {% endfor %}
+                {% endif %}
               </li>
               <li class="list-group-item">
                 Crew: {{ form.crew }}
+                {% if form.crew.errors %}
+                  {% for e in form.crew.errors %}
+                    <p class="help-block text-danger">{{ e }}</p>
+                  {% endfor %}
+                {% endif %}
               </li>
               <li class="list-group-item">
                 Time In: {{ form.time_in }}
+                {% if form.time_in.errors %}
+                  {% for e in form.time_in.errors %}
+                    <p class="help-block text-danger">{{ e }}</p>
+                  {% endfor %}
+                {% endif %}
               </li>
               <li class="list-group-item">
                 Time Out: {{ form.time_out }}
+                {% if form.time_out.errors %}
+                  {% for e in form.time_out.errors %}
+                    <p class="help-block text-danger">{{ e }}</p>
+                  {% endfor %}
+                {% endif %}
               </li>
               <li class="list-group-item">
                 Surveyed %: {{ form.precentage_surveyed }}%
+                {% if form.precentage_surveyed.errors %}
+                  {% for e in form.precentage_surveyed.errors %}
+                    <p class="help-block text-danger">{{ e }}</p>
+                  {% endfor %}
+                {% endif %}
               </li>
               <li class="list-group-item">
                 Method: {{ form.method }}
+                {% if form.method.errors %}
+                  {% for e in form.method.errors %}
+                    <p class="help-block text-danger">{{ e }}</p>
+                  {% endfor %}
+                {% endif %}
               </li>
             </ul>
           </div>
@@ -61,6 +96,11 @@
                 </div>
                 <div class='col'>
                   {{ form.ac1 }}
+                  {% if form.ac1.errors %}
+                    {% for e in form.ac1.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -69,6 +109,11 @@
                 </div>
                 <div class='col'>
                   {{ form.ac2 }}
+                  {% if form.ac2.errors %}
+                    {% for e in form.ac2.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -77,6 +122,11 @@
                 </div>
                 <div class='col'>
                   {{ form.ac3 }}
+                  {% if form.ac3.errors %}
+                    {% for e in form.ac3.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -85,6 +135,11 @@
                 </div>
                 <div class='col'>
                   {{ form.scrape }}
+                  {% if form.scrape.errors %}
+                    {% for e in form.scrape.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -93,6 +148,11 @@
                 </div>
                 <div class='col'>
                   {{ form.egg1 }}
+                  {% if form.egg1.errors %}
+                    {% for e in form.egg1.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -101,6 +161,11 @@
                 </div>
                 <div class='col'>
                   {{ form.egg2 }}
+                  {% if form.egg2.errors %}
+                    {% for e in form.egg2.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -109,6 +174,11 @@
                 </div>
                 <div class='col'>
                   {{ form.egg3 }}
+                  {% if form.egg3.errors %}
+                    {% for e in form.egg3.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -117,6 +187,11 @@
                 </div>
                 <div class='col'>
                   {{ form.chick02 }}
+                  {% if form.chick02.errors %}
+                    {% for e in form.chick02.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -125,6 +200,11 @@
                 </div>
                 <div class='col'>
                   {{ form.chick39 }}
+                  {% if form.chick39.errors %}
+                    {% for e in form.chick39.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -133,6 +213,11 @@
                 </div>
                 <div class='col'>
                   {{ form.chick1017 }}
+                  {% if form.chick1017.errors %}
+                    {% for e in form.chick1017.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -141,6 +226,11 @@
                 </div>
                 <div class='col'>
                   {{ form.fledgling }}
+                  {% if form.fledgling.errors %}
+                    {% for e in form.fledgling.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -160,6 +250,11 @@
                 </div>
                 <div class='col'>
                   {{ form.ef1 }}
+                  {% if form.ef1.errors %}
+                    {% for e in form.ef1.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -168,6 +263,11 @@
                 </div>
                 <div class='col'>
                   {{ form.ef2 }}
+                  {% if form.ef2.errors %}
+                    {% for e in form.ef2.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -176,6 +276,11 @@
                 </div>
                 <div class='col'>
                   {{ form.ef3 }}
+                  {% if form.ef3.errors %}
+                    {% for e in form.ef3.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -184,6 +289,11 @@
                 </div>
                 <div class='col'>
                   {{ form.ef4 }}
+                  {% if form.ef4.errors %}
+                    {% for e in form.ef4.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -192,6 +302,11 @@
                 </div>
                 <div class='col'>
                   {{ form.ef_com }}
+                  {% if form.ef_com.errors %}
+                    {% for e in form.ef_com.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -214,6 +329,11 @@
                 </div>
                 <div class='col'>
                   {{ form.cwdn1 }}
+                  {% if form.cwdn1.errors %}
+                    {% for e in form.cwdn1.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -222,6 +342,11 @@
                 </div>
                 <div class='col'>
                   {{ form.cwdn2 }}
+                  {% if form.cwdn2.errors %}
+                    {% for e in form.cwdn2.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -230,6 +355,11 @@
                 </div>
                 <div class='col'>
                   {{ form.cwdn3 }}
+                  {% if form.cwdn3.errors %}
+                    {% for e in form.cwdn3.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -238,6 +368,11 @@
                 </div>
                 <div class='col'>
                   {{ form.cwdlog }}
+                  {% if form.cwdlog.errors %}
+                    {% for e in form.cwdlog.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <hr/>
@@ -250,6 +385,11 @@
                 </div>
                 <div class='col'>
                   {{ form.primary_vegitation }}
+                  {% if form.primary_vegitation.errors %}
+                    {% for e in form.primary_vegitation.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -258,6 +398,11 @@
                 </div>
                 <div class='col'>
                   {{ form.precentage_primary_vegitation }} %
+                  {% if form.precentage_primary_vegitation.errors %}
+                    {% for e in form.precentage_primary_vegitation.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <hr/>
@@ -270,6 +415,11 @@
                 </div>
                 <div class='col'>
                   {{ form.water_temp }} °C
+                  {% if form.water_temp.errors %}
+                    {% for e in form.water_temp.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -278,6 +428,11 @@
                 </div>
                 <div class='col'>
                   {{ form.ambient_temp }} °C
+                  {% if form.ambient_temp.errors %}
+                    {% for e in form.ambient_temp.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -286,6 +441,11 @@
                 </div>
                 <div class='col'>
                   {{ form.precentage_disolved_oxygen }} %
+                  {% if form.precentage_disolved_oxygen.errors %}
+                    {% for e in form.precentage_disolved_oxygen.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -294,6 +454,11 @@
                 </div>
                 <div class='col'>
                   {{ form.salinity }} ppt
+                  {% if form.salinity.errors %}
+                    {% for e in form.salinity.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -302,6 +467,11 @@
                 </div>
                 <div class='col' style="width: 25%">
                   {{ form.specific_conductance }} µS/cm at 25 °C
+                  {% if form.specific_conductance.errors %}
+                    {% for e in form.specific_conductance.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class='row mt-1'>
@@ -310,6 +480,11 @@
                 </div>
                 <div class='col'>
                   {{ form.conductivity }} µs/cm
+                  {% if form.conductivity.errors %}
+                    {% for e in form.conductivity.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <hr/>
@@ -322,6 +497,11 @@
                 </div>
                 <div class='col'>
                   {{ form.size_type }}
+                  {% if form.size_type.errors %}
+                    {% for e in form.size_type.errors %}
+                      <p class="help-block text-danger">{{ e }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
             </div>
