@@ -18,11 +18,13 @@
 
 {% block content %}
   <form method=post>
-    <dl>
-        {{ form.csrf_token }}
+    {{ form.csrf_token }}
+    <div class="card pb-3">
+      <div class="card-body">
         {{ helper.render_field(form.name) }}
         {{ helper.render_field(form.size) }}
-        {{ helper.render_field(form.submit) }}
-    </dl>
+        {{ helper.render_submit_field(form.submit) }}
+      </div>
+    </div>
   </form>
 {% endblock %}
