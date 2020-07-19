@@ -88,6 +88,7 @@ def new():
             sal=form.salinity.data,
             sp_condu=form.specific_conductance.data,
             condu=form.conductivity.data,
+            comment=form.comment.data
         )
         new_survey.save()
         return redirect('/surveys')
@@ -144,6 +145,7 @@ def edit(id):
         data.sal = form.salinity.data
         data.sp_condu = form.specific_conductance.data
         data.condu = form.conductivity.data
+        data.comment = form.comment.data
         data.save()
         return redirect(url_for('surveys.view', id=id))
 
@@ -190,6 +192,7 @@ def edit(id):
     form.salinity.data = data.sal
     form.specific_conductance.data = data.sp_condu
     form.conductivity.data = data.condu
+    form.comment.data = data.comment
 
     return render_template('surveys/edit.jinja2', form=form)
 

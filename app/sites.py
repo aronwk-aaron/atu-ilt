@@ -30,7 +30,8 @@ def new():
 
             size_type=form.size_type.data,
             est_area=form.est_area.data,
-            length=form.length.data
+            length=form.length.data,
+            comment=form.comment.data
         )
         new_site.save()
         return redirect('/sites')
@@ -58,6 +59,7 @@ def edit(id):
         data.size_type = form.size_type.data
         data.est_area = form.est_area.data
         data.length = form.length.data
+        data.comment = form.comment.data
         data.save()
         return redirect('/sites')
 
@@ -77,6 +79,7 @@ def edit(id):
 
     form.est_area.data = data.est_area
     form.length.data = data.length
+    form.comment.data = data.comment
 
     return render_template('sites/edit.jinja2', form=form)
 
