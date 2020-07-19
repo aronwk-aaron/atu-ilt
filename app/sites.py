@@ -27,6 +27,7 @@ def new():
             sand=form.sand.data,
             gravel=form.gravel.data,
             sm_rocks=form.sm_rocks.data,
+            perimeter=form.perimeter.data,
 
             est_area=form.est_area.data,
             length=form.length.data,
@@ -57,6 +58,7 @@ def edit(id):
 
         data.est_area = form.est_area.data
         data.length = form.length.data
+        data.perimeter = form.perimeter.data
         data.comment = form.comment.data
         data.save()
         return redirect('/sites')
@@ -74,6 +76,7 @@ def edit(id):
     form.gravel.data = data.gravel
     form.sm_rocks.data = data.sm_rocks
 
+    form.perimeter.data = data.perimeter
     form.est_area.data = data.est_area
     form.length.data = data.length
     form.comment.data = data.comment

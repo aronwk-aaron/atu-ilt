@@ -20,10 +20,10 @@
     <form method=post>
         <dl>
             {{ form.csrf_token }}
-            {{ render_field(form.species) }}
-            {{ render_field(form.predator_type) }}
-            {{ render_field(form.volatility) }}
-            {{ render_field(form.submit) }}
+            {{ helper.render_field(form.species) }}
+            {{ helper.render_field(form.predator_type) }}
+            {{ helper.render_field(form.volatility) }}
+            {{ helper.render_field(form.submit) }}
         </dl>
     </form>
 {% endblock %}

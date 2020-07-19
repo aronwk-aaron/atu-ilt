@@ -20,9 +20,9 @@
     <form method=post>
         <dl>
             {{ form.csrf_token }}
-            {{ render_field(form.name) }}
-            {{ render_field(form.size) }}
-            {{ render_field(form.submit) }}
+            {{ helper.render_field(form.name) }}
+            {{ helper.render_field(form.size) }}
+            {{ helper.render_field(form.submit) }}
         </dl>
     </form>
 {% endblock %}

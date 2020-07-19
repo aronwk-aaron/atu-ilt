@@ -126,16 +126,16 @@ class site_form(FlaskForm):
         ]
     )
     silt_clay = BooleanField(
-        label='Silt/Clay Presence'
+        label='Silt/Clay'
     )
     sand = BooleanField(
-        label='Sand Presence'
+        label='Sand'
     )
     gravel = BooleanField(
-        label='Gravel Presence'
+        label='Gravel'
     )
     sm_rocks = BooleanField(
-        label='Small Rocks Presence'
+        label='Small Rocks'
     )
     est_area = DecimalField(
         label='Estimated Area',
@@ -148,6 +148,9 @@ class site_form(FlaskForm):
         validators=[
             Optional(),
         ]
+    )
+    perimeter = BooleanField(
+        label='Perimeter Taken'
     )
     comment = TextAreaField(
         label='Comments',

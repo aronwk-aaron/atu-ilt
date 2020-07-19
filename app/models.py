@@ -64,6 +64,7 @@ class site(db.Model):
 
     est_area = db.Column(db.Float)
     length = db.Column(db.Float)
+    perimeter = db.Column(db.Boolean)
     comment = db.Column(db.String(1024))
 
     survey = db.relationship('survey', back_populates="site")
