@@ -18,10 +18,302 @@
 
 {% block content %}
     <form method=post>
-        <dl>
-            {% for field in form %}
-              {{ render_field(field)}}
-            {% endfor %}
-        </dl>
+      <div class="row">
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h3 class="my-1">Date: {{ form.date }}</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><a href="{{ url_for('sites.edit', id = form.site_id) }}">
+                Site:</a> {{ form.site }}
+              </li>
+              <li class="list-group-item">
+                Crew: {{ form.crew }}
+              </li>
+              <li class="list-group-item">
+                Time In: {{ form.time_in }}
+              </li>
+              <li class="list-group-item">
+                Time Out: {{ form.time_out }}
+              </li>
+              <li class="list-group-item">
+                Surveyed %: {{ form.precentage_surveyed }}%
+              </li>
+              <li class="list-group-item">
+                Method: {{ form.method }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="my-1">ILT Counts</h3>
+            </div>
+            <div class="card-body">
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Adults Count 1:
+                </div>
+                <div class='col'>
+                  {{ form.ac1 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Adults Count 2:
+                </div>
+                <div class='col'>
+                  {{ form.ac2 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Adults Count 3:
+                </div>
+                <div class='col'>
+                  {{ form.ac3 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Scrapes:
+                </div>
+                <div class='col'>
+                  {{ form.scrape }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Nests w/ 1 egg:
+                </div>
+                <div class='col'>
+                  {{ form.egg1 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Nests w/ 2 egg:
+                </div>
+                <div class='col'>
+                  {{ form.egg2 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Nests w/ 3 egg:
+                </div>
+                <div class='col'>
+                  {{ form.egg3 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Chicks 0-2:
+                </div>
+                <div class='col'>
+                  {{ form.chick02 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Chicks 3-9:
+                </div>
+                <div class='col'>
+                  {{ form.chick39 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Chicks 10-17:
+                </div>
+                <div class='col'>
+                  {{ form.chick1017 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Fledglings:
+                </div>
+                <div class='col'>
+                  {{ form.fledgling }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h3 class="my-1">Egg Floats</h3>
+            </div>
+            <div class="card-body">
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                  1:
+                </div>
+                <div class='col'>
+                  {{ form.ef1 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                  2:
+                </div>
+                <div class='col'>
+                  {{ form.ef2 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                  3:
+                </div>
+                <div class='col'>
+                  {{ form.ef3 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                  4:
+                </div>
+                <div class='col'>
+                  {{ form.ef4 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                  Comments:
+                </div>
+                <div class='col'>
+                  {{ form.ef_com }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h3 class="my-1">Variable Site Characteristics</h3>
+            </div>
+            <div class="card-body">
+              <h4 class='card-title'>
+                Course Woody Debris
+              </h4>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Nest 1:
+                </div>
+                <div class='col'>
+                  {{ form.cwdn1 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Nest 2:
+                </div>
+                <div class='col'>
+                  {{ form.cwdn2 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Nest 3:
+                </div>
+                <div class='col'>
+                  {{ form.cwdn3 }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Logs:
+                </div>
+                <div class='col'>
+                  {{ form.cwdlog }}
+                </div>
+              </div>
+              <hr/>
+              <h4 class='card-title'>
+                Vegetation
+              </h4>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Primary Vegetation:
+                </div>
+                <div class='col'>
+                  {{ form.primary_vegitation }}
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Precentage:
+                </div>
+                <div class='col'>
+                  {{ form.precentage_primary_vegitation }} %
+                </div>
+              </div>
+              <hr/>
+              <h4 class='card-title'>
+                Water Analysis
+              </h4>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Water Temperature:
+                </div>
+                <div class='col'>
+                  {{ form.water_temp }} °C
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Ambient Temperature:
+                </div>
+                <div class='col'>
+                  {{ form.ambient_temp }} °C
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    % Disolved Oxygen:
+                </div>
+                <div class='col'>
+                  {{ form.precentage_disolved_oxygen }} %
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Salinity:
+                </div>
+                <div class='col'>
+                  {{ form.salinity }} ppt
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                    Specific Conductance:
+                </div>
+                <div class='col' style="width: 25%">
+                  {{ form.specific_conductance }} µS/cm at 25 °C
+                </div>
+              </div>
+              <div class='row mt-1'>
+                <div class='col text-right'>
+                   Conductivity:
+                </div>
+                <div class='col'>
+                  {{ form.conductivity }} µs/cm
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
 {% endblock %}

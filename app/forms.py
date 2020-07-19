@@ -429,7 +429,7 @@ class survey_form(FlaskForm):
     specific_conductance = DecimalField(
         label='Specific Conductance'
     )
-    conducttivity = DecimalField(
+    conductivity = DecimalField(
         label='Conductivity'
     )
     submit = SubmitField()

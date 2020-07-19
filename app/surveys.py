@@ -87,7 +87,7 @@ def new():
             perc_dio=form.precentage_disolved_oxygen.data,
             sal=form.salinity.data,
             sp_condu=form.specific_conductance.data,
-            condu=form.conducttivity.data,
+            condu=form.conductivity.data,
         )
         new_survey.save()
         return redirect('/surveys')
@@ -143,7 +143,7 @@ def edit(id):
         data.perc_dio = form.precentage_disolved_oxygen.data
         data.sal = form.salinity.data
         data.sp_condu = form.specific_conductance.data
-        data.condu = form.conducttivity.data
+        data.condu = form.conductivity.data
         data.save()
         return redirect(url_for('surveys.view', id=id))
 
@@ -189,7 +189,7 @@ def edit(id):
     form.precentage_disolved_oxygen.data = data.perc_dio
     form.salinity.data = data.sal
     form.specific_conductance.data = data.sp_condu
-    form.conducttivity.data = data.condu
+    form.conductivity.data = data.condu
 
     return render_template('surveys/edit.jinja2', form=form)
 
