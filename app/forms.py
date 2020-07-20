@@ -171,7 +171,7 @@ class site_form(FlaskForm):
     perimeter = BooleanField(
         label='Perimeter Taken',
         validators=[
-            DataRequired(),
+            Optional(),
         ]
     )
     comment = TextAreaField(
