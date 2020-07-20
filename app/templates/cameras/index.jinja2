@@ -25,46 +25,48 @@
     </a>
     <hr/>
   {% if cameras %}
-  <table class="table table-white table-striped table-bordered table-hover"
-         id="table_id"
-         data-order='[[ 1, "asc" ]]'
-         data-page-length='25'>
-    <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">Name</th>
-      <th scope="col">Brand</th>
-      <th scope="col">Functional?</th>
-      <th scope="col">Comment</th>
-    </tr>
-    </thead>
-    <tbody>
-      {% for camera in cameras %}
-        <tr>
-          <td>
-            <a href="{{ url_for('cameras.edit', id=camera.id) }}"
-               class="btn btn-primary btn-block"
-               role="button"
-               aria-disabled="true">
-              Edit
-            </a>
-          </td>
-          <td>
-            {{ camera.name }}
-          </td>
-          <td>
-            {{ helper.sentence_case(camera.brand) }}
-          </td>
-          <td>
-            {{ camera.functional }}
-          </td>
-          <td>
-            {{ camera.comment }}
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class='table-responsive'>
+    <table class="table table-white table-striped table-bordered table-hover"
+          id="table_id"
+          data-order='[[ 1, "asc" ]]'
+          data-page-length='25'>
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Functional?</th>
+        <th scope="col">Comment</th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for camera in cameras %}
+          <tr>
+            <td>
+              <a href="{{ url_for('cameras.edit', id=camera.id) }}"
+                class="btn btn-primary btn-block"
+                role="button"
+                aria-disabled="true">
+                Edit
+              </a>
+            </td>
+            <td>
+              {{ camera.name }}
+            </td>
+            <td>
+              {{ helper.sentence_case(camera.brand) }}
+            </td>
+            <td>
+              {{ camera.functional }}
+            </td>
+            <td>
+              {{ camera.comment }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% else %}
     No Cameras to show
   {% endif %}

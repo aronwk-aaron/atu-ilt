@@ -65,7 +65,6 @@ def new():
             ef2=form.ef2.data,
             ef3=form.ef3.data,
             ef4=form.ef4.data,
-            ef_com=form.ef_com.data,
 
             scrape=form.scrape.data,
 
@@ -127,7 +126,6 @@ def edit(id):
         data.ef2 = form.ef2.data
         data.ef3 = form.ef3.data
         data.ef4 = form.ef4.data
-        data.ef_com = form.ef_com.data
 
         data.pveg = form.primary_vegitation.data
         data.perc_pveg = form.precentage_primary_vegitation.data
@@ -173,8 +171,6 @@ def edit(id):
     form.ef2.data = data.ef2
     form.ef3.data = data.ef3
     form.ef4.data = data.ef4
-    form.ef_com.data = data.ef_com
-
     form.scrape.data = data.scrape
 
     form.primary_vegitation.data = data.pveg
@@ -309,7 +305,11 @@ def new_surveyed_predator(survey_id):
     if form.validate_on_submit():
         new_survey_predator = survey_predator(
             survey_id=form.survey_id.data,
-            sighting_type=form.sighting_type.data,
+            sighting=form.sighting.data,
+            scat=form.scat.data,
+            adult_mort=form.adult_mort.data,
+            chick_mort=form.chick_mort.data,
+            nest_dest=form.nest_dest.data,
             predator_id=form.predator_id.data,
             count=form.count.data,
             comment=form.comment.data
@@ -320,10 +320,10 @@ def new_surveyed_predator(survey_id):
 
 
 @surveys_blueprint.route(
-    '/<survey_id>/edit_surveyed_predator/<predator_id>/<sighting_type>',
+    '/<survey_id>/edit_surveyed_predator/<predator_id>',
     methods=('GET', 'POST')
 )
-def edit_surveyed_predator(survey_id, predator_id, sighting_type):
+def edit_surveyed_predator(survey_id, predator_id):
     form = survey_predator_form()
     form.predator_id.choices = [
         (p.id, p.species) for p in predator.query.order_by(
@@ -334,13 +334,16 @@ def edit_surveyed_predator(survey_id, predator_id, sighting_type):
     data = survey_predator.query \
         .filter(
             survey_predator.survey_id == survey_id,
-            survey_predator.predator_id == predator_id,
-            survey_predator.sighting_type == sighting_type) \
+            survey_predator.predator_id == predator_id) \
         .first()
 
     if form.validate_on_submit():
         data.survey_id = form.survey_id.data
-        data.sighting_type = form.sighting_type.data
+        data.sighting = form.sighting.data
+        data.scat = form.scat.data
+        data.adult_mort = form.adult_mort.data
+        data.chick_mort = form.chick_mort.data
+        data.nest_dest = form.nest_dest.data
         data.predator_id = form.predator_id.data
         data.count = form.count.data
         data.comment = form.comment.data
@@ -348,8 +351,11 @@ def edit_surveyed_predator(survey_id, predator_id, sighting_type):
         return redirect(url_for('surveys.view', id=survey_id))
 
     form.survey_id.data = data.survey_id
-    form.sighting_type.data = data.sighting_type
-    print()
+    form.sighting.data = data.sighting
+    form.scat.data = data.scat
+    form.adult_mort.data = data.adult_mort
+    form.chick_mort.data = data.chick_mort
+    form.nest_dest.data = data.nest_dest
     form.predator_id.data = data.predator_id
     form.count.data = data.count
     form.comment.data = data.comment

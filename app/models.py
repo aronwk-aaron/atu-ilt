@@ -131,7 +131,6 @@ class survey(db.Model):
     ef2 = db.Column(db.String(3), nullable=False)
     ef3 = db.Column(db.String(3), nullable=False)
     ef4 = db.Column(db.String(3), nullable=False)
-    ef_com = db.Column(db.String(1024), nullable=False)
 
     scrape = db.Column(db.Boolean, nullable=False)
 
@@ -208,10 +207,11 @@ class survey_predator(db.Model):
         primary_key=True
     )
     predator = db.relationship('predator')
-    sighting_type = db.Column(
-        db.String(64),
-        primary_key=True
-    )
+    sighting = db.Column(db.Boolean)
+    scat = db.Column(db.Boolean)
+    adult_mort = db.Column(db.Boolean)
+    chick_mort = db.Column(db.Boolean)
+    nest_dest = db.Column(db.Boolean)
     count = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.String(1024))
 

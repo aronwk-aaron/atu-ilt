@@ -53,10 +53,12 @@
               {{ predator.species }}
             </td>
             <td>
-              {{ predator.predator_type }}
+              {{ helper.sentence_case(predator.predator_type) }}
             </td>
             <td>
-              {{ predator.volatility }}
+              {% if predator.volatility %}
+                {{ predator.volatility }}
+              {% endif %}
             </td>
           </tr>
         {% endfor %}

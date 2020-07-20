@@ -31,58 +31,60 @@
       </div>
     </div>
     {% if cameras %}
-    <table class="table table-white table-striped table-bordered table-hover"
-            id="camera_table_id"
-            data-order='[[ 1, "asc" ]]'
-            data-page-length='25'>
-        <thead>
-        <tr>
-        <th scope="col">Camera</th>
-        <th scope="col">Card In</th>
-        <th scope="col">Card Out</th>
-        <th scope="col">Cleared Out Card</th>
-        <th scope="col">Changed Battery</th>
-        <th scope="col">Functional</th>
-        <th scope="col">Comment</th>
-        <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for camera in cameras %}
-            <tr>
-            <td>
-                {{ camera.camera.name }}
-            </td>
-            <td>
-                {{ camera.card_in.name }}
-            </td>
-            <td>
-                {{ camera.card_out.name }}
-            </td>
-            <td>
-                {{ camera.cleared }}
-            </td>
-            <td>
-                {{ camera.ch_bat }}
-            </td>
-            <td>
-                {{ camera.functional }}
-            </td>
-            <td>
-                {{ camera.comment }}
-            </td>
-            <td>
-                <a href="{{ url_for('surveys.edit_camera', survey_id=survey.id, camera_id=camera.camera.id) }}"
-                class="btn btn-primary"
-                role="button"
-                aria-disabled="true">
-                    Edit
-                </a>
-            </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class='table-responsive'>
+      <table class="table table-white table-striped table-bordered table-hover"
+              id="camera_table_id"
+              data-order='[[ 1, "asc" ]]'
+              data-page-length='25'>
+          <thead>
+          <tr>
+          <th scope="col">Camera</th>
+          <th scope="col">Card In</th>
+          <th scope="col">Card Out</th>
+          <th scope="col">Cleared Out Card</th>
+          <th scope="col">Changed Battery</th>
+          <th scope="col">Functional</th>
+          <th scope="col">Comment</th>
+          <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for camera in cameras %}
+              <tr>
+              <td>
+                  {{ camera.camera.name }}
+              </td>
+              <td>
+                  {{ camera.card_in.name }}
+              </td>
+              <td>
+                  {{ camera.card_out.name }}
+              </td>
+              <td>
+                  {{ camera.cleared }}
+              </td>
+              <td>
+                  {{ camera.ch_bat }}
+              </td>
+              <td>
+                  {{ camera.functional }}
+              </td>
+              <td>
+                  {{ camera.comment }}
+              </td>
+              <td>
+                  <a href="{{ url_for('surveys.edit_camera', survey_id=survey.id, camera_id=camera.camera.id) }}"
+                  class="btn btn-primary"
+                  role="button"
+                  aria-disabled="true">
+                      Edit
+                  </a>
+              </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+    </div>
   {% else %}
     No cameras to show
   {% endif %}
@@ -101,46 +103,62 @@
       </div>
     </div>
     {% if surveyed_predators %}
-    <table class="table table-white table-striped table-bordered table-hover"
-            id="sp_table_id"
-            data-order='[[ 1, "asc" ]]'
-            data-page-length='25'>
-        <thead>
-        <tr>
-        <th scope="col">Species</th>
-        <th scope="col">Sighting Type</th>
-        <th scope="col">Count</th>
-        <th scope="col">Comment</th>
-        <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for surveyed_predator in surveyed_predators %}
-            <tr>
-            <td>
-                {{surveyed_predator.predator.species }}
-            </td>
-            <td>
-                {{surveyed_predator.sighting_type }}
-            </td>
-            <td>
-                {{ surveyed_predator.count }}
-            </td>
-            <td>
-                {{ surveyed_predator.comment }}
-            </td>
-            <td>
-                <a href="{{ url_for('surveys.edit_surveyed_predator', survey_id=survey.id, predator_id=surveyed_predator.predator.id, sighting_type=surveyed_predator.sighting_type) }}"
-                class="btn btn-primary"
-                role="button"
-                aria-disabled="true">
-                    Edit
-                </a>
-            </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class='table-responsive'>
+      <table class="table table-white table-striped table-bordered table-hover"
+              id="sp_table_id"
+              data-order='[[ 1, "asc" ]]'
+              data-page-length='25'>
+          <thead>
+          <tr>
+          <th scope="col">Species</th>
+          <th scope="col">Sighting Type</th>
+          <th scope="col">Count</th>
+          <th scope="col">Comment</th>
+          <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for surveyed_predator in surveyed_predators %}
+              <tr>
+              <td>
+                  {{ surveyed_predator.predator.species }}
+              </td>
+              <td class="text-center">
+                {% if surveyed_predator.sighting %}
+                  <div class='mb-1'>Saw<br/></div>
+                {% endif %}
+                {% if surveyed_predator.scat %}
+                  <div class='mb-1'>Scat<br/></div>
+                {% endif %}
+                {% if surveyed_predator.chick_mort %}
+                  <div class='mb-1'>Chick Mortality<br/></div>
+                {% endif %}
+                {% if surveyed_predator.adult_mort %}
+                  <div class='mb-1'>Adult Mortality<br/></div>
+                {% endif %}
+                {% if surveyed_predator.nest_dest %}
+                  <div class='mb-1'>Nest Destruction<br/></div>
+                {% endif %}
+              </td>
+              <td>
+                  {{ surveyed_predator.count }}
+              </td>
+              <td>
+                  {{ surveyed_predator.comment }}
+              </td>
+              <td>
+                  <a href="{{ url_for('surveys.edit_surveyed_predator', survey_id=survey.id, predator_id=surveyed_predator.predator.id) }}"
+                  class="btn btn-primary"
+                  role="button"
+                  aria-disabled="true">
+                      Edit
+                  </a>
+              </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+    </div>
   {% else %}
     No Surveyed Predators to show
   {% endif %}
@@ -159,66 +177,68 @@
       </div>
     </div>
     {% if recorded_predators %}
-    <table class="table table-white table-striped table-bordered table-hover"
-            id="rp_table_id"
-            data-order='[[ 1, "asc" ]]'
-            data-page-length='25'>
-        <thead>
-        <tr>
-        <th scope="col">Species</th>
-        <th scope="col">Start Time</th>
-        <th scope="col">End Time</th>
-        <th scope="col">Count</th>
-        <th scope="col">Scat?</th>
-        <th scope="col">Adult Mortality?</th>
-        <th scope="col">Chick Mortality?</th>
-        <th scope="col">Nest Destruction?</th>
-        <th scope="col">Comments</th>
-        <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for recorded_predator in recorded_predators %}
-            <tr>
-            <td>
-                {{ recorded_predator.predator.species }}
-            </td>
-            <td>
-                {{ recorded_predator.start }}
-            </td>
-            <td>
-                {{ recorded_predator.end }}
-            </td>
-            <td>
-                {{ recorded_predator.count }}
-            </td>
-            <td>
-                {{ recorded_predator.scat }}
-            </td>
-            <td>
-                {{ recorded_predator.adult_mort }}
-            </td>
-            <td>
-                {{ recorded_predator.chick_mort }}
-            </td>
-            <td>
-                {{ recorded_predator.nest_dest }}
-            </td>
-            <td>
-                {{ recorded_predator.comment }}
-            </td>
-            <td>
-                <a href="{{ url_for('surveys.edit_recorded_predator', predator_id=recorded_predator.predator.id, survey_id=survey.id, start=recorded_predator.start, end=recorded_predator.end) }}"
-                class="btn btn-primary"
-                role="button"
-                aria-disabled="true">
-                    Edit
-                </a>
-            </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class='table-responsive'>
+      <table class="table table-white table-striped table-bordered table-hover"
+              id="rp_table_id"
+              data-order='[[ 1, "asc" ]]'
+              data-page-length='25'>
+          <thead>
+          <tr>
+          <th scope="col">Species</th>
+          <th scope="col">Start Time</th>
+          <th scope="col">End Time</th>
+          <th scope="col">Count</th>
+          <th scope="col">Scat?</th>
+          <th scope="col">Adult Mortality?</th>
+          <th scope="col">Chick Mortality?</th>
+          <th scope="col">Nest Destruction?</th>
+          <th scope="col">Comments</th>
+          <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for recorded_predator in recorded_predators %}
+              <tr>
+              <td>
+                  {{ recorded_predator.predator.species }}
+              </td>
+              <td>
+                  {{ recorded_predator.start }}
+              </td>
+              <td>
+                  {{ recorded_predator.end }}
+              </td>
+              <td>
+                  {{ recorded_predator.count }}
+              </td>
+              <td>
+                  {{ recorded_predator.scat }}
+              </td>
+              <td>
+                  {{ recorded_predator.adult_mort }}
+              </td>
+              <td>
+                  {{ recorded_predator.chick_mort }}
+              </td>
+              <td>
+                  {{ recorded_predator.nest_dest }}
+              </td>
+              <td>
+                  {{ recorded_predator.comment }}
+              </td>
+              <td>
+                  <a href="{{ url_for('surveys.edit_recorded_predator', predator_id=recorded_predator.predator.id, survey_id=survey.id, start=recorded_predator.start, end=recorded_predator.end) }}"
+                  class="btn btn-primary"
+                  role="button"
+                  aria-disabled="true">
+                      Edit
+                  </a>
+              </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+    </div>
   {% else %}
     No Recorded Predators to show
   {% endif %}
@@ -246,81 +266,95 @@
           </div>
           <div class="card-body">
             <div class='row'>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Adults:
               </div>
-              <div class='col-sm-3'>
+              <div class='col'>
                 {{ survey.ac1 }}, {{ survey.ac2 }}, {{ survey.ac3 }}
               </div>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Avg:
               </div>
-              <div class='col-sm-3'>
+              <div class='col'>
                 {{ ((survey.ac1 + survey.ac2 + survey.ac3)/3)|round(1, 'floor') }}
               </div>
             </div>
+            <hr/>
             <div class='row'>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Scrapes:
               </div>
-              <div class='col-sm-3'>
-                {{ survey.scrape }}
+              <div class='col'>
+                {% if survey.scrape %}
+                  Yes
+                {% else %}
+                  No
+                {% endif %}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Nests w/ 1 egg:
               </div>
-              <div class='col-sm-3'>
+              <div class='col'>
                 {{ survey.egg1 }}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Nests w/ 2 egg:
               </div>
-              <div class='col-sm-3'>
+              <div class='col'>
                 {{ survey.egg2 }}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Nests w/ 3 egg:
               </div>
-              <div class='col-sm-3'>
+              <div class='col'>
                 {{ survey.egg3 }}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Chicks 0-2:
               </div>
-              <div class='col-sm-3'>
+              <div class='col'>
                 {{ survey.chick02 }}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Chicks 3-9:
               </div>
-              <div class='col-sm-3'>
+              <div class='col'>
                 {{ survey.chick39 }}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Chicks 10-17:
               </div>
-              <div class='col-sm-3'>
+              <div class='col'>
                 {{ survey.chick1017 }}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-3 text-right'>
+              <div class='col text-right'>
                 Fledglings:
               </div>
-              <div class='col-sm-3'>
+              <div class='col'>
                 {{ survey.fledgling }}
+              </div>
+            </div>
+            <hr/>
+            <div class='row'>
+             <div class='col text-right'>
+              Egg Float
+            </div>
+              <div class='col'>
+                {{ survey.ef1 }}, {{ survey.ef2 }}, {{ survey.ef3 }}, {{ survey.ef4 }}
               </div>
             </div>
           </div>
@@ -338,34 +372,34 @@
               Course Woody Debris
             </h4>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Nest 1:
               </div>
-              <div class='col-sm-4'>
+              <div class='col'>
                 {{ survey.cwdn1 }}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Nest 2:
               </div>
-              <div class='col-sm-4'>
+              <div class='col'>
                 {{ survey.cwdn2 }}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Nest 3:
               </div>
-              <div class='col-sm-4'>
+              <div class='col'>
                 {{ survey.cwdn3 }}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Logs:
               </div>
-              <div class='col-sm-4'>
+              <div class='col'>
                 {{ survey.cwdlog }}
               </div>
             </div>
@@ -374,79 +408,105 @@
               Vegetation
             </h4>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Primary Vegetation:
               </div>
-              <div class='col-sm-4'>
-                {{ survey.pveg }}
+              <div class='col'>
+                {{ helper.sentence_case(survey.pveg) }}
               </div>
             </div>
-            <div class='row'>
-              <div class='col-sm-4 text-right'>
-                Precentage:
+            {% if survey.pveg != "None" %}
+              <div class='row'>
+                <div class='col text-right'>
+                  Precentage:
+                </div>
+                <div class='col'>
+                  {{ survey.perc_pveg }}
+                </div>
               </div>
-              <div class='col-sm-4'>
-                {{ survey.perc_pveg }}
-              </div>
-            </div>
+            {% endif %}
             <hr/>
             <h4 class='card-title'>
               Water Analysis
             </h4>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Water Temperature:
               </div>
-              <div class='col-sm-4'>
-                {{ survey.w_temp }} °C
+              <div class='col'>
+                {% if survey.w_temp  %}
+                  {{ survey.w_temp }} °C
+                {% else %}
+                  No Data
+                {% endif %}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Ambient Temperature:
               </div>
-              <div class='col-sm-4'>
-                {{ survey.a_temp }} °C
+              <div class='col'>
+                {% if survey.a_temp %}
+                  {{ survey.a_temp }} °C
+                {% else %}
+                  No Data
+                {% endif %}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 % Disolved Oxygen:
               </div>
-              <div class='col-sm-4'>
-                {{ survey.perc_dio }} %
+              <div class='col'>
+                {% if survey.perc_dio %}
+                  {{ survey.perc_dio }} %
+                {% else %}
+                  No Data
+                {% endif %}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Salinity:
               </div>
-              <div class='col-sm-4'>
-                {{ survey.sal }} ppt
+              <div class='col'>
+                {% if survey.sal %}
+                  {{ survey.sal }} ppt
+                {% else %}
+                  No Data
+                {% endif %}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Specific Conductance:
               </div>
-              <div class='col-sm-4'>
-                {{ survey.sp_condu }} µS/cm at 25 °C
+              <div class='col'>
+                {% if survey.sp_condu %}
+                  {{ survey.sp_condu }} µS/cm at 25 °C
+                {% else %}
+                  No Data
+                {% endif %}
               </div>
             </div>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Conductivity:
               </div>
-              <div class='col-sm-4'>
-                {{ survey.condu }} µs/cm
+              <div class='col'>
+                {% if survey.condu %}
+                  {{ survey.condu }} µs/cm
+                {% else %}
+                  No Data
+                {% endif %}
               </div>
             </div>
             <hr/>
             <div class='row'>
-              <div class='col-sm-4 text-right'>
+              <div class='col text-right'>
                 Size:
               </div>
-              <div class='col-sm-4'>
+              <div class='col'>
                 {% if survey.size_type == 1 %}
                   Small
                 {% elif survey.size_type == 2 %}
@@ -459,26 +519,7 @@
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card shadow-sm">
-          <div class="card-header">
-            <h3 class="my-1">Egg Floats</h3>
-          </div>
-          <div class="card-body">
-            <div class='row'>
-              <div class='col'>
-                {{ survey.ef1 }}, {{ survey.ef2 }}, {{ survey.ef3 }}, {{ survey.ef4 }}
-              </div>
-              <div class='col'>
-                {{ survey.ef_com }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col">
+     <div class="col">
         <div class="card shadow-sm">
           <div class="card-header">
             <h3 class="my-1">Comments</h3>

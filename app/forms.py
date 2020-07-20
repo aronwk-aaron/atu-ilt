@@ -43,11 +43,17 @@ class camera_form(FlaskForm):
     )
     functional = BooleanField(
         label='Is/was the camera functional?',
-        default=False
+        default=False,
+        validators=[
+            Optional(),
+        ]
     )
     comment = TextAreaField(
         label='Comments',
-        default=''
+        default='',
+        validators=[
+            Optional(),
+        ]
     )
     submit = SubmitField()
 
@@ -126,16 +132,28 @@ class site_form(FlaskForm):
         ]
     )
     silt_clay = BooleanField(
-        label='Silt/Clay'
+        label='Silt/Clay',
+        validators=[
+            Optional(),
+        ]
     )
     sand = BooleanField(
-        label='Sand'
+        label='Sand',
+        validators=[
+            Optional(),
+        ]
     )
     gravel = BooleanField(
-        label='Gravel'
+        label='Gravel',
+        validators=[
+            Optional(),
+        ]
     )
     sm_rocks = BooleanField(
-        label='Small Rocks'
+        label='Small Rocks',
+        validators=[
+            Optional(),
+        ]
     )
     est_area = DecimalField(
         label='Estimated Area',
@@ -150,11 +168,17 @@ class site_form(FlaskForm):
         ]
     )
     perimeter = BooleanField(
-        label='Perimeter Taken'
+        label='Perimeter Taken',
+        validators=[
+            DataRequired(),
+        ]
     )
     comment = TextAreaField(
         label='Comments',
-        default=''
+        default='',
+        validators=[
+            Optional(),
+        ]
     )
     submit = SubmitField()
 
@@ -291,7 +315,10 @@ class survey_form(FlaskForm):
         ]
     )
     scrape = BooleanField(
-        label='Scrape Presence'
+        label='Scrape Presence',
+        validators=[
+            DataRequired(),
+        ]
     )
     chick02 = IntegerField(
         label='Chicks 0-2 day(s) old',
@@ -326,6 +353,7 @@ class survey_form(FlaskForm):
         ]
     )
     ef_choices = [
+        (None, 'None'),
         ('a', 'a'),
         ('b', 'b'),
         ('c', 'c'),
@@ -339,22 +367,31 @@ class survey_form(FlaskForm):
     ]
     ef1 = SelectField(
         label='Egg Float #1',
-        choices=ef_choices
+        choices=ef_choices,
+        validators=[
+            Optional(),
+        ]
     )
     ef2 = SelectField(
         label='Egg Float #2',
-        choices=ef_choices
+        choices=ef_choices,
+        validators=[
+            Optional(),
+        ]
     )
     ef3 = SelectField(
         label='Egg Float #3',
-        choices=ef_choices
+        choices=ef_choices,
+        validators=[
+            Optional(),
+        ]
     )
     ef4 = SelectField(
         label='Egg Float #4',
-        choices=ef_choices
-    )
-    ef_com = TextAreaField(
-        label='Egg Float Comments'
+        choices=ef_choices,
+        validators=[
+            Optional(),
+        ]
     )
     vegetation_choices = [
         ('none', 'none'),
@@ -424,38 +461,53 @@ class survey_form(FlaskForm):
         ]
     )
     water_temp = DecimalField(
-        default=0,
         places=1,
-        label='Water Temperature'
+        label='Water Temperature',
+        validators=[
+            Optional(),
+        ]
     )
     ambient_temp = DecimalField(
-        default=0,
         places=1,
-        label='Ambient Temperature'
+        label='Ambient Temperature',
+        validators=[
+            Optional(),
+        ]
     )
     precentage_disolved_oxygen = DecimalField(
-        default=0,
         places=1,
-        label='% Disolved Oxygen'
+        label='% Disolved Oxygen',
+        validators=[
+            Optional(),
+        ]
     )
     salinity = DecimalField(
-        default=0,
         places=2,
-        label='Salinity in ppt'
+        label='Salinity in ppt',
+        validators=[
+            Optional(),
+        ]
     )
     specific_conductance = DecimalField(
-        default=0,
         places=1,
-        label='Specific Conductance'
+        label='Specific Conductance',
+        validators=[
+            Optional(),
+        ]
     )
     conductivity = DecimalField(
-        default=0,
         places=1,
-        label='Conductivity'
+        label='Conductivity',
+        validators=[
+            Optional(),
+        ]
     )
     comment = TextAreaField(
         label='Comments',
-        default=''
+        default='',
+        validators=[
+            Optional(),
+        ]
     )
     submit = SubmitField()
 
@@ -517,21 +569,6 @@ class survey_predator_form(FlaskForm):
             DataRequired()
         ]
     )
-    sighting_choices = [
-        ('sighting', 'Sighting'),
-        ('scat', 'Scat'),
-        ('track', 'Track'),
-        ('chick_mort', 'Chick Mortality'),
-        ('adult_mort', 'Adult Mortality'),
-        ('nest_dest', 'Nest Destruction'),
-    ]
-    sighting_type = SelectField(
-        label='Sighting Method',
-        choices=sighting_choices,
-        validators=[
-            DataRequired()
-        ]
-    )
     predator_id = SelectField(
         label='Predator',
         coerce=int,
@@ -544,6 +581,36 @@ class survey_predator_form(FlaskForm):
         label='Count',
         validators=[
             DataRequired()
+        ]
+    )
+    sighting = BooleanField(
+        label='Sighting',
+        validators=[
+            Optional(),
+        ]
+    )
+    scat = BooleanField(
+        label='Scat',
+        validators=[
+            Optional(),
+        ]
+    )
+    adult_mort = BooleanField(
+        label='Adult Mortality',
+        validators=[
+            Optional(),
+        ]
+    )
+    chick_mort = BooleanField(
+        label='Chick Mortality',
+        validators=[
+            Optional(),
+        ]
+    )
+    nest_dest = BooleanField(
+        label='Nest Destruction',
+        validators=[
+            Optional(),
         ]
     )
     comment = TextAreaField(
@@ -589,19 +656,34 @@ class survey_predator_camera_form(FlaskForm):
         ]
     )
     scat = BooleanField(
-        label='Scat?'
+        label='Scat',
+        validators=[
+            Optional(),
+        ]
     )
     adult_mort = BooleanField(
-        label='Adult Mortality?'
+        label='Adult Mortality',
+        validators=[
+            Optional(),
+        ]
     )
     chick_mort = BooleanField(
-        label='Chick Mortality?'
+        label='Chick Mortality',
+        validators=[
+            Optional(),
+        ]
     )
     nest_dest = BooleanField(
-        label='Nest Destruction?'
+        label='Nest Destruction',
+        validators=[
+            Optional(),
+        ]
     )
     comment = TextAreaField(
         label='Comments',
-        default=''
+        default='',
+        validators=[
+            Optional(),
+        ]
     )
     submit = SubmitField()
