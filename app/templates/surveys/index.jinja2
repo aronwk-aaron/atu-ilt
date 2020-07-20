@@ -25,51 +25,63 @@
     </a>
     <hr/>
   {% if surveys %}
-  <table class="table table-white table-striped table-bordered table-hover"
-         id="table_id"
-         data-order='[[ 1, "asc" ]]'
-         data-page-length='25'>
-    <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">Date</th>
-      <th scope="col">Site</th>
-      <th scope="col">Avg Adult Count</th>
-      <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-      {% for survey in surveys %}
-        <tr>
-        <td>
-            <a href="{{ url_for('surveys.view', id=survey.id) }}"
-               class="btn btn-primary"
-               role="button"
-               aria-disabled="true">
-                View Survey
+  <div class='table-responsive'>
+    <table class="table table-white table-striped table-bordered table-hover"
+          id="table_id"
+          data-order='[[ 1, "asc" ]]'
+          data-page-length='25'>
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Date</th>
+        <th scope="col">Site</th>
+        <th scope="col">Avg Adult Count</th>
+        <th scope="col">Nests w/ Eggs</th>
+        <th scope="col">% Surveyed</th>
+        <th scope="col">Method</th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for survey in surveys %}
+          <tr>
+            <td>
+              <a href="{{ url_for('surveys.view', id=survey.id) }}"
+                class="btn btn-primary btn-block"
+                role="button"
+                aria-disabled="true">
+                View
               </a>
-          </td>
-          <td>
-            {{ survey.date }}
-          </td>
-          <td>
-            {{ survey.name }}
-          </td>
-          <td>
-            {{ ((survey.ac1 + survey.ac2 + survey.ac3)/3)|round(1, 'floor') }}
-          </td>
-          <td>
-            <a href="{{ url_for('surveys.edit', id=survey.id) }}"
-               class="btn btn-primary"
-               role="button"
-               aria-disabled="true">
-                Edit Survey
+              <br/>
+              <a href="{{ url_for('surveys.edit', id=survey.id) }}"
+                class="btn btn-primary btn-block"
+                role="button"
+                aria-disabled="true">
+                Edit
               </a>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+            </td>
+            <td>
+              {{ survey.date }}
+            </td>
+            <td>
+              {{ survey.site.name }}
+            </td>
+            <td>
+              {{ ((survey.ac1 + survey.ac2 + survey.ac3)/3)|round(1, 'floor') }}
+            </td>
+            <td>
+              {{ survey.egg1 + survey.egg2 + survey.egg3 }}
+            </td>
+            <td>
+              {{ survey.surveyed }}
+            </td>
+            <td>
+              {{ survey.method }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% else %}
     No surveys to show
   {% endif %}
@@ -80,7 +92,7 @@
   <script>
     $(document).ready( function () {
       $('#table_id').DataTable({
-        "columnDefs": [{ "orderable": false, "searchable": false, "targets": [0,4] }]
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": 0 }]
       });
     });
   </script>

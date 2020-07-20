@@ -25,63 +25,63 @@
     </a>
     <hr/>
   {% if sites %}
-  <table class="table table-white table-striped table-bordered table-hover"
-         id="table_id"
-         data-order='[[ 1, "asc" ]]'
-         data-page-length='25'>
-    <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">Name</th>
-      <th scope="col">Location Type</th>
-      <th scope="col">Elevation</th>
-      <th scope="col">Snag/Perch</th>
-      <th scope="col">Perimeter Taken</th>
-      <th scope="col">Comments</th>
-      <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-      {% for site in sites %}
-        <tr>
-          <td>
-            <a href="{{ url_for('sites.view', id=site.id) }}"
-               class="btn btn-primary"
-               role="button"
-               aria-disabled="true">
+  <div class='table-responsive'>
+    <table class="table table-white table-striped table-bordered table-hover"
+          id="table_id"
+          data-order='[[ 1, "asc" ]]'
+          data-page-length='25'>
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col">Location Type</th>
+        <th scope="col">Elevation</th>
+        <th scope="col">Snag/Perch</th>
+        <th scope="col">Perimeter Taken</th>
+        <th scope="col-">Comments</th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for site in sites %}
+          <tr>
+            <td>
+              <a href="{{ url_for('sites.view', id=site.id) }}"
+                class="btn btn-primary btn-block"
+                role="button"
+                aria-disabled="true">
                 View
               </a>
-          </td>
-          <td>
-            {{ site.name }}
-          </td>
-          <td>
-            {{ site.loc_type }}
-          </td>
-          <td>
-            {{ site.elev }}
-          </td>
-          <td>
-            {{ site.snag_perch }}
-          </td>
-          <td>
-            {{ site.perimeter }}
-          </td>
-          <td>
-            {{ site.comment }}
-          </td>
-          <td>
-            <a href="{{ url_for('sites.edit', id=site.id) }}"
-               class="btn btn-primary"
-               role="button"
-               aria-disabled="true">
+              <br/>
+              <a href="{{ url_for('sites.edit', id=site.id) }}"
+                class="btn btn-primary btn-block"
+                role="button"
+                aria-disabled="true">
                 Edit
               </a>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+            </td>
+            <td>
+              {{ site.name }}
+            </td>
+            <td>
+              {{ site.loc_type }}
+            </td>
+            <td>
+              {{ site.elev }}
+            </td>
+            <td>
+              {{ site.snag_perch }}
+            </td>
+            <td>
+              {{ site.perimeter }}
+            </td>
+            <td>
+              {{ site.comment }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% else %}
     No sites to show
   {% endif %}
@@ -92,7 +92,7 @@
   <script>
     $(document).ready( function () {
       $('#table_id').DataTable({
-        "columnDefs": [{ "orderable": false, "searchable": false, "targets": [0,7] }]
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": 0 }]
       });
     });
   </script>

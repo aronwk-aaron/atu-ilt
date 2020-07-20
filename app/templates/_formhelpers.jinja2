@@ -50,3 +50,7 @@
            {% if tabindex %}tabindex="{{ tabindex }}"{% endif %}
            >
 {%- endmacro %}
+
+{% macro sentence_case(text) %}
+    {{ text[0]|upper}}{{text[1:] }}
+{%- endmacro %}

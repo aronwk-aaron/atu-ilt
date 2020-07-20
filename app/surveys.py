@@ -28,14 +28,7 @@ surveys_blueprint = Blueprint('surveys', __name__)
 def index():
     surveys = survey.query \
         .join(site, site.id == survey.site_id) \
-        .add_columns(
-            survey.id,
-            survey.date,
-            survey.ac1,
-            survey.ac2,
-            survey.ac3,
-            site.name
-        ).order_by(survey.date).all()
+        .order_by(survey.date).all()
     return render_template('surveys/index.jinja2', surveys=surveys)
 
 

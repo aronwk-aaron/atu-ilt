@@ -31,35 +31,35 @@
          data-page-length='25'>
     <thead>
     <tr>
+      <th scope="col"></th>
       <th scope="col">Name</th>
       <th scope="col">Brand</th>
       <th scope="col">Functional?</th>
       <th scope="col">Comment</th>
-      <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
       {% for camera in cameras %}
         <tr>
           <td>
+            <a href="{{ url_for('cameras.edit', id=camera.id) }}"
+               class="btn btn-primary btn-block"
+               role="button"
+               aria-disabled="true">
+              Edit
+            </a>
+          </td>
+          <td>
             {{ camera.name }}
           </td>
           <td>
-            {{ camera.brand }}
+            {{ helper.sentence_case(camera.brand) }}
           </td>
           <td>
             {{ camera.functional }}
           </td>
           <td>
             {{ camera.comment }}
-          </td>
-          <td>
-            <a href="{{ url_for('cameras.edit', id=camera.id) }}"
-               class="btn btn-primary"
-               role="button"
-               aria-disabled="true">
-                Edit Camera
-              </a>
           </td>
         </tr>
       {% endfor %}
@@ -75,7 +75,7 @@
   <script>
     $(document).ready( function () {
       $('#table_id').DataTable({
-        "columnDefs": [{ "orderable": false, "targets": 4 }]
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": 0 }]
       });
     });
   </script>

@@ -25,42 +25,44 @@
     </a>
     <hr/>
   {% if predators %}
-  <table class="table table-white table-striped table-bordered table-hover"
-         id="table_id"
-         data-order='[[ 1, "asc" ]]'
-         data-page-length='25'>
-    <thead>
-    <tr>
-      <th scope="col">Species</th>
-      <th scope="col">Type</th>
-      <th scope="col">Volatility</th>
-      <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-      {% for predator in predators %}
-        <tr>
-          <td>
-            {{ predator.species }}
-          </td>
-          <td>
-            {{ predator.predator_type }}
-          </td>
-          <td>
-            {{ predator.volatility }}
-          </td>
-          <td>
-            <a href="{{ url_for('predators.edit', id=predator.id) }}"
-               class="btn btn-primary"
-               role="button"
-               aria-disabled="true">
-                Edit predator
+  <div class='table-responsive'>
+    <table class="table table-white table-striped table-bordered table-hover"
+          id="table_id"
+          data-order='[[ 1, "asc" ]]'
+          data-page-length='25'>
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Species</th>
+        <th scope="col">Type</th>
+        <th scope="col">Volatility</th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for predator in predators %}
+          <tr>
+            <td>
+              <a href="{{ url_for('predators.edit', id=predator.id) }}"
+                class="btn btn-primary btn-block"
+                role="button"
+                aria-disabled="true">
+                Edit
               </a>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+            </td>
+            <td>
+              {{ predator.species }}
+            </td>
+            <td>
+              {{ predator.predator_type }}
+            </td>
+            <td>
+              {{ predator.volatility }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% else %}
     No predators to show
   {% endif %}
@@ -71,7 +73,7 @@
   <script>
     $(document).ready( function () {
       $('#table_id').DataTable({
-        "columnDefs": [{ "orderable": false, "targets": 2 }]
+        "columnDefs": [{ "orderable": false, "targets": 0 }]
       });
     });
   </script>
