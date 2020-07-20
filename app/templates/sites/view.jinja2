@@ -76,7 +76,11 @@
             Estimated Area: 
           </div>
           <div class="col">
-            {{ site.est_area }} hectares
+            {% if site.est_area %}
+              {{ site.est_area }} hectares
+            {% else %}
+              No Data
+            {% endif %}
           </div>
         </div>
         <div class="row mt-3">
@@ -84,16 +88,24 @@
             Length:
           </div>
           <div class="col">
-            {{ site.length }} meters
+            {% if site.length %}
+              {{ site.length }} meters
+            {% else %}
+              No Data
+            {% endif %}
           </div>
         </div>
         <div class="row mt-3">
           <div class="col text-right">
             Perimeter Taken:
           </div>
-          <h3 class="col">
-            <span class="badge {% if site.silt_clay %} badge-primary {% else %} badge-white text-white {% endif %}">Yes</span>
-          </h3>
+          <div class="col">
+            {% if site.perimeter %}
+              <h4 class="far fa-check-square text-success"></h4>
+            {% else %}
+              <h4 class="far fa-times-circle text-danger"></h4>
+            {% endif %}
+          </div>
         </div>
         <div class="row mt-3">
           <div class="col text-right">

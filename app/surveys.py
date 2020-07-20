@@ -21,6 +21,8 @@ from app.forms import (
     survey_predator_camera_form
 )
 
+from sqlalchemy import cast, func, DECIMAL
+
 surveys_blueprint = Blueprint('surveys', __name__)
 
 
@@ -36,7 +38,15 @@ def index():
 def new():
     form = survey_form()
     form.site.choices = [
-        (s.id, s.name) for s in site.query.order_by(site.name).all()
+        (s.id, s.name) for s in site.query.order_by(
+            cast(
+                func.nullif(
+                    func.regexp_replace(
+                        site.name, "\\D", "", "g"
+                    ), ""
+                ), DECIMAL
+            )
+        ).all()
     ]
     if form.validate_on_submit():
         new_survey = survey(
@@ -94,7 +104,15 @@ def new():
 def edit(id):
     form = survey_form()
     form.site.choices = [
-        (s.id, s.name) for s in site.query.order_by(site.name).all()
+        (s.id, s.name) for s in site.query.order_by(
+            cast(
+                func.nullif(
+                    func.regexp_replace(
+                        site.name, "\\D", "", "g"
+                    ), ""
+                ), DECIMAL
+            )
+        ).all()
     ]
 
     data = survey.query.filter(survey.id == id).first()

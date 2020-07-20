@@ -38,7 +38,7 @@
         <th scope="col">Elevation</th>
         <th scope="col">Snag/Perch</th>
         <th scope="col">Perimeter Taken</th>
-        <th scope="col-">Comments</th>
+        <th scope="col">Comments</th>
       </tr>
       </thead>
       <tbody>
@@ -71,8 +71,12 @@
             <td>
               {{ site.snag_perch }}
             </td>
-            <td>
-              {{ site.perimeter }}
+            <td class="text-center">
+              {% if site.perimeter %}
+                Yes <h4 class="far fa-check-square text-success"></h4>
+              {% else %}
+                No <h4 class="far fa-times-circle text-danger"></h4>
+              {% endif %}
             </td>
             <td>
               {{ site.comment }}
