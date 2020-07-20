@@ -325,6 +325,7 @@ class survey_form(FlaskForm):
     )
     scrape = BooleanField(
         label='Scrape Presence',
+        default=False,
         validators=[
             DataRequired(),
         ]
@@ -362,7 +363,7 @@ class survey_form(FlaskForm):
         ]
     )
     ef_choices = [
-        (None, 'None'),
+        ('NA', 'N/A'),
         ('a', 'a'),
         ('b', 'b'),
         ('c', 'c'),
