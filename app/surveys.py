@@ -316,7 +316,7 @@ def new_surveyed_predator(survey_id):
         )
         new_survey_predator.save()
         return redirect(url_for('surveys.view', id=survey_id))
-    return render_template('surveys/camera/new.jinja2', form=form)
+    return render_template('surveys/surveyed_predator/new.jinja2', form=form)
 
 
 @surveys_blueprint.route(
@@ -360,7 +360,7 @@ def edit_surveyed_predator(survey_id, predator_id):
     form.count.data = data.count
     form.comment.data = data.comment
 
-    return render_template('surveys/camera/edit.jinja2', form=form)
+    return render_template('surveys/surveyed_predator/edit.jinja2', form=form)
 
 
 @surveys_blueprint.route(
@@ -391,7 +391,7 @@ def new_recorded_predator(survey_id):
         )
         new_survey_predator_camera.save()
         return redirect(url_for('surveys.view', id=survey_id))
-    return render_template('surveys/camera/new.jinja2', form=form)
+    return render_template('surveys/recorded_predator/new.jinja2', form=form)
 
 
 @surveys_blueprint.route(
@@ -439,4 +439,4 @@ def edit_recorded_predator(survey_id, predator_id, start, end):
     form.nest_dest.data = data.nest_dest
     form.comment.data = data.comment
 
-    return render_template('surveys/camera/edit.jinja2', form=form)
+    return render_template('surveys/recorded_predator/edit.jinja2', form=form)

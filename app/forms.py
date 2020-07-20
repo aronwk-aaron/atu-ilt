@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+import datetime
 from wtforms import (
     StringField,
     SelectField,
@@ -638,6 +639,7 @@ class survey_predator_camera_form(FlaskForm):
     start = DateTimeLocalField(
         label='Time In',
         format='%Y-%m-%dT%H:%M',
+        default=datetime.datetime.now(),
         validators=[
             DataRequired()
         ]
@@ -645,6 +647,7 @@ class survey_predator_camera_form(FlaskForm):
     end = DateTimeLocalField(
         label='Time Out',
         format='%Y-%m-%dT%H:%M',
+        default=datetime.datetime.now(),
         validators=[
             DataRequired()
         ]

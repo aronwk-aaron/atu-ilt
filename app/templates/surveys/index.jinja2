@@ -75,7 +75,7 @@
               {{ survey.surveyed }}
             </td>
             <td>
-              {{ survey.method }}
+              {{ helper.sentence_case(survey.method) }}
             </td>
           </tr>
         {% endfor %}

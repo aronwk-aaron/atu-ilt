@@ -56,8 +56,12 @@
             <td>
               {{ helper.sentence_case(camera.brand) }}
             </td>
-            <td>
-              {{ camera.functional }}
+            <td class="text-center">
+              {% if camera.functional %}
+                <h4 class="far fa-check-square text-success"></h4>
+              {% else %}
+                  <h4 class="far fa-times-circle text-danger"></h4>
+              {% endif %}
             </td>
             <td>
               {{ camera.comment }}
