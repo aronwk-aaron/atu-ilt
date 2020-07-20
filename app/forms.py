@@ -134,24 +134,28 @@ class site_form(FlaskForm):
     )
     silt_clay = BooleanField(
         label='Silt/Clay',
+        default=False,
         validators=[
             Optional(),
         ]
     )
     sand = BooleanField(
         label='Sand',
+        default=False,
         validators=[
             Optional(),
         ]
     )
     gravel = BooleanField(
         label='Gravel',
+        default=False,
         validators=[
             Optional(),
         ]
     )
     sm_rocks = BooleanField(
         label='Small Rocks',
+        default=False,
         validators=[
             Optional(),
         ]
@@ -170,6 +174,7 @@ class site_form(FlaskForm):
     )
     perimeter = BooleanField(
         label='Perimeter Taken',
+        default=False,
         validators=[
             Optional(),
         ]
