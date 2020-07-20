@@ -35,14 +35,16 @@ def index():
             survey.ac2,
             survey.ac3,
             site.name
-        ).all()
+        ).order_by(survey.date).all()
     return render_template('surveys/index.jinja2', surveys=surveys)
 
 
 @surveys_blueprint.route('/new', methods=('GET', 'POST'))
 def new():
     form = survey_form()
-    form.site.choices = [(s.id, s.name) for s in site.query.all()]
+    form.site.choices = [
+        (s.id, s.name) for s in site.query.order_by(site.name).all()
+    ]
     if form.validate_on_submit():
         new_survey = survey(
             site_id=form.site.data,
@@ -99,7 +101,9 @@ def new():
 @surveys_blueprint.route('/edit/<id>', methods=('GET', 'POST'))
 def edit(id):
     form = survey_form()
-    form.site.choices = [(s.id, s.name) for s in site.query.all()]
+    form.site.choices = [
+        (s.id, s.name) for s in site.query.order_by(site.name).all()
+    ]
 
     data = survey.query.filter(survey.id == id).first()
 
@@ -220,13 +224,22 @@ def view(id):
     )
 
 
-@surveys_blueprint.route('/<survey_id>/new_camera', methods=('GET', 'POST'))
+@surveys_blueprint.route(
+    '/<survey_id>/new_camera',
+    methods=('GET', 'POST')
+)
 def new_camera(survey_id):
     form = survey_camera_form()
     form.survey_id.data = survey_id
-    form.camera.choices = [(c.id, c.name) for c in camera.query.all()]
-    form.card_in.choices = [(ci.id, ci.name) for ci in card.query.all()]
-    form.card_out.choices = [(co.id, co.name) for co in card.query.all()]
+    form.camera.choices = [
+        (c.id, c.name) for c in camera.query.order_by(camera.name).all()
+    ]
+    form.card_in.choices = [
+        (ci.id, ci.name) for ci in card.query.order_by(card.name).all()
+    ]
+    form.card_out.choices = [
+        (co.id, co.name) for co in card.query.order_by(card.name).all()
+    ]
 
     if form.validate_on_submit():
         new_survey_camera = survey_camera_card(
@@ -250,9 +263,15 @@ def new_camera(survey_id):
 )
 def edit_camera(survey_id, camera_id):
     form = survey_camera_form()
-    form.camera.choices = [(c.id, c.name) for c in camera.query.all()]
-    form.card_in.choices = [(ci.id, ci.name) for ci in card.query.all()]
-    form.card_out.choices = [(co.id, co.name) for co in card.query.all()]
+    form.camera.choices = [
+        (c.id, c.name) for c in camera.query.order_by(camera.name).all()
+    ]
+    form.card_in.choices = [
+        (ci.id, ci.name) for ci in card.query.order_by(card.name).all()
+    ]
+    form.card_out.choices = [
+        (co.id, co.name) for co in card.query.order_by(card.name).all()
+    ]
 
     data = survey_camera_card.query \
         .filter(survey_id == survey_id, camera_id == camera_id).first()
@@ -278,7 +297,7 @@ def edit_camera(survey_id, camera_id):
     form.functional.data = data.functional
     form.comment.data = data.comment
 
-    return render_template('surveys/camera/new.jinja2', form=form)
+    return render_template('surveys/camera/edit.jinja2', form=form)
 
 
 @surveys_blueprint.route(
@@ -289,7 +308,9 @@ def new_surveyed_predator(survey_id):
     form = survey_predator_form()
     form.survey_id.data = survey_id
     form.predator_id.choices = [
-        (p.id, p.species) for p in predator.query.all()
+        (p.id, p.species) for p in predator.query.order_by(
+            predator.species
+        ).all()
     ]
 
     if form.validate_on_submit():
@@ -312,14 +333,16 @@ def new_surveyed_predator(survey_id):
 def edit_surveyed_predator(survey_id, predator_id, sighting_type):
     form = survey_predator_form()
     form.predator_id.choices = [
-        (p.id, p.species) for p in predator.query.all()
+        (p.id, p.species) for p in predator.query.order_by(
+            predator.species
+        ).all()
     ]
 
     data = survey_predator.query \
         .filter(
-            survey_id == survey_id,
-            predator_id == predator_id,
-            sighting_type == sighting_type) \
+            survey_predator.survey_id == survey_id,
+            survey_predator.predator_id == predator_id,
+            survey_predator.sighting_type == sighting_type) \
         .first()
 
     if form.validate_on_submit():
@@ -333,11 +356,12 @@ def edit_surveyed_predator(survey_id, predator_id, sighting_type):
 
     form.survey_id.data = data.survey_id
     form.sighting_type.data = data.sighting_type
+    print()
     form.predator_id.data = data.predator_id
     form.count.data = data.count
     form.comment.data = data.comment
 
-    return render_template('surveys/camera/new.jinja2', form=form)
+    return render_template('surveys/camera/edit.jinja2', form=form)
 
 
 @surveys_blueprint.route(
@@ -348,7 +372,9 @@ def new_recorded_predator(survey_id):
     form = survey_predator_camera_form()
     form.survey_id.data = survey_id
     form.predator_id.choices = [
-        (p.id, p.species) for p in predator.query.all()
+        (p.id, p.species) for p in predator.query.order_by(
+            predator.species
+        ).all()
     ]
 
     if form.validate_on_submit():
@@ -376,15 +402,17 @@ def new_recorded_predator(survey_id):
 def edit_recorded_predator(survey_id, predator_id, start, end):
     form = survey_predator_camera_form()
     form.predator_id.choices = [
-        (p.id, p.species) for p in predator.query.all()
+        (p.id, p.species) for p in predator.query.order_by(
+            predator.species
+        ).all()
     ]
 
     data = survey_predator_camera.query \
         .filter(
-            survey_id == survey_id,
-            predator_id == predator_id,
-            start == start,
-            end == end) \
+            survey_predator_camera.survey_id == survey_id,
+            survey_predator_camera.predator_id == predator_id,
+            survey_predator_camera.start == start,
+            survey_predator_camera.end == end) \
         .first()
 
     if form.validate_on_submit():
@@ -412,4 +440,4 @@ def edit_recorded_predator(survey_id, predator_id, start, end):
     form.nest_dest.data = data.nest_dest
     form.comment.data = data.comment
 
-    return render_template('surveys/camera/new.jinja2', form=form)
+    return render_template('surveys/camera/edit.jinja2', form=form)
