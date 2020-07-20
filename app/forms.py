@@ -101,7 +101,10 @@ class site_form(FlaskForm):
         ]
     )
     elevation = DecimalField(
-        label='Elevation'
+        label='Elevation',
+        validators=[
+            Optional(),
+        ]
     )
     snag_perch = IntegerField(
         label='Snag/Perch Count',
