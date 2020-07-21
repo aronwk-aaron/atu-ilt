@@ -1,32 +1,13 @@
 {% extends 'base.jinja2' %}
 
-{% block title %}Edit Camera{% endblock %}
+{% block title %}
+  Edit Camera
+{% endblock %}
 
 {% block content_before %}
-
-  <div class="jumbotron shadow-sm py-0">
-    <div class="container">
-
-      {# Text #}
-      <div class="text-center">
-        <span class="h3 mb-0"><br/>Edit Camera<br/><br/></span>
-      </div>
-    </div>
-  </div>
-
+  Edit Camera
 {% endblock %}
 
 {% block content %}
-  <form method=post>
-    {{ form.csrf_token }}
-    <div class="card shadow-sm mx-auto pb-3" style="width: 18rem;">
-      <div class="card-body">
-        {{ helper.render_field(form.name) }}
-        {{ helper.render_field(form.brand) }}
-        {{ helper.render_checkbox_field(form.functional) }}
-        {{ helper.render_field(form.comment) }}
-        {{ helper.render_submit_field(form.submit) }}
-      </div>
-    </div>
-  </form>
+  {% include "cameras/form.jinja2" %}
 {% endblock %}

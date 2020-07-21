@@ -1,0 +1,23 @@
+<form method=post>
+  {{ form.csrf_token }}
+  <div class="card mx-auto shadow-sm pb-3" style="width: 18rem;">
+    <div class="card-body">
+      {{ helper.render_field(form.name) }}
+      {{ helper.render_field(form.loc_type) }}
+      {{ helper.render_field(form.elevation) }}
+      {{ helper.render_field(form.snag_perch) }}
+      {{ helper.render_field(form.primary_substrate) }}
+      {{ helper.render_field(form.precentage_primary_substrate) }}
+      {{ helper.render_checkbox_field(form.silt_clay) }}
+      {{ helper.render_checkbox_field(form.sand) }}
+      {{ helper.render_checkbox_field(form.gravel) }}
+      {{ helper.render_checkbox_field(form.sm_rocks) }}
+      {{ helper.render_field(form.est_area) }}
+      {{ helper.render_field(form.length) }}
+      {{ helper.render_checkbox_field(form.perimeter) }}
+      {{ helper.render_field(form.comment) }}
+      <hr/>
+      {{ helper.render_submit_field(form.submit, class='btn-block') }}
+    </div>
+  </div>
+</form>

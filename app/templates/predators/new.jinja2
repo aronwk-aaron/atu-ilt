@@ -3,29 +3,9 @@
 {% block title %}New Predator{% endblock %}
 
 {% block content_before %}
-
-  <div class="jumbotron shadow-sm py-0">
-    <div class="container">
-
-      {# Text #}
-      <div class="text-center">
-        <span class="h3 mb-0"><br/>New Predator<br/><br/></span>
-      </div>
-    </div>
-  </div>
-
+  New Predator
 {% endblock %}
 
 {% block content %}
-  <form method=post>
-    {{ form.csrf_token }}
-    <div class="card shadow-sm mx-auto pb-3" style="width: 18rem;">
-      <div class="card-body">
-        {{ helper.render_field(form.species) }}
-        {{ helper.render_field(form.predator_type) }}
-        {{ helper.render_field(form.volatility) }}
-        {{ helper.render_submit_field(form.submit) }}
-      </div>
-    </div>
-  </form>
+  {% include "predators/form.jinja2" %}
 {% endblock %}

@@ -43,7 +43,17 @@
 
 
 {# Content #}
-{% block content_before %}{% endblock %}
+
+<div class="jumbotron shadow-sm py-0">
+  <div class="container">
+
+    {# Text #}
+    <div class="text-center">
+      <span class="h3 mb-0"><br/>{% block content_before %}{% endblock %}<br/><br/></span>
+      </div>
+    </div>
+  </div>
+
 {% block content_override %}
   <div class='container mt-4'>
     {% block content %}{% endblock %}

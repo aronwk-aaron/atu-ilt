@@ -1,0 +1,17 @@
+<form method=post>
+  {{ form.csrf_token }}
+  <div class="card shadow-sm mx-auto pb-3" style="width: 18rem;">
+    <div class="card-body">
+      {{ helper.render_field(form.survey_id) }}
+      {{ helper.render_field(form.predator_id) }}
+      {{ helper.render_field(form.count) }}
+      {{ helper.render_checkbox_field(form.sighting) }}
+      {{ helper.render_checkbox_field(form.scat) }}
+      {{ helper.render_checkbox_field(form.adult_mort) }}
+      {{ helper.render_checkbox_field(form.chick_mort) }}
+      {{ helper.render_checkbox_field(form.nest_dest) }}
+      {{ helper.render_field(form.comment) }}
+      {{ helper.render_submit_field(form.submit) }}
+    </div>
+  </div>
+</form>
