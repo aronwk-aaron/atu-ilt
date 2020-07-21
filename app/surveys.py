@@ -29,9 +29,6 @@ surveys_blueprint = Blueprint('surveys', __name__)
 @surveys_blueprint.route('/')
 def index():
     surveys = survey.query \
-        .join(survey_predator, survey.id == survey_predator.survey_id) \
-        .join(survey_camera_card, survey.id == survey_camera_card.survey_id) \
-        .join(survey_predator_camera, survey.id == survey_predator_camera.survey_id) \
         .order_by(survey.date).all()
     return render_template('surveys/index.jinja2', surveys=surveys)
 
