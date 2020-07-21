@@ -207,6 +207,7 @@ class survey_predator(db.Model):
         primary_key=True
     )
     predator = db.relationship('predator')
+    tracks = db.Column(db.Boolean)
     sighting = db.Column(db.Boolean)
     scat = db.Column(db.Boolean)
     adult_mort = db.Column(db.Boolean)

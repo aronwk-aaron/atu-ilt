@@ -324,6 +324,7 @@ def new_surveyed_predator(survey_id):
         new_survey_predator = survey_predator(
             survey_id=form.survey_id.data,
             sighting=form.sighting.data,
+            tracks=form.tracks.data,
             scat=form.scat.data,
             adult_mort=form.adult_mort.data,
             chick_mort=form.chick_mort.data,
@@ -358,6 +359,7 @@ def edit_surveyed_predator(survey_id, predator_id):
     if form.validate_on_submit():
         data.survey_id = form.survey_id.data
         data.sighting = form.sighting.data
+        data.tracks = form.tracks.data
         data.scat = form.scat.data
         data.adult_mort = form.adult_mort.data
         data.chick_mort = form.chick_mort.data
@@ -370,6 +372,7 @@ def edit_surveyed_predator(survey_id, predator_id):
 
     form.survey_id.data = data.survey_id
     form.sighting.data = data.sighting
+    form.tracks.data = data.tracks
     form.scat.data = data.scat
     form.adult_mort.data = data.adult_mort
     form.chick_mort.data = data.chick_mort

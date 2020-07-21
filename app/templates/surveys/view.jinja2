@@ -134,6 +134,9 @@
                     {{ surveyed_predator.predator.species }}
                 </td>
                 <td class="text-center">
+                  {% if surveyed_predator.tracks %}
+                    <div class='mb-1'>Tracks<br/></div>
+                  {% endif %}
                   {% if surveyed_predator.sighting %}
                     <div class='mb-1'>Saw<br/></div>
                   {% endif %}

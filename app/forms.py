@@ -593,6 +593,12 @@ class survey_predator_form(FlaskForm):
             DataRequired()
         ]
     )
+    tracks = BooleanField(
+        label='Tracks',
+        validators=[
+            Optional(),
+        ]
+    )
     sighting = BooleanField(
         label='Sighting',
         validators=[
