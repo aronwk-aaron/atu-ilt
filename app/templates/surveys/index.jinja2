@@ -28,7 +28,9 @@
         <th scope="col">Avg Adult Count</th>
         <th scope="col">Nests w/ Eggs</th>
         <th scope="col">% Surveyed</th>
-        <th scope="col">Method</th>
+        <th scope="col">Cameras</th>
+        <th scope="col">Surveyed Predators</th>
+        <th scope="col">Recorded Predators</th>
       </tr>
       </thead>
       <tbody>
@@ -65,7 +67,10 @@
               {{ survey.surveyed }}
             </td>
             <td>
-              {{ helper.sentence_case(survey.method) }}
+            </td>
+            <td>
+            </td>
+            <td>
             </td>
           </tr>
         {% endfor %}

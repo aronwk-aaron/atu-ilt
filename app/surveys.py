@@ -29,7 +29,9 @@ surveys_blueprint = Blueprint('surveys', __name__)
 @surveys_blueprint.route('/')
 def index():
     surveys = survey.query \
-        .join(site, site.id == survey.site_id) \
+        .join(survey_predator, survey.id == survey_predator.survey_id) \
+        .join(survey_camera_card, survey.id == survey_camera_card.survey_id) \
+        .join(survey_predator_camera, survey.id == survey_predator_camera.survey_id) \
         .order_by(survey.date).all()
     return render_template('surveys/index.jinja2', surveys=surveys)
 
@@ -281,7 +283,10 @@ def edit_camera(survey_id, camera_id):
     ]
 
     data = survey_camera_card.query \
-        .filter(survey_id == survey_id, camera_id == camera_id).first()
+        .filter(
+            survey_camera_card.survey_id == survey_id,
+            survey_camera_card.camera_id == camera_id
+        ).first()
 
     if form.validate_on_submit():
         data.survey_id = form.survey_id.data
