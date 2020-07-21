@@ -327,7 +327,7 @@ class survey_form(FlaskForm):
         label='Scrape Presence',
         default=False,
         validators=[
-            DataRequired(),
+            Optional(),
         ]
     )
     chick02 = IntegerField(
