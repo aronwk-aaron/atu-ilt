@@ -3,14 +3,12 @@ from flask_assets import Environment
 from webassets import Bundle
 
 from app.models import db, migrate
-from flask_marshmallow import Marshmallow
 from flask_wtf.csrf import CSRFProtect
 
 from app.commands import init_db
 
 
 # Instantiate Flask extensions
-ma = Marshmallow()
 csrf_protect = CSRFProtect()
 # db and migrate is instantiated in models.py
 
@@ -34,6 +32,11 @@ def create_app():
     # add the init_db command to flask cli
     app.cli.add_command(init_db)
 
+    def get_max(data):
+        return max(data)
+
+    app.jinja_env.globals.update(get_max=get_max)
+
     return app
 
 
@@ -45,7 +48,6 @@ def register_extensions(app):
     """
     db.init_app(app)
     migrate.init_app(app, db)
-    ma.init_app(app)
     csrf_protect.init_app(app)
 
     assets = Environment(app)
@@ -74,3 +76,5 @@ def register_blueprints(app):
     app.register_blueprint(sites_blueprint, url_prefix='/sites')
     from .surveys import surveys_blueprint
     app.register_blueprint(surveys_blueprint, url_prefix='/surveys')
+    from .stats import stats_blueprint
+    app.register_blueprint(stats_blueprint, url_prefix='/stats')

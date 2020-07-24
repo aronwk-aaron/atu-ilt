@@ -28,8 +28,7 @@ surveys_blueprint = Blueprint('surveys', __name__)
 
 @surveys_blueprint.route('/')
 def index():
-    surveys = survey.query \
-        .order_by(survey.date).all()
+    surveys = survey.query.order_by(survey.date).all()
     return render_template('surveys/index.jinja2', surveys=surveys)
 
 

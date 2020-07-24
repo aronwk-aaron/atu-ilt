@@ -82,6 +82,9 @@
       let target_nav = '#{{request.endpoint}}'.replace('\.', '-');
       $(target_nav).addClass('active');
     });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   </script>
 {% endblock %}
 

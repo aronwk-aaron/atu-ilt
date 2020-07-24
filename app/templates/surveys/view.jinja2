@@ -280,7 +280,21 @@
                 Avg:
               </div>
               <div class='col'>
-                {{ ((survey.ac1 + survey.ac2 + survey.ac3)/3)|round(1, 'floor') }}
+                {% set count=0 %}
+                {% if survey.ac1 > 0 %}
+                  {% set count=count+1 %}
+                {% endif %}
+                {% if survey.ac2 > 0 %}
+                  {% set count=count+1 %}
+                {% endif %}
+                {% if survey.ac3 > 0 %}
+                  {% set count=count+1 %}
+                {% endif %}
+                {% if count > 0 %}
+                  {{ ((survey.ac1 + survey.ac2 + survey.ac3)/count)|round(1, 'floor') }}
+                {% else %}
+                  0
+                {% endif %}
               </div>
             </div>
             <hr/>

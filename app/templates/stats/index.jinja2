@@ -1,0 +1,32 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block content_before %}
+  Statistics
+{% endblock %}
+
+{% block content %}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="surveys-tab" data-toggle="tab" href="#surveys" role="tab" aria-controls="surveys" aria-selected="true">Surveys/Sites</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="cameras-tab" data-toggle="tab" href="#cameras" role="tab" aria-controls="cameras" aria-selected="false">Cameras</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="cards-tab" data-toggle="tab" href="#cards" role="tab" aria-controls="cards" aria-selected="false">SD cards</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="surveys" role="tabpanel" aria-labelledby="surveys-tab">
+    {% include "stats/surveys.jinja2" %}
+  </div>
+  <div class="tab-pane fade" id="cameras" role="tabpanel" aria-labelledby="cameras-tab">
+    {% include "stats/cameras.jinja2" %}
+  </div>
+  <div class="tab-pane fade" id="cards" role="tabpanel" aria-labelledby="cards-tab">
+    {% include "stats/cards.jinja2" %}
+  </div>
+</div>
+{% endblock %}

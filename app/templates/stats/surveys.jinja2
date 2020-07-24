@@ -1,0 +1,179 @@
+{% set adult_count = namespace(value=0) %}
+
+{# adult count logic #}
+{# never do this, it's dumb to do this in a template #}
+{# but I DON'T CARE #}
+{# this works because the data is sorted bu site_id #}
+{# so sites are grouped together #}
+{# sum(max([surveys for site])) #}
+{% set site_nums = [] %}
+{% set sites_used = namespace(value=0) %}
+{% for survey in surveys %}
+  {% if loop.first %}
+    {# first loop is a special case #}
+    {% set count = namespace(value=0) %}
+    {% if survey.ac1 > 0 %}
+      {% set count.value=count.value+1 %}
+    {% endif %}
+    {% if survey.ac2 > 0 %}
+      {% set count.value=count.value+1 %}
+    {% endif %}
+    {% if survey.ac3 > 0 %}
+      {% set count.value=count.value+1 %}
+    {% endif %}
+    {% if count.value > 0 %}
+      {# append the average to the list of averages for the site #}
+      {{ site_nums.append(((survey.ac1 + survey.ac2 + survey.ac3)/count.value)) or "" }}
+    {% else %}
+      {# can't divide by 0 so if we had 0 above 0, it's 0 #}
+      {{ site_nums.append(0) or ""  }}
+    {% endif %}
+  {% elif loop.last %}
+    {# last loop is a special case #}
+    {% set count = namespace(value=0) %}
+    {% if survey.ac1 > 0 %}
+      {% set count.value=count.value+1 %}
+    {% endif %}
+    {% if survey.ac2 > 0 %}
+      {% set count.value=count.value+1 %}
+    {% endif %}
+    {% if survey.ac3 > 0 %}
+      {% set count.value=count.value+1 %}
+    {% endif %}
+    {% if count.value > 0 %}
+      {# append the average to the list of averages for the site #}
+      {{ site_nums.append(((survey.ac1 + survey.ac2 + survey.ac3)/count.value)) or "" }}
+    {% else %}
+      {# can't divide by 0 so if we had 0 above 0, it's 0 #}
+      {{ site_nums.append(0) or ""  }}
+    {% endif %}
+    {% if (site_nums | max) > 0 %}
+      {% set sites_used.value = sites_used.value + 1 %}
+    {% endif %}
+    {% set adult_count.value = adult_count.value + site_nums | max %}
+  {% else %}
+    {# every loop in p=between #}
+    {% if survey.site_id == loop.previtem.site_id %}
+      {# if we are on the same site #}
+      {% set count = namespace(value=0) %}
+      {% if survey.ac1 > 0 %}
+        {% set count.value=count.value+1 %}
+      {% endif %}
+      {% if survey.ac2 > 0 %}
+        {% set count.value=count.value+1 %}
+      {% endif %}
+      {% if survey.ac3 > 0 %}
+        {% set count.value=count.value+1 %}
+      {% endif %}
+      {% if count.value > 0 %}
+        {# append the average to the list of averages for the site #}
+        {{ site_nums.append(((survey.ac1 + survey.ac2 + survey.ac3)/count.value)) or "" }}
+      {% else %}
+        {# can't divide by 0 so if we had 0 above 0, it's 0 #}
+        {{ site_nums.append(0) or ""  }}
+      {% endif %}
+    {% else %}
+      {# else we are on a differnet site #}
+      {# get max and add to adult count, then clear the array for the next site #}
+      {% if (site_nums | max) > 0 %}
+        {% set sites_used.value = sites_used.value + 1 %}
+
+      {% endif %}
+      {% set adult_count.value = adult_count.value + site_nums | max %}
+      {% set site_nums = [] %}
+      {# still gotta do this iteration #}
+      {% set count = namespace(value=0) %}
+      {% if survey.ac1 > 0 %}
+        {% set count.value=count.value+1 %}
+      {% endif %}
+      {% if survey.ac2 > 0 %}
+        {% set count.value=count.value+1 %}
+      {% endif %}
+      {% if survey.ac3 > 0 %}
+        {% set count.value=count.value+1 %}
+      {% endif %}
+      {% if count.value > 0 %}
+        {# append the average to the list of averages for the site #}
+        {{ site_nums.append(((survey.ac1 + survey.ac2 + survey.ac3)/count.value)) or "" }}
+      {% else %}
+        {# can't divide by 0 so if we had 0 above 0, it's 0 #}
+        {{ site_nums.append(0) or ""  }}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% set egg = namespace(value=0) %}
+{% set chick02 = namespace(value=0) %}
+{% set chick39 = namespace(value=0) %}
+{% set chick1017 = namespace(value=0) %}
+{% set fledge = namespace(value=0) %}
+{% for survey in surveys %}
+  {% set egg.value = egg.value + survey.egg1 + (survey.egg2 * 2) + (survey.egg3 * 3) %}  
+  {% set chick02.value = chick02.value + survey.chick02 %}
+  {% set chick39.value = chick39.value + survey.chick39 %}
+  {% set chick1017.value = chick1017.value + survey.chick1017 %}
+  {% set fledge.value = fledge.value + survey.fledgling %}
+{% endfor %}
+
+
+<div class='container mt-4'>
+  <div class='row'>
+    <div class='col text-right'>
+      Surveys Completed:
+    </div>
+    <div class='col'>
+      {{ surveys|length }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      <a href='#' data-toggle="tooltip" data-placement="left" data-original-title="Sum of max averages of the site surveys">
+      Adults seen:
+      </a>
+    </div>
+    <div class='col'>
+      {{ adult_count.value|round(1, 'floor') }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Eggs:
+    </div>
+    <div class='col'>
+      {{ egg.value }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Chicks 0-2:
+    </div>
+    <div class='col'>
+      {{ chick02.value }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Chicks 3-9:
+    </div>
+    <div class='col'>
+      {{ chick39.value }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Chicks 10-17:
+    </div>
+    <div class='col'>
+      {{ chick1017.value }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Fledgelings:
+    </div>
+    <div class='col'>
+      {{ fledge.value }}
+    </div>
+  </div>
+</div>

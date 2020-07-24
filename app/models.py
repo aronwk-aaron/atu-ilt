@@ -152,6 +152,10 @@ class survey(db.Model):
     
     comment = db.Column(db.String(1024))
 
+    cameras = db.relationship('survey_camera_card')
+    surveyed_predators = db.relationship('survey_predator')
+    recorded_predators = db.relationship('survey_predator_camera')
+
     def save(self):
         db.session.add(self)
         db.session.commit()
@@ -207,6 +211,7 @@ class survey_predator(db.Model):
         primary_key=True
     )
     predator = db.relationship('predator')
+
     tracks = db.Column(db.Boolean)
     sighting = db.Column(db.Boolean)
     scat = db.Column(db.Boolean)
