@@ -1,10 +1,11 @@
 <div class='container mt-4'>
+  <h3 class='text-center'>River</h3>
   <div class='row'>
     <div class='col text-right'>
       Surveys Completed:
     </div>
     <div class='col'>
-      {{ data.surveys }}
+      {{ data.river.surveys }}
     </div>
   </div>
   <div class='row'>
@@ -14,7 +15,7 @@
       </a>
     </div>
     <div class='col'>
-      {{ data.adult_count|round(1, 'floor') }}
+      {{ data.river.adult_count|round(1, 'floor') }}
     </div>
   </div>
   <div class='row'>
@@ -22,7 +23,7 @@
       Eggs:
     </div>
     <div class='col'>
-      {{ data.egg }}
+      {{ data.river.egg }}
     </div>
   </div>
   <div class='row'>
@@ -30,7 +31,7 @@
       Chicks 0-2:
     </div>
     <div class='col'>
-      {{ data.chick02 }}
+      {{ data.river.chick02 }}
     </div>
   </div>
   <div class='row'>
@@ -38,7 +39,7 @@
       Chicks 3-9:
     </div>
     <div class='col'>
-      {{ data.chick39 }}
+      {{ data.river.chick39 }}
     </div>
   </div>
   <div class='row'>
@@ -46,7 +47,7 @@
       Chicks 10-17:
     </div>
     <div class='col'>
-      {{ data.chick1017 }}
+      {{ data.river.chick1017 }}
     </div>
   </div>
   <div class='row'>
@@ -54,7 +55,67 @@
       Fledgelings:
     </div>
     <div class='col'>
-      {{ data.fledge }}
+      {{ data.river.fledge }}
+    </div>
+  </div>
+  <hr/>
+  <h3 class='text-center'>Rooftop</h3>
+  <div class='row'>
+    <div class='col text-right'>
+      Surveys Completed:
+    </div>
+    <div class='col'>
+      {{ data.rooftop.surveys }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      <a href='#' data-toggle="tooltip" data-placement="left" data-original-title="Sum of max averages of the site surveys">
+      Adults seen:
+      </a>
+    </div>
+    <div class='col'>
+      {{ data.rooftop.adult_count|round(1, 'floor') }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Eggs:
+    </div>
+    <div class='col'>
+      {{ data.rooftop.egg }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Chicks 0-2:
+    </div>
+    <div class='col'>
+      {{ data.rooftop.chick02 }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Chicks 3-9:
+    </div>
+    <div class='col'>
+      {{ data.rooftop.chick39 }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Chicks 10-17:
+    </div>
+    <div class='col'>
+      {{ data.rooftop.chick1017 }}
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col text-right'>
+      Fledgelings:
+    </div>
+    <div class='col'>
+      {{ data.rooftop.fledge }}
     </div>
   </div>
 </div>

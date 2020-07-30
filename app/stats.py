@@ -16,52 +16,76 @@ def index():
         ).data
     )
     data = {
-        'surveys': 0,
-        'adult_count': 0,
-        'egg': 0,
-        'chick02': 0,
-        'chick39': 0,
-        'chick1017': 0,
-        'fledge': 0,
-        'renest': 0
+        'river': {
+            'surveys': 0,
+            'adult_count': 0,
+            'egg': 0,
+            'chick02': 0,
+            'chick39': 0,
+            'chick1017': 0,
+            'fledge': 0,
+            'nestingattempts': 0
+        },
+        'rooftop': {
+            'surveys': 0,
+            'adult_count': 0,
+            'egg': 0,
+            'chick02': 0,
+            'chick39': 0,
+            'chick1017': 0,
+            'fledge': 0,
+            'nestingattempts': 0
+        }
     }
     site_avgs = []
-    for s in sites:
-        for i in range(len(s['surveys'])):
-            data['surveys'] += 1
-            data['chick02'] += s['surveys'][i]['chick02']
-            data['chick39'] += s['surveys'][i]['chick39']
-            data['chick1017'] += s['surveys'][i]['chick1017']
-            data['egg'] += s['surveys'][i]['egg1']
-            data['egg'] += s['surveys'][i]['egg2'] * 2
-            data['egg'] += s['surveys'][i]['egg3'] * 3
-            data['fledge'] += s['surveys'][i]['fledgling']
-            # print(site_avgs)
+    for s in range(len(sites)):
+        for i in range(len(sites[s]['surveys'])):
+            if sites[s]['loc_type'] == 'rooftop':
+                data['rooftop']['surveys'] += 1
+                data['rooftop']['chick02'] += sites[s]['surveys'][i]['chick02']
+                data['rooftop']['chick39'] += sites[s]['surveys'][i]['chick39']
+                data['rooftop']['chick1017'] += sites[s]['surveys'][i]['chick1017']
+                data['rooftop']['egg'] += sites[s]['surveys'][i]['egg1']
+                data['rooftop']['egg'] += sites[s]['surveys'][i]['egg2'] * 2
+                data['rooftop']['egg'] += sites[s]['surveys'][i]['egg3'] * 3
+                data['rooftop']['fledge'] += sites[s]['surveys'][i]['fledgling']
+            else:
+                data['river']['surveys'] += 1
+                data['river']['chick02'] += sites[s]['surveys'][i]['chick02']
+                data['river']['chick39'] += sites[s]['surveys'][i]['chick39']
+                data['river']['chick1017'] += sites[s]['surveys'][i]['chick1017']
+                data['river']['egg'] += sites[s]['surveys'][i]['egg1']
+                data['river']['egg'] += sites[s]['surveys'][i]['egg2'] * 2
+                data['river']['egg'] += sites[s]['surveys'][i]['egg3'] * 3
+                data['river']['fledge'] += sites[s]['surveys'][i]['fledgling']
             if i == 0:
                 site_avgs.append(
                     (
-                        s['surveys'][i]['ac1'] +
-                        s['surveys'][i]['ac2'] +
-                        s['surveys'][i]['ac3']
+                        sites[s]['surveys'][i]['ac1'] +
+                        sites[s]['surveys'][i]['ac2'] +
+                        sites[s]['surveys'][i]['ac3']
                     )/3
                 )
-            elif s['surveys'][i]['site_id'] == s['surveys'][i - 1]['site_id']:
-                # print(f'adding: {max(site_avgs)}')
-                data['adult_count'] += max(site_avgs)
+            elif sites[s]['surveys'][i]['site_id'] == sites[s]['surveys'][i - 1]['site_id']:
+                if sites[s - 1]['loc_type'] == 'rooftop':
+                    data['rooftop']['adult_count'] += max(site_avgs)
+                else:
+                    data['river']['adult_count'] += max(site_avgs)
                 site_avgs = []
                 site_avgs.append(
                     (
-                        s['surveys'][i]['ac1'] +
-                        s['surveys'][i]['ac2'] +
-                        s['surveys'][i]['ac3']
+                        sites[s]['surveys'][i]['ac1'] +
+                        sites[s]['surveys'][i]['ac2'] +
+                        sites[s]['surveys'][i]['ac3']
                     )/3
                 )
             else:
+                print('else')
                 site_avgs.append(
                     (
-                        s['surveys'][i]['ac1'] +
-                        s['surveys'][i]['ac2'] +
-                        s['surveys'][i]['ac3']
+                        sites[s]['surveys'][i]['ac1'] +
+                        sites[s]['surveys'][i]['ac2'] +
+                        sites[s]['surveys'][i]['ac3']
                     )/3
                 )
 
