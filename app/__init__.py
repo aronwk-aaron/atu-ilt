@@ -3,6 +3,7 @@ from flask_assets import Environment
 from webassets import Bundle
 
 from app.models import db, migrate
+from app.schemas import ma
 from flask_wtf.csrf import CSRFProtect
 
 from app.commands import init_db
@@ -31,12 +32,6 @@ def create_app():
     register_blueprints(app)
     # add the init_db command to flask cli
     app.cli.add_command(init_db)
-
-    def get_max(data):
-        return max(data)
-
-    app.jinja_env.globals.update(get_max=get_max)
-
     return app
 
 
@@ -49,6 +44,7 @@ def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     csrf_protect.init_app(app)
+    ma.init_app(app)
 
     assets = Environment(app)
     assets.url = app.static_url_path

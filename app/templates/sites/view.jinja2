@@ -117,7 +117,7 @@
     New Survey
   </a>
   <hr/>
-  {% if site[0].survey %}
+  {% if site[0].surveys %}
     <div class='table-responsive'>
       <table class="table table-white table-striped table-bordered table-hover"
             id="table_id"
@@ -137,7 +137,7 @@
         </tr>
         </thead>
         <tbody>
-          {% for survey in site[0].survey %}
+          {% for survey in site[0].surveys %}
             <tr>
               <td>
                 <a href="{{ url_for('surveys.view', id=survey.id) }}"

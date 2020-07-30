@@ -69,7 +69,7 @@ class site(db.Model):
     perimeter = db.Column(db.Boolean)
     comment = db.Column(db.String(1024))
 
-    survey = db.relationship('survey')
+    surveys = db.relationship('survey', order_by='survey.date')
 
     def save(self):
         db.session.add(self)
