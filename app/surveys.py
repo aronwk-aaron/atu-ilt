@@ -33,7 +33,8 @@ def index():
 
 
 @surveys_blueprint.route('/new', methods=('GET', 'POST'))
-def new():
+@surveys_blueprint.route('/new/<site_id>', methods=('GET', 'POST'))
+def new(site_id=None):
     form = survey_form()
     form.site.choices = [
         (s.id, s.name) for s in site.query.order_by(
@@ -94,7 +95,9 @@ def new():
             comment=form.comment.data
         )
         new_survey.save()
-        return redirect('/surveys')
+        return redirect(url_for('surveys.view', id=new_survey.id))
+    if site_id:
+        form.site.data = int(site_id)
     return render_template('surveys/new.jinja2', form=form)
 
 
@@ -161,7 +164,6 @@ def edit(id):
         data.comment = form.comment.data
         data.save()
         return redirect(url_for('surveys.view', id=id))
-
     form.site.data = data.site_id
     form.date.data = data.date
     form.crew.data = data.crew

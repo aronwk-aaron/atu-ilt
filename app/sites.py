@@ -86,5 +86,5 @@ def edit(id):
 
 @sites_blueprint.route('/view/<id>')
 def view(id):
-    data = site.query.filter(site.id == id).first()
+    data = site.query.filter(site.id == id).all()
     return render_template('sites/view.jinja2', site=data)

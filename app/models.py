@@ -25,6 +25,7 @@ class card(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+        db.session.refresh(self)
 
 
 class camera(db.Model):
@@ -43,6 +44,7 @@ class camera(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+        db.session.refresh(self)
 
 
 class site(db.Model):
@@ -67,11 +69,12 @@ class site(db.Model):
     perimeter = db.Column(db.Boolean)
     comment = db.Column(db.String(1024))
 
-    survey = db.relationship('survey', back_populates="site")
+    survey = db.relationship('survey')
 
     def save(self):
         db.session.add(self)
         db.session.commit()
+        db.session.refresh(self)
 
 
 class predator(db.Model):
@@ -93,6 +96,7 @@ class predator(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+        db.session.refresh(self)
 
 
 class survey(db.Model):
@@ -149,7 +153,7 @@ class survey(db.Model):
     sal = db.Column(db.Float)
     sp_condu = db.Column(db.Float)
     condu = db.Column(db.Float)
-    
+
     comment = db.Column(db.String(1024))
 
     cameras = db.relationship('survey_camera_card')
@@ -159,6 +163,7 @@ class survey(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+        db.session.refresh(self)
 
 
 class survey_camera_card(db.Model):
@@ -197,6 +202,7 @@ class survey_camera_card(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+        db.session.refresh(self)
 
 
 class survey_predator(db.Model):
@@ -224,6 +230,7 @@ class survey_predator(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+        db.session.refresh(self)
 
 
 class survey_predator_camera(db.Model):
@@ -257,3 +264,4 @@ class survey_predator_camera(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+        db.session.refresh(self)
