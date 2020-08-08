@@ -8,7 +8,6 @@ RUN pip install -r requirements.txt
 RUN pip install gunicorn
 COPY wsgi.py wsgi.py
 COPY ./app /app
-WORKDIR /app
 
 EXPOSE 8000
 
