@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_assets import Environment
 from webassets import Bundle
@@ -26,7 +27,11 @@ def create_app():
     # Load common settings
     app.config.from_object('app.settings')
     # Load environment specific settings
-    app.config.from_object('app.local_settings')
+
+    app.config['TESTING'] = False
+    app.config['DEBUG'] = False
+    app.config['SECRET_KEY'] = os.getenv('APP_SECRET_KEY')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('APP_DATABASE_URI')
 
     register_extensions(app)
     register_blueprints(app)
