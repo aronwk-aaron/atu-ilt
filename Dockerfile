@@ -1,6 +1,5 @@
 FROM python:3.7.8-buster
 
-ENV FLASK_ENV="docker"
 LABEL maintainer "Aaron Kimbrell <aronwk.aaron@gmail.com>"
 
 COPY requirements.txt requirements.txt
