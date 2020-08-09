@@ -36,6 +36,7 @@ class camera_form(FlaskForm):
         label='Brand',
         choices=[
             ('browning', 'Browning'),
+            ('bushnell', 'Bushnell'),
             ('spypoint', 'SpyPoint'),
         ],
         validators=[
