@@ -1,20 +1,35 @@
 from flask import render_template, Blueprint
-from app.models import site
-from app.schemas import siteSchema
+from app.models import site, survey
+from app.schemas import siteSchema, surveySchema
 import json
+import datetime
+import copy
 
 stats_blueprint = Blueprint('stats', __name__)
 
 site_schema = siteSchema()
+survey_schema = surveySchema()
 
 
 @stats_blueprint.route('/')
 def index():
+    surveys = json.loads(
+        survey_schema.jsonify(
+            survey.query.order_by(survey.date).all(), many=True
+        ).data
+    )
     sites = json.loads(
         site_schema.jsonify(
             site.query.order_by(site.id).all(), many=True
         ).data
     )
+    site_data = gen_site_data(sites)
+    survey_data = gen_survey_data(surveys)
+
+    return render_template('stats/index.jinja2', data=site_data, survey_data=survey_data)
+
+
+def gen_site_data(sites):
     data = {
         'sandbar_island': {
             'surveys': 0,
@@ -147,4 +162,30 @@ def index():
         site_avgs = [0]
         site_ef.clear()
 
-    return render_template('stats/index.jinja2', data=data)
+    return data
+
+
+def gen_survey_data(surveys):
+    data = [['Day',' Adults', 'Fledgelings', 'Chicks', 'Eggs']]
+
+    start_season_date = datetime.date(2020, 6, 15)
+    end_season_date = datetime.date(2020, 8, 31)
+    current_season_date = datetime.date(2020, 6, 15)
+    two_weeks = datetime.timedelta(days=14)
+    one_day = datetime.timedelta(days=1)
+    while current_season_date < end_season_date:
+        end_itter_date = current_season_date + two_weeks
+        itter_data = [current_season_date, 0, 0, 0, 0]
+        for surv in surveys:
+            surv_date = datetime.date.fromisoformat(surv["date"])
+            if surv_date < start_season_date or surv_date > end_season_date:
+                continue  # not part of the season
+            elif current_season_date < surv_date < end_itter_date:
+                itter_data[1] = itter_data[1] + ((surv["ac1"] + surv["ac2"] + surv["ac3"])/3)
+                itter_data[2] = itter_data[2] + surv["fledgling"]
+                itter_data[3] = itter_data[3] + (surv["chick02"] + surv["chick39"] + surv["chick1017"])
+                itter_data[4] = itter_data[4] + (surv["egg1"] + (surv["egg2"] * 2) + (surv["egg3"] * 3))
+        data.append(itter_data)
+        current_season_date += one_day
+    return data
+    
