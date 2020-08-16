@@ -67,6 +67,7 @@ def gen_site_data(sites):
     }
     site_avgs = [0]
     site_ef = []
+    adult_div = 0
     site_count = {
         'adult_count': 0,
         'egg': 0,
@@ -94,13 +95,20 @@ def gen_site_data(sites):
             data[sites[s]['loc_type'].replace(
                 '-', '_')]['fledge'] += sites[s]['surveys'][i]['fledgling']
             # getting avg site data
+            if sites[s]['surveys'][i]['ac1'] > 0:
+                adult_div += 1
+            if sites[s]['surveys'][i]['ac2'] > 0:
+                adult_div += 1
+            if sites[s]['surveys'][i]['ac3'] > 0:
+                adult_div += 1
             site_avgs.append(
                 (
                     sites[s]['surveys'][i]['ac1'] +
                     sites[s]['surveys'][i]['ac2'] +
                     sites[s]['surveys'][i]['ac3']
-                )/3
+                )/adult_div
             )
+            adult_div = 0
             site_ef.append(sites[s]['surveys'][i]['ef1'])
             site_ef.append(sites[s]['surveys'][i]['ef2'])
             site_ef.append(sites[s]['surveys'][i]['ef3'])
@@ -110,7 +118,7 @@ def gen_site_data(sites):
                 sites[s]['surveys'][i]['ac1'] +
                 sites[s]['surveys'][i]['ac2'] +
                 sites[s]['surveys'][i]['ac3']
-            )
+            )/3
             site_count['chick02'] += sites[s]['surveys'][i]['chick02']
             site_count['chick39'] += sites[s]['surveys'][i]['chick39']
             site_count['chick1017'] += sites[s]['surveys'][i]['chick1017']
@@ -166,7 +174,7 @@ def gen_site_data(sites):
 
 
 def gen_survey_data(surveys):
-    data = [['Day',' Adults', 'Fledgelings', 'Chicks', 'Eggs']]
+    data = [['Day', ' Adults', 'Fledgelings', 'Chicks', 'Eggs']]
 
     start_season_date = datetime.date(2020, 6, 15)
     end_season_date = datetime.date(2020, 8, 31)
@@ -188,4 +196,3 @@ def gen_survey_data(surveys):
         data.append(itter_data)
         current_season_date += one_day
     return data
-    
