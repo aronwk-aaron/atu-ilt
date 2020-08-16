@@ -192,7 +192,19 @@ def gen_survey_data(surveys):
             if surv_date < start_season_date or surv_date > end_season_date:
                 continue  # not part of the season
             elif current_season_date < surv_date < end_itter_date:
-                itter_data[1] = itter_data[1] + ((surv["ac1"] + surv["ac2"] + surv["ac3"])/3)
+                adult_div = 0
+                if surv["ac1"] > 0:
+                    adult_div += 1
+                if surv["ac2"] > 0:
+                    adult_div += 1
+                if surv["ac3"] > 0:
+                    adult_div += 1
+                if adult_div > 0:
+                    itter_data[1] = itter_data[1] + (
+                            surv["ac1"] +
+                            surv["ac2"] +
+                            surv["ac3"]
+                        )/adult_div
                 itter_data[2] = itter_data[2] + surv["fledgling"]
                 itter_data[3] = itter_data[3] + (surv["chick02"] + surv["chick39"] + surv["chick1017"])
                 itter_data[4] = itter_data[4] + (surv["egg1"] + (surv["egg2"] * 2) + (surv["egg3"] * 3))
