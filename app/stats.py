@@ -101,7 +101,7 @@ def gen_site_data(sites):
                 adult_div += 1
             if sites[s]['surveys'][i]['ac3'] > 0:
                 adult_div += 1
-            if adult_div > 0
+            if adult_div > 0:
                 site_avgs.append(
                     (
                         sites[s]['surveys'][i]['ac1'] +
