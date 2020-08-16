@@ -101,13 +101,16 @@ def gen_site_data(sites):
                 adult_div += 1
             if sites[s]['surveys'][i]['ac3'] > 0:
                 adult_div += 1
-            site_avgs.append(
-                (
-                    sites[s]['surveys'][i]['ac1'] +
-                    sites[s]['surveys'][i]['ac2'] +
-                    sites[s]['surveys'][i]['ac3']
-                )/adult_div
-            )
+            if adult_div > 0
+                site_avgs.append(
+                    (
+                        sites[s]['surveys'][i]['ac1'] +
+                        sites[s]['surveys'][i]['ac2'] +
+                        sites[s]['surveys'][i]['ac3']
+                    )/adult_div
+                )
+            else:
+                site_avgs.append(0)
             adult_div = 0
             site_ef.append(sites[s]['surveys'][i]['ef1'])
             site_ef.append(sites[s]['surveys'][i]['ef2'])
