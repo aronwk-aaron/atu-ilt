@@ -34,6 +34,7 @@ def gen_site_data(sites):
         'sandbar_island': {
             'surveys': 0,
             'active': 0,
+            'sites': 0,
             'adult_count': 0,
             'egg': 0,
             'chick02': 0,
@@ -45,6 +46,7 @@ def gen_site_data(sites):
         'sandbar_main': {
             'surveys': 0,
             'active': 0,
+            'sites': 0,
             'adult_count': 0,
             'egg': 0,
             'chick02': 0,
@@ -56,6 +58,7 @@ def gen_site_data(sites):
         'rooftop': {
             'surveys': 0,
             'active': 0,
+            'sites': 0,
             'adult_count': 0,
             'egg': 0,
             'chick02': 0,
@@ -132,6 +135,7 @@ def gen_site_data(sites):
         # end iterating over surveys for site
         data[sites[s]['loc_type'].replace(
             '-', '_')]['adult_count'] += max(site_avgs)
+        data[sites[s]['loc_type'].replace('-', '_')]['sites'] += 1
         if ((site_count['adult_count'] > 0) and (
             (site_count['egg'] > 0) or
             (site_count['chick02'] > 0) or
