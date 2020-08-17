@@ -195,7 +195,7 @@ def gen_survey_data(surveys):
             surv_date = datetime.date.fromisoformat(surv["date"])
             if surv_date < start_season_date or surv_date > end_season_date:
                 continue  # not part of the season
-            elif current_season_date < surv_date < end_itter_date:
+            elif current_season_date <= surv_date < end_itter_date:
                 adult_div = 0
                 if surv["ac1"] > 0:
                     adult_div += 1
