@@ -562,6 +562,20 @@ class survey_camera_form(FlaskForm):
         label='Changed Batteries?',
         default=False
     )
+    started_recording = DateTimeLocalField(
+        label='Started Recording',
+        format='%Y-%m-%dT%H:%M',
+        validators=[
+            Optional()
+        ]
+    )
+    stopped_recording = DateTimeLocalField(
+        label='Stopped Recording',
+        format='%Y-%m-%dT%H:%M',
+        validators=[
+            Optional()
+        ]
+    )
     functional = BooleanField(
         label='Is/was the camera functional?',
         default=False

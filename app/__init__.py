@@ -1,4 +1,5 @@
 import os
+import datetime
 from flask import Flask
 from flask_assets import Environment
 from webassets import Bundle
@@ -32,6 +33,12 @@ def create_app():
     app.config['DEBUG'] = False
     app.config['SECRET_KEY'] = os.getenv('APP_SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('APP_DATABASE_URI')
+
+    def calc_datetime(value, stop):
+        difference = stop - value
+        return difference
+
+    app.jinja_env.filters['time_delta'] = calc_datetime
 
     register_extensions(app)
     register_blueprints(app)

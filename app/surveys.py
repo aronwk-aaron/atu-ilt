@@ -256,6 +256,8 @@ def new_camera(survey_id):
             card_out_id=form.card_out.data,
             cleared=form.cleared.data,
             ch_bat=form.changed_battery.data,
+            started_recording=form.started_recording,
+            stopped_recording=form.stopped_recording,
             functional=form.functional.data,
             comment=form.comment.data
         )
@@ -293,6 +295,8 @@ def edit_camera(survey_id, camera_id):
         data.card_out_id = form.card_out.data
         data.cleared = form.cleared.data
         data.ch_bat = form.changed_battery.data
+        data.started_recording = form.started_recording.data
+        data.stopped_recording = form.stopped_recording.data
         data.functional = form.functional.data
         data.comment = form.comment.data
         data.save()
@@ -304,6 +308,8 @@ def edit_camera(survey_id, camera_id):
     form.card_out.data = data.card_out_id
     form.cleared.data = data.cleared
     form.changed_battery.data = data.ch_bat
+    form.started_recording.data = data.started_recording
+    form.stopped_recording.data = data.stopped_recording
     form.functional.data = data.functional
     form.comment.data = data.comment
 

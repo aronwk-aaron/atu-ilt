@@ -34,6 +34,7 @@
             <th scope="col">Card Out</th>
             <th scope="col">Cleared Out Card</th>
             <th scope="col">Changed Battery</th>
+            <th scope="col">Elapsed Time</th>
             <th scope="col">Functional</th>
             <th scope="col">Comment</th>
           </tr>
@@ -70,6 +71,11 @@
                     Yes <h4 class="far fa-check-square text-success"></h4>
                   {% else %}
                     No <h4 class="far fa-times-circle"></h4>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if camera.started_recording %}
+                    {{ camera.started_recording|time_delta(camera.stopped_recording) }}                      
                   {% endif %}
                 </td>
                 <td class="text-center">
@@ -523,7 +529,7 @@
                 Water Temperature:
               </div>
               <div class='col'>
-                {% if survey.w_temp  %}
+                {% if survey.w_temp is not none %}
                   {{ survey.w_temp }} °C
                 {% else %}
                   No Data
@@ -535,7 +541,7 @@
                 Ambient Temperature:
               </div>
               <div class='col'>
-                {% if survey.a_temp %}
+                {% if survey.a_temp is not none %}
                   {{ survey.a_temp }} °C
                 {% else %}
                   No Data
@@ -547,7 +553,7 @@
                 % Disolved Oxygen:
               </div>
               <div class='col'>
-                {% if survey.perc_dio %}
+                {% if survey.perc_dio is not none %}
                   {{ survey.perc_dio }} %
                 {% else %}
                   No Data
@@ -559,7 +565,7 @@
                 Salinity:
               </div>
               <div class='col'>
-                {% if survey.sal %}
+                {% if survey.sal is not none %}
                   {{ survey.sal }} ppt
                 {% else %}
                   No Data
@@ -571,7 +577,7 @@
                 Specific Conductance:
               </div>
               <div class='col'>
-                {% if survey.sp_condu %}
+                {% if survey.sp_condu is not none %}
                   {{ survey.sp_condu }} µS/cm at 25 °C
                 {% else %}
                   No Data
@@ -583,7 +589,7 @@
                 Conductivity:
               </div>
               <div class='col'>
-                {% if survey.condu %}
+                {% if survey.condu is not none %}
                   {{ survey.condu }} µs/cm
                 {% else %}
                   No Data
@@ -643,7 +649,7 @@
     });
     $(document).ready( function () {
       $('#rp_table_id').DataTable({
-        "columnDefs": [{ "orderable": false, "searchable": false, "targets": 0 }]
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": [0,7] }]
       });
     });
   </script>

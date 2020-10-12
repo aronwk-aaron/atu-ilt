@@ -196,6 +196,8 @@ class survey_camera_card(db.Model):
     card_out = db.relationship('card', foreign_keys=[card_out_id])
     cleared = db.Column(db.Boolean, nullable=False)
     ch_bat = db.Column(db.Boolean, nullable=False)
+    started_recording = db.Column(db.DateTime(), nullable=True)
+    stopped_recording = db.Column(db.DateTime(), nullable=True)
     functional = db.Column(db.Boolean, nullable=False)
     comment = db.Column(db.String(1024))
 
