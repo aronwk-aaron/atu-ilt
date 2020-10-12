@@ -464,3 +464,18 @@ def edit_recorded_predator(survey_id, predator_id, start, end):
     form.comment.data = data.comment
 
     return render_template('surveys/recorded_predator/edit.jinja2', form=form)
+
+
+@surveys_blueprint.route(
+    '/<survey_id>/delete_recorded_predator/<predator_id>/<start>/<end>',
+    methods=('GET', 'POST', 'DELETE')
+)
+def delete_recorded_predator(survey_id, predator_id, start, end):
+    survey_predator_camera.query \
+        .filter(
+            survey_predator_camera.survey_id == survey_id,
+            survey_predator_camera.predator_id == predator_id,
+            survey_predator_camera.start == start,
+            survey_predator_camera.end == end) \
+        .first().delete()
+    return redirect(url_for('surveys.view', id=survey_id))
