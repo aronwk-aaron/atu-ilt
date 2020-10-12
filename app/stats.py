@@ -1,15 +1,14 @@
 from flask import render_template, Blueprint
-from app.models import site, survey
-from app.schemas import siteSchema, surveySchema
+from app.models import site, survey, survey_camera_card
+from app.schemas import siteSchema, surveySchema, surveyCameraSchema
 import json
 import datetime
-import copy
 
 stats_blueprint = Blueprint('stats', __name__)
 
 site_schema = siteSchema()
 survey_schema = surveySchema()
-
+survey_camera_schema = surveyCameraSchema()
 
 @stats_blueprint.route('/')
 def index():
@@ -23,10 +22,21 @@ def index():
             site.query.order_by(site.id).all(), many=True
         ).data
     )
+    survey_cameras = json.loads(
+        survey_camera_schema.jsonify(
+            survey_camera_card.query.all(), many=True
+        ).data
+    )
     site_data = gen_site_data(sites)
     survey_data = gen_survey_data(surveys)
+    survey_camera_data = gen_camera_data(survey_cameras)
 
-    return render_template('stats/index.jinja2', data=site_data, survey_data=survey_data)
+    return render_template(
+        'stats/index.jinja2',
+        data=site_data,
+        survey_data=survey_data,
+        survey_camera_data=survey_camera_data
+    )
 
 
 def gen_site_data(sites):
@@ -214,4 +224,23 @@ def gen_survey_data(surveys):
                 itter_data[4] = itter_data[4] + (surv["egg1"] + (surv["egg2"] * 2) + (surv["egg3"] * 3))
         data.append(itter_data)
         current_season_date += one_day
+    return data
+
+
+def gen_camera_data(survey_cameras):
+    data = {
+        'time_recorded': datetime.timedelta(0),
+        'no_time': 0,
+        'failures': 0
+    }
+
+    for survey_camera in survey_cameras:
+        if survey_camera['started_recording']:
+            data['time_recorded'] += survey_camera['stopped_recording'] - survey_camera['started_recording']
+        else:
+            data['no_time'] += 1
+
+        if not survey_camera['functional']:
+            data['failures'] += 1
+
     return data
