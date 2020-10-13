@@ -1,6 +1,21 @@
 from flask import render_template, Blueprint
-from app.models import site, survey, survey_camera_card
-from app.schemas import siteSchema, surveySchema, surveyCameraSchema
+from sqlalchemy.sql import func
+from app.models import (
+    site,
+    survey,
+    survey_camera_card,
+    predator,
+    survey_predator,
+    survey_predator_camera
+)
+from app.schemas import (
+    siteSchema,
+    surveySchema,
+    surveyCameraSchema,
+    recordedPredatorSchema,
+    surveyedPredatorSchema,
+    predatorSchema,
+)
 import json
 import datetime
 
@@ -8,7 +23,11 @@ stats_blueprint = Blueprint('stats', __name__)
 
 site_schema = siteSchema()
 survey_schema = surveySchema()
+predator_schema = predatorSchema()
+surveyed_predator_schema = surveyedPredatorSchema()
+recorded_predator_schema = recordedPredatorSchema()
 survey_camera_schema = surveyCameraSchema()
+
 
 @stats_blueprint.route('/')
 def index():
@@ -27,15 +46,18 @@ def index():
             survey_camera_card.query.all(), many=True
         ).data
     )
+
     site_data = gen_site_data(sites)
     survey_data = gen_survey_data(surveys)
     survey_camera_data = gen_camera_data(survey_cameras)
+    predator_data = gen_predator_data()
 
     return render_template(
         'stats/index.jinja2',
         data=site_data,
         survey_data=survey_data,
-        survey_camera_data=survey_camera_data
+        survey_camera_data=survey_camera_data,
+        predator_data=predator_data
     )
 
 
@@ -51,7 +73,8 @@ def gen_site_data(sites):
             'chick39': 0,
             'chick1017': 0,
             'fledge': 0,
-            'nestingattempts': 0
+            'nestingattempts': 0,
+            'with_cameras': 0
         },
         'sandbar_main': {
             'surveys': 0,
@@ -63,7 +86,8 @@ def gen_site_data(sites):
             'chick39': 0,
             'chick1017': 0,
             'fledge': 0,
-            'nestingattempts': 0
+            'nestingattempts': 0,
+            'with_cameras': 0
         },
         'rooftop': {
             'surveys': 0,
@@ -75,7 +99,8 @@ def gen_site_data(sites):
             'chick39': 0,
             'chick1017': 0,
             'fledge': 0,
-            'nestingattempts': 0
+            'nestingattempts': 0,
+            'with_cameras': 0
         }
     }
     site_avgs = [0]
@@ -90,6 +115,7 @@ def gen_site_data(sites):
         'fledge': 0,
     }
     for s in range(len(sites)):  # for each site
+        has_camera = False
         for i in range(len(sites[s]['surveys'])):  # for each survey in a site
             # simple counts per site type
             data[sites[s]['loc_type'].replace('-', '_')]['surveys'] += 1
@@ -142,10 +168,18 @@ def gen_site_data(sites):
             site_count['egg'] += sites[s]['surveys'][i]['egg2'] * 2
             site_count['egg'] += sites[s]['surveys'][i]['egg3'] * 3
             site_count['fledge'] += sites[s]['surveys'][i]['fledgling']
+
+            if 'cameras' in sites[s]['surveys'][i]:
+                if (len(sites[s]['surveys'][i]['cameras']) > 0 and \
+                        not has_camera):
+                    data[sites[s]['loc_type'].replace('-', '_')]['with_cameras'] += 1
+                    has_camera = True
+
         # end iterating over surveys for site
         data[sites[s]['loc_type'].replace(
             '-', '_')]['adult_count'] += max(site_avgs)
         data[sites[s]['loc_type'].replace('-', '_')]['sites'] += 1
+
         if ((site_count['adult_count'] > 0) and (
             (site_count['egg'] > 0) or
             (site_count['chick02'] > 0) or
@@ -154,6 +188,7 @@ def gen_site_data(sites):
             (site_count['fledge'] > 0)
         )):
             data[sites[s]['loc_type'].replace('-', '_')]['active'] += 1
+
         if len(site_ef) > 0:
             for egg in range(len(site_ef)):
                 if site_ef[egg] == 'NA':
@@ -244,3 +279,88 @@ def gen_camera_data(survey_cameras):
             data['failures'] += 1
 
     return data
+
+
+def gen_predator_data():
+    data = {
+        'surveyed_prevalence': [],
+        'recorded_prevalence': [],
+        'surveyed_abundance': [],
+        'recorded_abundance': []
+    }
+
+    predators = json.loads(
+        predator_schema.jsonify(
+            predator.query.order_by(predator.species).all(), many=True
+        ).data
+    )
+
+    for p in predators:  # surveyed
+        surveyed_prevalence = survey_predator.query.filter(
+                p['id'] == survey_predator.predator_id
+            ).count()
+        data['surveyed_prevalence'].append(
+            (p['species'], surveyed_prevalence)
+        )
+        surveyed_abundance = json.loads(
+            surveyed_predator_schema.jsonify(
+                survey_predator.query.filter(
+                    p['id'] == survey_predator.predator_id
+                ).all(), many=True
+            ).data
+        )
+        data['surveyed_abundance'].append(
+            (
+                p['species'],
+                sum(map(lambda x: int(x['count']), surveyed_abundance))
+            )
+        )
+
+        # recorded
+        recorded_prevalence = survey_predator_camera.query.filter(
+                p['id'] == survey_predator_camera.predator_id
+            ).count()
+        data['recorded_prevalence'].append(
+            (p['species'], recorded_prevalence)
+        )
+
+        recorded_abundance = json.loads(
+            recorded_predator_schema.jsonify(
+                survey_predator_camera.query.filter(
+                    p['id'] == survey_predator_camera.predator_id
+                ).all(), many=True
+            ).data
+        )
+        data['recorded_abundance'].append(
+            (
+                p['species'],
+                sum(map(lambda x: int(x['count']), recorded_abundance))
+            )
+        )
+
+    sort_sublist(data['surveyed_prevalence'])
+    sort_sublist(data['recorded_prevalence'])
+    sort_sublist(data['surveyed_abundance'])
+    sort_sublist(data['recorded_abundance'])
+
+    data['surveyed_prevalence'].reverse()
+    data['recorded_prevalence'].reverse()
+    data['surveyed_abundance'].reverse()
+    data['recorded_abundance'].reverse()
+
+    del data['surveyed_prevalence'][5:]
+    del data['recorded_prevalence'][5:]
+    del data['surveyed_abundance'][5:]
+    del data['recorded_abundance'][5:]
+
+    print(json.dumps(data, indent=2))
+
+    return data
+
+
+def sort_sublist(sub_li):
+    # reverse = None (Sorts in Ascending order)
+    # key is set to sort using second element of
+    # sublist lambda has been used
+    sub_li.sort(key = lambda x: x[1])
+    return sub_li

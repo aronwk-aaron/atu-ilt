@@ -1,3 +1,73 @@
 <div class='container mt-4'>
-  TODO
+  <div class='row'>
+    <div class='col text-right'>
+      Surveyed Prevalence
+    </div>
+    <div class='col'>
+      {% for item in predator_data['surveyed_prevalence'] %}
+        <div class='row'>
+        <div class='col text-right'>
+          {{ item[0] }}:
+        </div>
+        <div class='col'>
+          {{ item[1] }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+<hr/>
+  <div class='row'>
+    <div class='col text-right'>
+      Surveyed Abundance
+    </div>
+    <div class='col'>
+      {% for item in predator_data['surveyed_abundance'] %}
+        <div class='row'>
+        <div class='col text-right'>
+          {{ item[0] }}:
+        </div>
+        <div class='col'>
+          {{ item[1] }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+<hr/>
+  <div class='row'>
+    <div class='col text-right'>
+      Recorded Prevalence
+    </div>
+    <div class='col'>
+      {% for item in predator_data['recorded_prevalence'] %}
+        <div class='row'>
+        <div class='col text-right'>
+          {{ item[0] }}:
+        </div>
+        <div class='col'>
+          {{ item[1] }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+<hr/>
+  <div class='row'>
+    <div class='col text-right'>
+      Recorded Abundance
+    </div>
+    <div class='col'>
+      {% for item in predator_data['recorded_abundance'] %}
+        <div class='row'>
+        <div class='col text-right'>
+          {{ item[0] }}:
+        </div>
+        <div class='col'>
+          {{ item[1] }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
