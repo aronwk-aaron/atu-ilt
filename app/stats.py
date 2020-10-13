@@ -352,9 +352,7 @@ def gen_predator_data():
     del data['recorded_prevalence'][5:]
     del data['surveyed_abundance'][5:]
     del data['recorded_abundance'][5:]
-
-    print(json.dumps(data, indent=2))
-
+    
     return data
 
 
