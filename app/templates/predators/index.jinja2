@@ -1,9 +1,9 @@
 {% extends 'base.jinja2' %}
 
-{% block title %}Predators{% endblock %}
+{% block title %}Disturbers{% endblock %}
 
 {% block content_before %}
-  Predators
+  Disturbers
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
                    class="btn btn-primary"
                    role="button"
                    aria-disabled="true">
-      New Predator
+      New Disturber
     </a>
     <hr/>
   {% if predators %}
@@ -56,7 +56,7 @@
     </table>
   </div>
   {% else %}
-    No predators to show
+    No Disturbers to show
   {% endif %}
 {% endblock %}
 

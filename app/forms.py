@@ -207,6 +207,7 @@ class predator_form(FlaskForm):
             ('avian', 'Avian'),
             ('human', 'Human'),
             ('reptile', 'Reptile'),
+            ('environmental', 'Environmental'),
             ('other', 'Other'),
         ],
         validators=[

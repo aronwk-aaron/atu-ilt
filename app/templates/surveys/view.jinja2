@@ -99,14 +99,14 @@
     <hr/>
     <div class="row justify-content-start">
       <div class="col-6 col-sm-3">
-        <h3>Surveyed Predators</h3>
+        <h3>Surveyed Disturbers</h3>
       </div>
       <div class="col-6 col-sm-3">
         <a href="{{ url_for('surveys.new_surveyed_predator', survey_id=survey.id) }}"
                    class="btn btn-primary btn-block"
                    role="button"
                    aria-disabled="true">
-          New Surveyed Predator
+          New Surveyed Disturber
         </a>
       </div>
     </div>
@@ -171,19 +171,19 @@
       </table>
     </div>
   {% else %}
-    No Surveyed Predators to show
+    No Surveyed Disturbers to show
   {% endif %}
     <hr/>
     <div class="row justify-content-start">
       <div class="col-6 col-sm-3">
-        <h3>Recorded Predators</h3>
+        <h3>Recorded Disturbers</h3>
       </div>
       <div class="col-6 col-sm-3">
         <a href="{{ url_for('surveys.new_recorded_predator', survey_id=survey.id) }}"
                    class="btn btn-primary btn-block"
                    role="button"
                    aria-disabled="true">
-          New Recorded Predator
+          New Recorded Disturber
         </a>
       </div>
     </div>
@@ -322,7 +322,7 @@
       </table>
     </div>
   {% else %}
-    No Recorded Predators to show
+    No Recorded Disturbers to show
   {% endif %}
     <hr/>
     <div class="row">
