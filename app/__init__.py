@@ -86,3 +86,5 @@ def register_blueprints(app):
     app.register_blueprint(surveys_blueprint, url_prefix='/surveys')
     from .stats import stats_blueprint
     app.register_blueprint(stats_blueprint, url_prefix='/stats')
+    from .reports import reports_blueprint
+    app.register_blueprint(reports_blueprint, url_prefix='/reports')

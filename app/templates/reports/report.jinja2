@@ -1,0 +1,70 @@
+  <div class='table-responsive'>
+    <table class="table table-white table-striped table-bordered table-hover"
+          id="two_weeks"
+          data-order='[[ 0, "asc" ]]'
+          data-page-length='25'>
+      <thead>
+
+      </thead>
+      <tbody>
+        {% for item in data %}
+            {% if loop.first %}
+                <thead>
+                    <th scope="col">
+                        {{ item[0] }}
+                    </th>
+                    <th scope="col">
+                        {{ item[1] }}
+                    </th>
+                    <th scope="col">
+                        {{ item[2] }}
+                    </th>
+                    <th scope="col">
+                        {{ item[3] }}
+                    </th>
+                    <th scope="col">
+                        {{ item[4] }}
+                    </th>
+                </thead>
+            {% elif loop.last %}
+                <tfoot>
+                    <td scope="col">
+                        {{ item[0] }}
+                    </td>
+                    <td scope="col">
+                        {{ item[1] }}
+                    </td>
+                    <td scope="col">
+                        {{ item[2] }}
+                    </td>
+                    <td scope="col">
+                        {{ item[3] }}
+                    </td>
+                    <td scope="col">
+                        {{ item[4] }}
+                    </td>
+                </tfoot>
+            {% else %}
+                <tr>
+                    <td>
+                        {{ item[0] }}
+                    </td>
+                    <td>
+                        {{ item[1] }}
+                    </td>
+                    <td>
+                        {{ item[2] }}
+                    </td>
+                    <td>
+                        {{ item[3] }}
+                    </td>
+                    <td>
+                        {{ item[4] }}
+                    </td>
+                </tr>
+            {% endif %}
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
