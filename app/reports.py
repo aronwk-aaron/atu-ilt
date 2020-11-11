@@ -51,7 +51,7 @@ def index():
                 [
                     item['date'],
                     item['egg1'] + item['egg2'] + item['egg3'],
-                    item['chick02'] + item['chick02'] + item['chick02'],
+                    item['chick02'] + item['chick39'] + item['chick1017'],
                     item['fledgling'],
                     adult_avg(item['ac1'], item['ac2'], item['ac3'])
                 ]
