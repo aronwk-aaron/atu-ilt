@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
     def get_all():
         return User.query \
             .join(UsersRoles, User.id == UsersRoles.user_id) \
-            .add_columns(User.id, User.first_name, User.last_name, User.email, User.net_id, User.msu_id,
+            .add_columns(User.id, User.first_name, User.last_name, User.email,
                          UsersRoles.role_id) \
             .filter(User.id == UsersRoles.user_id) \
             .filter(UsersRoles.user_id == User.id) \
