@@ -7,13 +7,15 @@
 {% endblock %}
 
 {% block content %}
-<a href="{{ url_for('sites.new') }}"
-                   class="btn btn-primary"
-                   role="button"
-                   aria-disabled="true">
+  {% if current_user.is_authenticated %}
+    <a href="{{ url_for('sites.new') }}"
+                      class="btn btn-primary"
+                      role="button"
+                      aria-disabled="true">
       New site
     </a>
     <hr/>
+  {% endif %}
   {% if sites %}
   <div class='table-responsive'>
     <table class="table table-white table-striped table-bordered table-hover"
@@ -42,13 +44,15 @@
                 aria-disabled="true">
                 View
               </a>
-              <br/>
-              <a href="{{ url_for('sites.edit', id=site.id) }}"
-                class="btn btn-primary btn-block"
-                role="button"
-                aria-disabled="true">
-                Edit
-              </a>
+              {% if current_user.is_authenticated %}
+                <br/>
+                <a href="{{ url_for('sites.edit', id=site.id) }}"
+                  class="btn btn-primary btn-block"
+                  role="button"
+                  aria-disabled="true">
+                  Edit
+                </a>
+              {% endif %}
             </td>
             <td>
               {{ site.name }}

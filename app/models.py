@@ -1,8 +1,87 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_user import UserMixin
 
 db = SQLAlchemy()
 migrate = Migrate()
+
+
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    active = db.Column(
+        'is_active', db.Boolean(), nullable=False, server_default='1'
+    )
+
+    email = db.Column(db.Unicode(255), nullable=False, server_default=u'', unique=True)
+    password = db.Column(db.String(255), nullable=False, server_default='')
+    email_confirmed_at = db.Column(db.DateTime())
+
+    # User information
+    first_name = db.Column(
+        db.String(100), nullable=False, server_default=''
+    )
+    last_name = db.Column(
+        db.String(100), nullable=False, server_default=''
+    )
+
+    # Relationships
+    roles = db.relationship('Role', secondary='users_roles',
+                            backref=db.backref('users', lazy='dynamic'))
+
+    @staticmethod
+    def get_user_by_id(*, user_id=None):
+        return User.query.filter(user_id == User.id).first()
+
+    @staticmethod
+    def get_all():
+        return User.query \
+            .join(UsersRoles, User.id == UsersRoles.user_id) \
+            .add_columns(User.id, User.first_name, User.last_name, User.email, User.net_id, User.msu_id,
+                         UsersRoles.role_id) \
+            .filter(User.id == UsersRoles.user_id) \
+            .filter(UsersRoles.user_id == User.id) \
+            .all()
+
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(
+        db.String(50), nullable=False, server_default=u'', unique=True
+    )  # for @roles_accepted()
+
+
+class UsersRoles(db.Model):
+    __tablename__ = 'users_roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(
+        db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE')
+    )
+    role_id = db.Column(
+        db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE')
+    )
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @staticmethod
+    def update_userrole(*, user_id=None, role_id=None):
+        user = UsersRoles.query.filter(user_id == UsersRoles.user_id).first()
+        user.role_id = role_id
+
+        user.save()
+
+
+class UserInvitation(db.Model):
+    __tablename__ = 'user_invite'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), nullable=False)
+    # save the user of the invitee
+    invited_by_user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    # token used for registration page to identify user registering
+    token = db.Column(db.String(100), nullable=False, server_default='')
 
 
 class card(db.Model):

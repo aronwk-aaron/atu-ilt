@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, redirect
 from app.models import camera
 from app.forms import camera_form
+from flask_user import roles_accepted, login_required
 
 cameras_blueprint = Blueprint('cameras', __name__)
 
@@ -12,6 +13,8 @@ def index():
 
 
 @cameras_blueprint.route('/new', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def new():
     form = camera_form()
     if form.validate_on_submit():
@@ -27,6 +30,8 @@ def new():
 
 
 @cameras_blueprint.route('/edit/<id>', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def edit(id):
     form = camera_form()
     data = camera.query.filter(camera.id == id).first()

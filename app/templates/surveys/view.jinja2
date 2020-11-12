@@ -6,19 +6,21 @@
   Survey
 {% endblock %}
 
-{% block content %}    
+{% block content %}
     <div class="row justify-content-start">
       <div class="col-6 col-sm-3">
         <h3>Cameras</h3>
       </div>
-      <div class="col-6 col-sm-3">
-        <a href="{{ url_for('surveys.new_camera', survey_id=survey.id) }}"
-                  class="btn btn-primary btn-block"
-                  role="button"
-                  aria-disabled="true">
-          New Camera
-        </a>
-      </div>
+      {% if current_user.is_authenticated %}
+        <div class="col-6 col-sm-3">
+          <a href="{{ url_for('surveys.new_camera', survey_id=survey.id) }}"
+                    class="btn btn-primary btn-block"
+                    role="button"
+                    aria-disabled="true">
+            New Camera
+          </a>
+        </div>
+      {% endif %}
     </div>
     {% if cameras %}
     <div class='table-responsive'>
@@ -43,12 +45,14 @@
           {% for camera in cameras %}
               <tr>
                 <td>
+                  {% if current_user.is_authenticated %}
                     <a href="{{ url_for('surveys.edit_camera', survey_id=survey.id, camera_id=camera.camera.id) }}"
-                    class="btn btn-primary"
-                    role="button"
-                    aria-disabled="true">
-                        Edit
+                        class="btn btn-primary"
+                        role="button"
+                        aria-disabled="true">
+                      Edit
                     </a>
+                  {% endif %}
                 </td>
                 <td>
                     {{ camera.camera.name }}
@@ -75,7 +79,7 @@
                 </td>
                 <td>
                   {% if camera.started_recording %}
-                    {{ camera.started_recording|time_delta(camera.stopped_recording) }}                      
+                    {{ camera.started_recording|time_delta(camera.stopped_recording) }}
                   {% endif %}
                 </td>
                 <td class="text-center">
@@ -101,14 +105,16 @@
       <div class="col-6 col-sm-3">
         <h3>Surveyed Disturbers</h3>
       </div>
-      <div class="col-6 col-sm-3">
-        <a href="{{ url_for('surveys.new_surveyed_predator', survey_id=survey.id) }}"
-                   class="btn btn-primary btn-block"
-                   role="button"
-                   aria-disabled="true">
-          New Surveyed Disturber
-        </a>
-      </div>
+      {% if current_user.is_authenticated %}
+        <div class="col-6 col-sm-3">
+          <a href="{{ url_for('surveys.new_surveyed_predator', survey_id=survey.id) }}"
+                    class="btn btn-primary btn-block"
+                    role="button"
+                    aria-disabled="true">
+            New Surveyed Disturber
+          </a>
+        </div>
+      {% endif %}
     </div>
     {% if surveyed_predators %}
     <div class='table-responsive'>
@@ -129,12 +135,14 @@
           {% for surveyed_predator in surveyed_predators %}
               <tr>
                 <td>
+                  {% if current_user.is_authenticated %}
                     <a href="{{ url_for('surveys.edit_surveyed_predator', survey_id=survey.id, predator_id=surveyed_predator.predator.id) }}"
                       class="btn btn-primary"
                       role="button"
                       aria-disabled="true">
                         Edit
                     </a>
+                  {% endif %}
                 </td>
                 <td>
                     {{ surveyed_predator.predator.species }}
@@ -178,14 +186,16 @@
       <div class="col-6 col-sm-3">
         <h3>Recorded Disturbers</h3>
       </div>
-      <div class="col-6 col-sm-3">
-        <a href="{{ url_for('surveys.new_recorded_predator', survey_id=survey.id) }}"
-                   class="btn btn-primary btn-block"
-                   role="button"
-                   aria-disabled="true">
-          New Recorded Disturber
-        </a>
-      </div>
+      {% if current_user.is_authenticated %}
+        <div class="col-6 col-sm-3">
+          <a href="{{ url_for('surveys.new_recorded_predator', survey_id=survey.id) }}"
+                    class="btn btn-primary btn-block"
+                    role="button"
+                    aria-disabled="true">
+            New Recorded Disturber
+          </a>
+        </div>
+      {% endif %}
     </div>
     {% if recorded_predators %}
     <div class='table-responsive'>
@@ -209,12 +219,14 @@
           {% for recorded_predator in recorded_predators %}
               <tr>
                 <td>
+                  {% if current_user.is_authenticated %}
                     <a href="{{ url_for('surveys.edit_recorded_predator', predator_id=recorded_predator.predator.id, survey_id=survey.id, start=recorded_predator.start, end=recorded_predator.end) }}"
-                    class="btn btn-primary"
-                    role="button"
-                    aria-disabled="true">
-                        Edit
+                        class="btn btn-primary"
+                        role="button"
+                        aria-disabled="true">
+                      Edit
                     </a>
+                  {% endif %}
                 </td>
                 <td>
                     {{ recorded_predator.predator.species }}
@@ -246,75 +258,77 @@
                     {{ recorded_predator.comment }}
                 </td>
                 <td>
-                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ recorded_predator.predator.species|replace(' ', '')|replace('/', '') }}{{ recorded_predator.start|replace(' ', '')|replace(':', '')  }}{{ recorded_predator.end|replace(' ', '')|replace(':', '') }}-modal">
-                    Delete
-                  </button>
-                  <div class="modal fade bd-example-modal-lg" id="delete{{ recorded_predator.predator.species|replace(' ', '')|replace('/', '') }}{{ recorded_predator.start|replace(' ', '')|replace(':', '')  }}{{ recorded_predator.end|replace(' ', '')|replace(':', '') }}-modal" tabindex="-1" role="dialog" aria-labelledby="delete{{ recorded_predator.predator.species|replace(' ', '') }}{{ recorded_predator.start|replace(' ', '')  }}{{ recorded_predator.end|replace(' ', '') }}-modalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="delemodalLabel">Modal title</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          Are you sure you want to delete this entry?
-                          <hr>
-                          <table>
-                            <tr>
-                              <th scope="col">Species</th>
-                              <th scope="col">Start Time</th>
-                              <th scope="col">End Time</th>
-                              <th scope="col">Count</th>
-                              <th scope="col">Sightings</th>
-                              <th scope="col">Comments</th>
-                            </tr>
-                            <tr>
-                              <td>
-                                {{ recorded_predator.predator.species }}
-                              </td>
-                              <td>
-                                  {{ recorded_predator.start }}
-                              </td>
-                              <td>
-                                  {{ recorded_predator.end }}
-                              </td>
-                              <td>
-                                  {{ recorded_predator.count }}
-                              </td>
-                              <td class="text-center">
-                                {% if recorded_predator.scat %}
-                                  <div class='mb-1'>Scat<br/></div>
-                                {% endif %}
-                                {% if recorded_predator.chick_mort %}
-                                  <div class='mb-1'>Chick Mortality<br/></div>
-                                {% endif %}
-                                {% if recorded_predator.adult_mort %}
-                                  <div class='mb-1'>Adult Mortality<br/></div>
-                                {% endif %}
-                                {% if recorded_predator.nest_dest %}
-                                  <div class='mb-1'>Nest Destruction<br/></div>
-                                {% endif %}
-                              </td>
-                              <td>
-                                  {{ recorded_predator.comment }}
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                          <a href="{{ url_for('surveys.delete_recorded_predator', predator_id=recorded_predator.predator.id, survey_id=survey.id, start=recorded_predator.start, end=recorded_predator.end) }}"
-                            class="btn btn-danger"
-                            role="button"
-                            aria-disabled="true">
-                              Delete
-                          </a>
+                  {% if current_user.is_authenticated %}
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ recorded_predator.predator.species|replace(' ', '')|replace('/', '') }}{{ recorded_predator.start|replace(' ', '')|replace(':', '')  }}{{ recorded_predator.end|replace(' ', '')|replace(':', '') }}-modal">
+                      Delete
+                    </button>
+                    <div class="modal fade bd-example-modal-lg" id="delete{{ recorded_predator.predator.species|replace(' ', '')|replace('/', '') }}{{ recorded_predator.start|replace(' ', '')|replace(':', '')  }}{{ recorded_predator.end|replace(' ', '')|replace(':', '') }}-modal" tabindex="-1" role="dialog" aria-labelledby="delete{{ recorded_predator.predator.species|replace(' ', '') }}{{ recorded_predator.start|replace(' ', '')  }}{{ recorded_predator.end|replace(' ', '') }}-modalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="delemodalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to delete this entry?
+                            <hr>
+                            <table>
+                              <tr>
+                                <th scope="col">Species</th>
+                                <th scope="col">Start Time</th>
+                                <th scope="col">End Time</th>
+                                <th scope="col">Count</th>
+                                <th scope="col">Sightings</th>
+                                <th scope="col">Comments</th>
+                              </tr>
+                              <tr>
+                                <td>
+                                  {{ recorded_predator.predator.species }}
+                                </td>
+                                <td>
+                                    {{ recorded_predator.start }}
+                                </td>
+                                <td>
+                                    {{ recorded_predator.end }}
+                                </td>
+                                <td>
+                                    {{ recorded_predator.count }}
+                                </td>
+                                <td class="text-center">
+                                  {% if recorded_predator.scat %}
+                                    <div class='mb-1'>Scat<br/></div>
+                                  {% endif %}
+                                  {% if recorded_predator.chick_mort %}
+                                    <div class='mb-1'>Chick Mortality<br/></div>
+                                  {% endif %}
+                                  {% if recorded_predator.adult_mort %}
+                                    <div class='mb-1'>Adult Mortality<br/></div>
+                                  {% endif %}
+                                  {% if recorded_predator.nest_dest %}
+                                    <div class='mb-1'>Nest Destruction<br/></div>
+                                  {% endif %}
+                                </td>
+                                <td>
+                                    {{ recorded_predator.comment }}
+                                </td>
+                              </tr>
+                            </table>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            <a href="{{ url_for('surveys.delete_recorded_predator', predator_id=recorded_predator.predator.id, survey_id=survey.id, start=recorded_predator.start, end=recorded_predator.end) }}"
+                              class="btn btn-danger"
+                              role="button"
+                              aria-disabled="true">
+                                Delete
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  {% endif %}
                 </td>
               </tr>
           {% endfor %}
@@ -625,15 +639,17 @@
         </div>
       </div>
     </div>
-    <hr/>
-    <a href="{{ url_for('surveys.edit', id=survey.id) }}"
-        class="btn btn-primary btn-lg btn-block"
-        role="button"
-        aria-disabled="true">
-      Edit
-    </a>
+    {% if current_user.is_authenticated %}
+      <hr/>
+      <a href="{{ url_for('surveys.edit', id=survey.id) }}"
+          class="btn btn-primary btn-lg btn-block"
+          role="button"
+          aria-disabled="true">
+        Edit
+      </a>
+    {% endif %}
 {% endblock %}
-  
+
 {% block js %}
   {{ super() }}
   <script>

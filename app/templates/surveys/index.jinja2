@@ -7,13 +7,15 @@
 {% endblock %}
 
 {% block content %}
-<a href="{{ url_for('surveys.new') }}"
-                   class="btn btn-primary"
-                   role="button"
-                   aria-disabled="true">
+  {% if current_user.is_authenticated %}
+    <a href="{{ url_for('surveys.new') }}"
+                    class="btn btn-primary"
+                    role="button"
+                    aria-disabled="true">
       New Survey
     </a>
     <hr/>
+  {% endif %}
   {% if surveys %}
   <div class='table-responsive'>
     <table class="table table-white table-striped table-bordered table-hover"
@@ -43,13 +45,15 @@
                 aria-disabled="true">
                 View
               </a>
-              <br/>
-              <a href="{{ url_for('surveys.edit', id=survey.id) }}"
-                class="btn btn-primary btn-block"
-                role="button"
-                aria-disabled="true">
-                Edit
-              </a>
+              {% if current_user.is_authenticated %}
+                <br/>
+                <a href="{{ url_for('surveys.edit', id=survey.id) }}"
+                  class="btn btn-primary btn-block"
+                  role="button"
+                  aria-disabled="true">
+                  Edit
+                </a>
+              {% endif %}
             </td>
             <td>
               {{ survey.date }}

@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, redirect
 from app.models import predator
 from app.forms import predator_form
+from flask_user import roles_accepted, login_required
 
 predators_blueprint = Blueprint('predators', __name__)
 
@@ -12,6 +13,8 @@ def index():
 
 
 @predators_blueprint.route('/new', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def new():
     form = predator_form()
     if form.validate_on_submit():
@@ -26,6 +29,8 @@ def new():
 
 
 @predators_blueprint.route('/edit/<id>', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def edit(id):
     form = predator_form()
     data = predator.query.filter(predator.id == id).first()

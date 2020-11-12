@@ -11,6 +11,25 @@
       <span class="d-sm-none">ATU ILT Data Collection</span>
     </a>
 
+    {# Visible only on large devices #}
+    <nav class='navbar-nav'>
+      <div class='collapse navbar-collapse'>
+        {% if current_user.is_authenticated %}
+          <a class='btn-nav-dashboard mr-2' href='{{ url_for('user.invite_user') }}'><i
+            class='fas fa-user mr-1'></i>Invite</a>
+        {% endif %}
+        {# <a class='btn-nav-dashboard mr-2' href='{{ url_for('user.profile') }}'><i
+          class='fas fa-user mr-1'></i>Profile</a> #}
+        {% if current_user.is_authenticated %}
+          <a class='btn-nav-dashboard' href='{{ url_for('user.logout') }}'><i
+            class='fas fa-sign-out-alt mr-1'></i>Logout</a>
+        {% else %}
+          <a class='btn-nav-dashboard' href='{{ url_for('user.login') }}'><i
+            class='fas fa-sign-out-alt mr-1'></i>Login</a>
+        {% endif %}
+      </div>
+    </nav>
+
     <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarSupportedContent'
             aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
       <span class='navbar-toggler-icon'></span>
@@ -32,6 +51,11 @@
         <a id='main-surveys' class='nav-link' href='{{ url_for('surveys.index') }}'>Surveys</a>
         <a id='main-stats' class='nav-link' href='{{ url_for('stats.index') }}'>Statistics</a>
         <a id='main-about' class='nav-link' href='{{ url_for('reports.index') }}'>Reports</a>
+        {% if current_user.is_authenticated %}
+          {% if current_user.has_roles('admin') %}
+            <a id='main-users' class='nav-link' href='{{ url_for('main.users') }}'>Users</a>
+          {% endif %}
+        {% endif %}
         <a id='main-about' class='nav-link' href='{{ url_for('main.about') }}'>About</a>
       </nav>
     </div>

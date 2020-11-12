@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, redirect
 from app.models import site
 from app.forms import site_form
+from flask_user import roles_accepted, login_required
 
 sites_blueprint = Blueprint('sites', __name__)
 
@@ -12,6 +13,8 @@ def index():
 
 
 @sites_blueprint.route('/new', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def new():
     form = site_form()
     if form.validate_on_submit():
@@ -39,6 +42,8 @@ def new():
 
 
 @sites_blueprint.route('/edit/<id>', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def edit(id):
     form = site_form()
     data = site.query.filter(site.id == id).first()

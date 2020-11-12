@@ -7,13 +7,15 @@
 {% endblock %}
 
 {% block content %}
-<a href="{{ url_for('predators.new') }}"
-                   class="btn btn-primary"
-                   role="button"
-                   aria-disabled="true">
-      New Disturber
-    </a>
+  {% if current_user.is_authenticated %}
+    <a href="{{ url_for('predators.new') }}"
+                      class="btn btn-primary"
+                      role="button"
+                      aria-disabled="true">
+          New Disturber
+        </a>
     <hr/>
+  {% endif %}
   {% if predators %}
   <div class='table-responsive'>
     <table class="table table-white table-striped table-bordered table-hover"
@@ -32,12 +34,14 @@
         {% for predator in predators %}
           <tr>
             <td>
-              <a href="{{ url_for('predators.edit', id=predator.id) }}"
-                class="btn btn-primary btn-block"
-                role="button"
-                aria-disabled="true">
-                Edit
-              </a>
+              {% if current_user.is_authenticated %}
+                <a href="{{ url_for('predators.edit', id=predator.id) }}"
+                  class="btn btn-primary btn-block"
+                  role="button"
+                  aria-disabled="true">
+                  Edit
+                </a>
+              {% endif %}
             </td>
             <td>
               {{ predator.species }}

@@ -20,6 +20,7 @@ from app.forms import (
     survey_predator_form,
     survey_predator_camera_form
 )
+from flask_user import roles_accepted, login_required
 
 from sqlalchemy import cast, func, DECIMAL
 
@@ -34,6 +35,8 @@ def index():
 
 @surveys_blueprint.route('/new', methods=('GET', 'POST'))
 @surveys_blueprint.route('/new/<site_id>', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def new(site_id=None):
     form = survey_form()
     form.site.choices = [
@@ -102,6 +105,8 @@ def new(site_id=None):
 
 
 @surveys_blueprint.route('/edit/<id>', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def edit(id):
     form = survey_form()
     form.site.choices = [
@@ -235,6 +240,8 @@ def view(id):
     '/<survey_id>/new_camera',
     methods=('GET', 'POST')
 )
+@login_required
+@roles_accepted('user', 'admin')
 def new_camera(survey_id):
     form = survey_camera_form()
     form.survey_id.data = survey_id
@@ -270,6 +277,8 @@ def new_camera(survey_id):
     '/<survey_id>/edit_camera/<camera_id>',
     methods=('GET', 'POST')
 )
+@login_required
+@roles_accepted('user', 'admin')
 def edit_camera(survey_id, camera_id):
     form = survey_camera_form()
     form.camera.choices = [
@@ -320,6 +329,8 @@ def edit_camera(survey_id, camera_id):
     '/<survey_id>/new_surveyed_predator',
     methods=('GET', 'POST')
 )
+@login_required
+@roles_accepted('user', 'admin')
 def new_surveyed_predator(survey_id):
     form = survey_predator_form()
     form.survey_id.data = survey_id
@@ -351,6 +362,8 @@ def new_surveyed_predator(survey_id):
     '/<survey_id>/edit_surveyed_predator/<predator_id>',
     methods=('GET', 'POST')
 )
+@login_required
+@roles_accepted('user', 'admin')
 def edit_surveyed_predator(survey_id, predator_id):
     form = survey_predator_form()
     form.predator_id.choices = [
@@ -397,6 +410,8 @@ def edit_surveyed_predator(survey_id, predator_id):
     '/<survey_id>/new_recorded_predator',
     methods=('GET', 'POST')
 )
+@login_required
+@roles_accepted('user', 'admin')
 def new_recorded_predator(survey_id):
     form = survey_predator_camera_form()
     form.survey_id.data = survey_id
@@ -428,6 +443,8 @@ def new_recorded_predator(survey_id):
     '/<survey_id>/edit_recorded_predator/<predator_id>/<start>/<end>',
     methods=('GET', 'POST')
 )
+@login_required
+@roles_accepted('user', 'admin')
 def edit_recorded_predator(survey_id, predator_id, start, end):
     form = survey_predator_camera_form()
     form.predator_id.choices = [
@@ -476,6 +493,8 @@ def edit_recorded_predator(survey_id, predator_id, start, end):
     '/<survey_id>/delete_recorded_predator/<predator_id>/<start>/<end>',
     methods=('GET', 'POST', 'DELETE')
 )
+@login_required
+@roles_accepted('user', 'admin')
 def delete_recorded_predator(survey_id, predator_id, start, end):
     survey_predator_camera.query \
         .filter(

@@ -7,13 +7,15 @@
 {% endblock %}
 
 {% block content %}
-<a href="{{ url_for('cards.new') }}"
-                   class="btn btn-primary"
-                   role="button"
-                   aria-disabled="true">
-      New SD Card
-    </a>
+{% if current_user.is_authenticated %}
+    <a href="{{ url_for('cards.new') }}"
+                    class="btn btn-primary"
+                    role="button"
+                    aria-disabled="true">
+        New SD Card
+      </a>
     <hr/>
+  {% endif %}
   {% if cards %}
   <div class='table-responsive'>
     <table class="table table-white table-striped table-bordered table-hover"
@@ -31,12 +33,14 @@
         {% for card in cards %}
           <tr>
             <td>
+            {% if current_user.is_authenticated %}
               <a href="{{ url_for('cards.edit', id=card.id) }}"
                 class="btn btn-primary btn-block"
                 role="button"
                 aria-disabled="true">
-                Edit Card
+                  Edit Card
               </a>
+            {% endif %}
             </td>
             <td>
               {{ card.name }}

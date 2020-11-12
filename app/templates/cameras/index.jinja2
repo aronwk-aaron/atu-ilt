@@ -7,13 +7,15 @@
 {% endblock %}
 
 {% block content %}
-<a href="{{ url_for('cameras.new') }}"
-                   class="btn btn-primary"
-                   role="button"
-                   aria-disabled="true">
-      New Camera
-    </a>
-    <hr/>
+  {% if current_user.is_authenticated %}
+    <a href="{{ url_for('cameras.new') }}"
+                      class="btn btn-primary"
+                      role="button"
+                      aria-disabled="true">
+          New Camera
+        </a>
+      <hr/>
+    {% endif %}
   {% if cameras %}
   <div class='table-responsive'>
     <table class="table table-white table-striped table-bordered table-hover"
@@ -33,12 +35,14 @@
         {% for camera in cameras %}
           <tr>
             <td>
-              <a href="{{ url_for('cameras.edit', id=camera.id) }}"
-                class="btn btn-primary btn-block"
-                role="button"
-                aria-disabled="true">
-                Edit
-              </a>
+              {% if current_user.is_authenticated %}
+                <a href="{{ url_for('cameras.edit', id=camera.id) }}"
+                  class="btn btn-primary btn-block"
+                  role="button"
+                  aria-disabled="true">
+                  Edit
+                </a>
+              {% endif %}
             </td>
             <td>
               {{ camera.name }}

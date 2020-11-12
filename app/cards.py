@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, redirect
 from app.models import card
 from app.forms import card_form
+from flask_user import roles_accepted, login_required
 
 cards_blueprint = Blueprint('cards', __name__)
 
@@ -12,6 +13,8 @@ def index():
 
 
 @cards_blueprint.route('/new', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def new():
     form = card_form()
     if form.validate_on_submit():
@@ -25,6 +28,8 @@ def new():
 
 
 @cards_blueprint.route('/edit/<id>', methods=('GET', 'POST'))
+@login_required
+@roles_accepted('user', 'admin')
 def edit(id):
     form = card_form()
     data = card.query.filter(card.id == id).first()

@@ -65,7 +65,7 @@
       </div>
       <div class="row mt-0">
         <div class="col text-right">
-          Estimated Area: 
+          Estimated Area:
         </div>
         <div class="col">
           {% if site[0].est_area %}
@@ -109,13 +109,15 @@
       </div>
     </div>
   </div>
-  <hr/>
-  <a href="{{ url_for('surveys.new', site_id = site[0].id) }}"
-                   class="btn btn-primary"
-                   role="button"
-                   aria-disabled="true">
-    New Survey
-  </a>
+  {% if current_user.is_authenticated %}
+    <hr/>
+    <a href="{{ url_for('surveys.new', site_id = site[0].id) }}"
+                    class="btn btn-primary"
+                    role="button"
+                    aria-disabled="true">
+      New Survey
+    </a>
+  {% endif %}
   <hr/>
   {% if site[0].surveys %}
     <div class='table-responsive'>
@@ -146,13 +148,15 @@
                   aria-disabled="true">
                   View
                 </a>
-                <br/>
-                <a href="{{ url_for('surveys.edit', id=survey.id) }}"
-                  class="btn btn-primary btn-block"
-                  role="button"
-                  aria-disabled="true">
-                  Edit
-                </a>
+                {% if current_user.is_authenticated %}
+                  <br/>
+                  <a href="{{ url_for('surveys.edit', id=survey.id) }}"
+                    class="btn btn-primary btn-block"
+                    role="button"
+                    aria-disabled="true">
+                    Edit
+                  </a>
+                {% endif %}
               </td>
               <td>
                 {{ survey.date }}

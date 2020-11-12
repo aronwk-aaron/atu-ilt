@@ -8,7 +8,9 @@ from app.models import db, migrate
 from app.schemas import ma
 from flask_wtf.csrf import CSRFProtect
 
-from app.commands import init_db
+from app.commands import init_db, init_users
+from app.models import User, Role, UsersRoles, UserInvitation
+from flask_user import user_registered, UserManager
 
 
 # Instantiate Flask extensions
@@ -33,6 +35,14 @@ def create_app():
     app.config['DEBUG'] = False
     app.config['SECRET_KEY'] = os.getenv('APP_SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('APP_DATABASE_URI')
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_SSL'] = False
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+    app.config['USER_EMAIL_SENDER_NAME'] = os.getenv('USER_EMAIL_SENDER_NAME')
+    app.config['USER_EMAIL_SENDER_EMAIL'] = os.getenv('USER_EMAIL_SENDER_EMAIL')
 
     def calc_datetime(value, stop):
         difference = stop - value
@@ -44,6 +54,22 @@ def create_app():
     register_blueprints(app)
     # add the init_db command to flask cli
     app.cli.add_command(init_db)
+    app.cli.add_command(init_users)
+
+    @user_registered.connect_via(app)
+    def after_register_hook(sender, user, **extra):
+
+        role = Role.query.filter_by(name="user").first()
+
+        if role is None:
+            role = Role(name="user")
+            db.session.add(role)
+            db.session.commit()
+
+        user_role = UsersRoles(user_id=user.id, role_id=role.id)
+        db.session.add(user_role)
+        db.session.commit()
+
     return app
 
 
@@ -57,6 +83,9 @@ def register_extensions(app):
     migrate.init_app(app, db)
     csrf_protect.init_app(app)
     ma.init_app(app)
+    user_manager = UserManager(
+        app, db, User, UserInvitationClass=UserInvitation
+    )
 
     assets = Environment(app)
     assets.url = app.static_url_path

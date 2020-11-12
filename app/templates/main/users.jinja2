@@ -1,0 +1,68 @@
+{% extends 'base.jinja2' %}
+{% from "flask_user/_macros.html" import render_submit_field %}
+
+{% block title %}Users{% endblock %}
+
+
+{% block content_before %}
+
+  {# title jumbotron #}
+  <div class='jumbotron shadow-sm py-4'>
+    <div class='container'>
+      <h1 class="m-0">Users</h1>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+
+{% block content %}
+  <table class="table table-white table-striped table-bordered table-hover"
+         id="user_table_id">
+    <thead>
+      <tr>
+        <th scope="col">User ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Role</th>
+        <th scope="col">New Role</th>
+        <th scope="col">Update User</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>
+            {{ user.id }}
+          </td>
+          <td>
+            {{ user.last_name }}, {{ user.first_name }}
+          </td>
+          <td>
+            {{ user.email }}
+          </td>
+          <td>
+            {% if user.role_id == 1 %}
+              Admin
+            {% elif user.role_id == 2 %}
+              Technician
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script>
+    $(document).ready( function () {
+      $('#user_table_id').DataTable({
+        "columnDefs": [{ "orderable": false, "targets": [6,7] },
+                       { "searchable": false, "targets": [6,7]}]
+      });
+    });
+  </script>
+{% endblock %}
