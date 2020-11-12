@@ -34,5 +34,5 @@ USER_PASSLIB_CRYPTCONTEXT_KEYWORDS = dict(argon2__rounds=5, argon2__memory_cost=
 
 # Flask-User routing settings
 USER_AFTER_LOGIN_ENDPOINT = "main.index"
-USER_AFTER_LOGOUT_ENDPOINT = "user.logout"
+USER_AFTER_LOGOUT_ENDPOINT = "main.index"
 USER_AFTER_EDIT_USER_PROFILE_ENDPOINT = 'user.profile'
