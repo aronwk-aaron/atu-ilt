@@ -147,7 +147,7 @@
             {{ invite.email }}
           </td>
           <td>
-            {{ invite.invited_by_user.email }}
+            {{ invite.invited_by_user.last_name }}, {{ invite.invited_by_user.first_name }}
           </td>
           <td>
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_invite{{ invite.id }}-modal">
