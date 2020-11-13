@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, redirect, url_for
 from flask_user import login_required, roles_required
 from app.models import User
 
@@ -23,3 +23,11 @@ def about():
 def users():
     user_list = User.get_all()
     return render_template('main/users.jinja2', users=user_list)
+
+
+@main_blueprint.route('/users/delete/<id>', methods=['GET'])
+@login_required
+@roles_required('admin')
+def delete_user(id):
+    User.get_user_by_id(user_id=id).delete()
+    return redirect(url_for('main.users'))

@@ -5,14 +5,7 @@
 
 
 {% block content_before %}
-
-  {# title jumbotron #}
-  <div class='jumbotron shadow-sm py-4'>
-    <div class='container'>
-      <h1 class="m-0">Users</h1>
-    </div>
-  </div>
-
+  Users
 {% endblock %}
 
 
@@ -26,8 +19,7 @@
         <th scope="col">Name</th>
         <th scope="col">Email</th>
         <th scope="col">Role</th>
-        <th scope="col">New Role</th>
-        <th scope="col">Update User</th>
+        <th scope="col">Delete User</th>
       </tr>
     </thead>
     <tbody>
@@ -43,11 +35,62 @@
             {{ user.email }}
           </td>
           <td>
-            {% if user.role_id == 1 %}
+            {% if user.role_id == 3 %}
               Admin
-            {% elif user.role_id == 2 %}
-              Technician
+            {% elif user.role_id == 4 %}
+              User
             {% endif %}
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ user.id }}-modal">
+              Delete
+            </button>
+            <div class="modal fade bd-example-modal-lg" id="delete{{ user.id }}-modal" tabindex="-1" role="dialog" aria-labelledby="delete{{ user.id }}-modalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="delemodalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete this User?
+                    <hr>
+                    <table>
+                      <tr>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                      </tr>
+                      <tr>
+                        <td>
+                          {{ user.id }}
+                        <td>
+                          {{ user.last_name }}, {{ user.first_name }}
+                        </td>
+                        <td>
+                          {{ user.email }}
+                        </td>
+                        <td>
+                          {{ user.role }}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <a href="{{ url_for('main.delete_user', id = user.id ) }}"
+                      class="btn btn-danger"
+                      role="button"
+                      aria-disabled="true">
+                        Delete
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
       {% endfor %}
@@ -60,8 +103,7 @@
   <script>
     $(document).ready( function () {
       $('#user_table_id').DataTable({
-        "columnDefs": [{ "orderable": false, "targets": [6,7] },
-                       { "searchable": false, "targets": [6,7]}]
+        "columnDefs": [{ "orderable": false, "targets": 4 }]
       });
     });
   </script>

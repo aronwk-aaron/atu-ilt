@@ -33,6 +33,10 @@ class User(db.Model, UserMixin):
     def get_user_by_id(*, user_id=None):
         return User.query.filter(user_id == User.id).first()
 
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
     @staticmethod
     def get_all():
         return User.query \
