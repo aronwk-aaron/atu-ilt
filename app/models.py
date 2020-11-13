@@ -86,6 +86,15 @@ class UserInvitation(db.Model):
     invited_by_user_id = db.Column(db.Integer, db.ForeignKey(User.id))
     # token used for registration page to identify user registering
     token = db.Column(db.String(100), nullable=False, server_default='')
+    invited_by_user = db.relationship('User')
+
+    @staticmethod
+    def get_user_by_id(*, user_id=None):
+        return User.query.filter(user_id == User.id).first()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 
 class card(db.Model):

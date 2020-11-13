@@ -1,4 +1,6 @@
 from app.models import (
+    User,
+    UserInvitation,
     site,
     survey,
     card as card_model,
@@ -10,6 +12,24 @@ from app.models import (
 from flask_marshmallow import Marshmallow
 
 ma = Marshmallow()
+
+
+class userSchema(ma.SQLAlchemyAutoSchema): #  noqa
+    class Meta:
+        model = User
+        include_relationships = False
+        load_instance = True
+        include_fk = True
+
+
+class userInvitationSchema(ma.SQLAlchemyAutoSchema): #  noqa
+    class Meta:
+        model = UserInvitation
+        include_relationships = True
+        load_instance = True
+        include_fk = True
+
+    invite_by_user = ma.Nested(userSchema)
 
 
 class cameraSchema(ma.SQLAlchemyAutoSchema): #  noqa

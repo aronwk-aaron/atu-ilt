@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, redirect, url_for
 from flask_user import login_required, roles_required
-from app.models import User
+from app.models import User, UserInvitation, UsersRoles
 
 main_blueprint = Blueprint('main', __name__)
 
@@ -22,7 +22,12 @@ def about():
 @roles_required('admin')
 def users():
     user_list = User.get_all()
-    return render_template('main/users.jinja2', users=user_list)
+    invitations = UserInvitation.query.all()
+    return render_template(
+        'main/users.jinja2',
+        users=user_list,
+        invites=invitations
+    )
 
 
 @main_blueprint.route('/users/delete/<id>', methods=['GET'])
@@ -30,4 +35,20 @@ def users():
 @roles_required('admin')
 def delete_user(id):
     User.get_user_by_id(user_id=id).delete()
+    return redirect(url_for('main.users'))
+
+
+@main_blueprint.route('/users/delete_invite/<id>', methods=['GET'])
+@login_required
+@roles_required('admin')
+def delete_invite(id):
+    UserInvitation.query.filter(UserInvitation.id == id).first().delete()
+    return redirect(url_for('main.users'))
+
+
+@main_blueprint.route('/users/edit_role/<user_id>/<role_id>', methods=['GET'])
+@login_required
+@roles_required('admin')
+def edit_role(user_id, role_id):
+    UsersRoles.update_userrole(user_id=user_id, role_id=role_id)
     return redirect(url_for('main.users'))
