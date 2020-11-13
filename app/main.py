@@ -34,7 +34,8 @@ def users():
 @login_required
 @roles_required('admin')
 def delete_user(id):
-    User.get_user_by_id(user_id=id).delete()
+    if id != 1:
+        User.get_user_by_id(user_id=id).delete()
     return redirect(url_for('main.users'))
 
 
@@ -50,5 +51,6 @@ def delete_invite(id):
 @login_required
 @roles_required('admin')
 def edit_role(user_id, role_id):
-    UsersRoles.update_userrole(user_id=user_id, role_id=role_id)
+    if user_id != 1:
+        UsersRoles.update_userrole(user_id=user_id, role_id=role_id)
     return redirect(url_for('main.users'))
