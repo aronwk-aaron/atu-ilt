@@ -1,9 +1,13 @@
 import click
+import json
+import pandas
+from flatten_json import flatten
 from flask.cli import with_appcontext
 import datetime
 from flask_user import current_app
 from app import db
-from app.models import Role, User
+from app.models import Role, User, site
+from app.schemas import siteSchema
 
 
 @click.command("init_db")
@@ -61,3 +65,20 @@ def find_or_create_user(first_name, last_name, email, password, role=None):
             user.roles.append(role)
         db.session.add(user)
     return user
+
+
+@click.command("export_csv")
+@with_appcontext
+def export_csv():
+    """ Genetate CVS report of all sites and surveys"""
+    site_schema = siteSchema()
+    sites = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).all(), many=True
+        ).data
+    )
+    # pure jank
+    df = pandas.json_normalize([flatten(site) for site in sites])
+
+    df.to_csv('test.csv', index=False, encoding='utf-8')
+    return

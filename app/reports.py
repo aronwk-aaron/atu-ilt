@@ -23,9 +23,9 @@ def index():
     )
 
     # Season time setup
-
-    start_2020_season_date = datetime.date(2020, 5, 1)
-    end_2020_season_date = datetime.date(2020, 9, 30)
+    # This is actually the peak of the season dates based on 2 week stats
+    start_2020_season_date = datetime.date(2020, 7, 4)
+    end_2020_season_date = datetime.date(2020, 7, 18)
 
     start_2021_season_date = datetime.date(2021, 5, 1)
     end_2021_season_date = datetime.date(2021, 9, 30)
@@ -78,9 +78,9 @@ def index():
                 tmp_2021[2] = max(x[2], tmp_2021[2])
                 tmp_2021[3] = max(x[3], tmp_2021[3])
                 tmp_2021[4] = int(max(x[4], tmp_2021[4]))
-        if tmp_2020[0] != 'ERROR':
+        if (tmp_2020[0] != 'ERROR') and ((tmp_2020[1] + tmp_2020[2] + tmp_2020[3] + tmp_2020[4]) > 0):
             data_2020.append(tmp_2020)
-        if tmp_2021[0] != 'ERROR':
+        if (tmp_2021[0] != 'ERROR') and ((tmp_2021[1] + tmp_2021[2] + tmp_2021[3] + tmp_2021[4]) > 0):
             data_2021.append(tmp_2021)
 
     # Sort by site name (index 0)

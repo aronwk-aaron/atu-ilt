@@ -234,29 +234,48 @@ def gen_survey_data(surveys):
     two_weeks = datetime.timedelta(days=14)
     one_day = datetime.timedelta(days=1)
     while current_season_date < end_season_date:
+
         end_itter_date = current_season_date + two_weeks
-        itter_data = [current_season_date, 0, 0, 0, 0]
+        tmp_surveys = []
         for surv in surveys:
             surv_date = datetime.date.fromisoformat(surv["date"])
             if surv_date < start_season_date or surv_date > end_season_date:
                 continue  # not part of the season
             elif current_season_date <= surv_date < end_itter_date:
-                adult_div = 0
-                if surv["ac1"] > 0:
-                    adult_div += 1
-                if surv["ac2"] > 0:
-                    adult_div += 1
-                if surv["ac3"] > 0:
-                    adult_div += 1
-                if adult_div > 0:
-                    itter_data[1] = itter_data[1] + (
-                            surv["ac1"] +
-                            surv["ac2"] +
-                            surv["ac3"]
-                        )/adult_div
-                itter_data[2] = itter_data[2] + surv["fledgling"]
-                itter_data[3] = itter_data[3] + (surv["chick02"] + surv["chick39"] + surv["chick1017"])
-                itter_data[4] = itter_data[4] + (surv["egg1"] + (surv["egg2"] * 2) + (surv["egg3"] * 3))
+                tmp_surveys.append(
+                    [
+                        surv['site_id'],
+                        adult_avg(surv['ac1'], surv['ac2'], surv['ac3']),
+                        surv['fledgling'],
+                        surv['chick02'] + surv['chick39'] + surv['chick1017'],
+                        (
+                            surv['egg1'] +
+                            (surv['egg2'] * 2) +
+                            (surv['egg3'] * 3)
+                        )
+                    ]
+                )
+        sort_sublist(tmp_surveys, 0)
+        itter_data = [current_season_date, 0, 0, 0, 0]
+        i = 0
+        while i < len(tmp_surveys):
+            if (i + 1) < len(tmp_surveys):
+                while tmp_surveys[i][0] == tmp_surveys[i+1][0]:
+                    # HERE IS THE PLACE
+                    # to choose which one to drop
+                    if sum(tmp_surveys[i]) > sum(tmp_surveys[i+1]):
+                        drop_survey = i + 1
+                    else:
+                        drop_survey = i
+
+                    del tmp_surveys[drop_survey]
+            itter_data[1] = itter_data[1] + tmp_surveys[i][1]
+            itter_data[2] = itter_data[2] + tmp_surveys[i][2]
+            itter_data[3] = itter_data[3] + tmp_surveys[i][3]
+            itter_data[4] = itter_data[4] + tmp_surveys[i][4]
+
+            i = i + 1
+
         data.append(itter_data)
         current_season_date += one_day
     return data
@@ -356,9 +375,25 @@ def gen_predator_data():
     return data
 
 
-def sort_sublist(sub_li):
+def sort_sublist(sub_li, index=1):
     # reverse = None (Sorts in Ascending order)
     # key is set to sort using second element of
     # sublist lambda has been used
-    sub_li.sort(key = lambda x: x[1])
+    sub_li.sort(key = lambda x: x[index])
     return sub_li
+
+
+def adult_avg(ac1, ac2, ac3):
+    adult_div = 0
+    if ac1 > 0:
+        adult_div += 1
+    if ac2 > 0:
+        adult_div += 1
+    if ac3 > 0:
+        adult_div += 1
+    if adult_div > 0:
+        return (
+            (ac1 + ac2 + ac3)/adult_div
+        )
+    else:
+        return 0

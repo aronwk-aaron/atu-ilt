@@ -1,5 +1,4 @@
 import os
-import datetime
 from flask import Flask
 from flask_assets import Environment
 from webassets import Bundle
@@ -8,7 +7,7 @@ from app.models import db, migrate
 from app.schemas import ma
 from flask_wtf.csrf import CSRFProtect
 
-from app.commands import init_db, init_users
+from app.commands import init_db, init_users, export_csv
 from app.models import User, Role, UsersRoles, UserInvitation
 from flask_user import user_registered, UserManager
 
@@ -55,6 +54,7 @@ def create_app():
     # add the init_db command to flask cli
     app.cli.add_command(init_db)
     app.cli.add_command(init_users)
+    app.cli.add_command(export_csv)
 
     @user_registered.connect_via(app)
     def after_register_hook(sender, user, **extra):
