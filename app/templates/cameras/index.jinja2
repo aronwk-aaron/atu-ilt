@@ -29,6 +29,7 @@
         <th scope="col">Brand</th>
         <th scope="col">Functional?</th>
         <th scope="col">Comment</th>
+        <th scope="col">Season(s)</th>
       </tr>
       </thead>
       <tbody>
@@ -59,6 +60,11 @@
             </td>
             <td>
               {{ camera.comment }}
+            </td>
+            <td>
+              {% for year in camera.used%}
+                {{ year }}<br>
+              {% endfor%}
             </td>
           </tr>
         {% endfor %}

@@ -1,14 +1,54 @@
 from flask import render_template, Blueprint, redirect
-from app.models import camera
+from app.models import camera, survey
 from app.forms import camera_form
 from flask_user import roles_accepted, login_required
+from app.schemas import surveySchema, cameraSchema
+import json
+import datetime
 
 cameras_blueprint = Blueprint('cameras', __name__)
+
+survey_schema = surveySchema()
+camera_schema = cameraSchema()
 
 
 @cameras_blueprint.route('/')
 def index():
-    cameras = camera.query.all()
+
+    surveys = json.loads(
+        survey_schema.jsonify(
+            survey.query.all(), many=True
+        ).data
+    )
+
+    cameras = json.loads(
+        camera_schema.jsonify(
+            camera.query.all(), many=True
+        ).data
+    )
+
+    start_2020 = datetime.date(2020, 1, 1)
+    end_2020 = datetime.date(2020, 12, 31)
+
+    start_2021 = datetime.date(2021, 1, 1)
+    end_2021 = datetime.date(2021, 12, 31)
+    print(cameras)
+    print(surveys)
+    for c in range(len(cameras)):
+        cameras[c]["used"] = []
+        for s in range(len(surveys)):
+            date = datetime.date.fromisoformat(surveys[s]["date"])
+            for used_camera in range(len(surveys[s]["cameras"])):
+                if date > start_2020 and date < end_2020 and \
+                   "2020" not in cameras[c]["used"] and \
+                   cameras[c]["id"] == surveys[s]["cameras"][used_camera]["camera_id"]:
+                    cameras[c]["used"].append("2020")
+                if date > start_2021 and date < end_2021 and \
+                   "2021" not in cameras[c]["used"] and \
+                   cameras[c]["id"] == surveys[s]["cameras"][used_camera]["camera_id"]:
+                    cameras[c]["used"].append("2021")
+
+    print(cameras)
     return render_template('cameras/index.jinja2', cameras=cameras)
 
 

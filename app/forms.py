@@ -596,7 +596,7 @@ class survey_predator_form(FlaskForm):
         ]
     )
     predator_id = SelectField(
-        label='Predator',
+        label='Species',
         coerce=int,
         choices=[],
         validators=[
@@ -660,7 +660,7 @@ class survey_predator_camera_form(FlaskForm):
         ]
     )
     predator_id = SelectField(
-        label='Predator',
+        label='Species',
         coerce=int,
         choices=[],
         validators=[
