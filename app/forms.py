@@ -85,7 +85,7 @@ class card_form(FlaskForm):
 
 class site_form(FlaskForm):
     name = StringField(
-        label='Name',
+        label='Site ID',
         validators=[
             DataRequired()
         ]
