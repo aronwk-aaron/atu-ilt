@@ -261,13 +261,36 @@ def gen_survey_data(surveys):
         while i < len(tmp_surveys):
             if (i + 1) < len(tmp_surveys):
                 while tmp_surveys[i][0] == tmp_surveys[i+1][0]:
+                    # print(tmp_surveys[i])
+                    # print(tmp_surveys[i+1])
                     # HERE IS THE PLACE
                     # to choose which one to drop
-                    if sum(tmp_surveys[i]) > sum(tmp_surveys[i+1]):
+                    if tmp_surveys[i][1] > tmp_surveys[i+1][1]:
                         drop_survey = i + 1
-                    else:
+                    elif tmp_surveys[i][1] < tmp_surveys[i+1][1]:
                         drop_survey = i
+                    else:
+                        if tmp_surveys[i][2] > tmp_surveys[i+1][2]:
+                            drop_survey = i + 1
+                        elif tmp_surveys[i][2] < tmp_surveys[i+1][2]:
+                            drop_survey = i
+                        else:
+                            if tmp_surveys[i][3] > tmp_surveys[i+1][3]:
+                                drop_survey = i + 1
+                            elif tmp_surveys[i][3] < tmp_surveys[i+1][3]:
+                                drop_survey = i
+                            else:
+                                if tmp_surveys[i][4] > tmp_surveys[i+1][4]:
+                                    drop_survey = i + 1
+                                elif tmp_surveys[i][4] < tmp_surveys[i+1][4]:
+                                    drop_survey = i
+                                else:
+                                    drop_survey = i
 
+                    # if drop_survey == i:
+                    #     print("Dropped First")
+                    # else:
+                    #     print("Dropped Second")
                     del tmp_surveys[drop_survey]
             itter_data[1] = itter_data[1] + tmp_surveys[i][1]
             itter_data[2] = itter_data[2] + tmp_surveys[i][2]
@@ -275,7 +298,7 @@ def gen_survey_data(surveys):
             itter_data[4] = itter_data[4] + tmp_surveys[i][4]
 
             i = i + 1
-
+        print("End Period")
         data.append(itter_data)
         current_season_date += one_day
     return data
