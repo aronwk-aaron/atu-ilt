@@ -70,4 +70,22 @@
       {% endfor %}
     </div>
   </div>
+<hr/>
+  <div class='row'>
+    <div class='col text-right'>
+      Recorded Duration
+    </div>
+    <div class='col'>
+      {% for item in predator_data['recorded_duration'] %}
+        <div class='row'>
+        <div class='col text-right'>
+          {{ item[0] }}:
+        </div>
+        <div class='col'>
+          {{ item[1] }} hours
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>

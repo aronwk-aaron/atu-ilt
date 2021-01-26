@@ -298,7 +298,7 @@ def gen_survey_data(surveys):
             itter_data[4] = itter_data[4] + tmp_surveys[i][4]
 
             i = i + 1
-        print("End Period")
+        # print("End Period")
         data.append(itter_data)
         current_season_date += one_day
     return data
@@ -328,7 +328,8 @@ def gen_predator_data():
         'surveyed_prevalence': [],
         'recorded_prevalence': [],
         'surveyed_abundance': [],
-        'recorded_abundance': []
+        'recorded_abundance': [],
+        'recorded_duration': []
     }
 
     predators = json.loads(
@@ -379,23 +380,52 @@ def gen_predator_data():
                 sum(map(lambda x: int(x['count']), recorded_abundance))
             )
         )
+        data['recorded_duration'].append(
+            [
+                p['species'],
+                sum(map(lambda x: time_difference(x), recorded_abundance))
+            ]
+        )
 
     sort_sublist(data['surveyed_prevalence'])
     sort_sublist(data['recorded_prevalence'])
     sort_sublist(data['surveyed_abundance'])
     sort_sublist(data['recorded_abundance'])
+    sort_sublist(data['recorded_duration'])
+
+    # convert seconds to hours
+    for item in range(len(data['recorded_duration'])):
+        print(data['recorded_duration'][item][1])
+        data['recorded_duration'][item][1] = round(
+            data['recorded_duration'][item][1]/3600, 1
+        )
 
     data['surveyed_prevalence'].reverse()
     data['recorded_prevalence'].reverse()
     data['surveyed_abundance'].reverse()
     data['recorded_abundance'].reverse()
+    data['recorded_duration'].reverse()
 
     del data['surveyed_prevalence'][5:]
     del data['recorded_prevalence'][5:]
     del data['surveyed_abundance'][5:]
     del data['recorded_abundance'][5:]
-
+    del data['recorded_duration'][5:]
+    # print(data['recorded_duration'])
     return data
+
+
+def time_difference(x):
+    # print(x)
+    difference = (
+        datetime.datetime.fromisoformat(x["end"]) -
+        datetime.datetime.fromisoformat(x["start"])
+    )
+    # print(difference)
+    # print(type(difference))
+
+    return difference.total_seconds()
+
 
 
 def sort_sublist(sub_li, index=1):
