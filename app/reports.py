@@ -65,19 +65,77 @@ def index():
             if surv_date > start_2020_season_date and \
                     surv_date < end_2020_season_date:
                 tmp_2020[0] = sites[s]['name']
-                tmp_2020[1] = max(x[1], tmp_2020[1])
-                tmp_2020[2] = max(x[2], tmp_2020[2])
-                tmp_2020[3] = max(x[3], tmp_2020[3])
-                tmp_2020[4] = int(max(x[4], tmp_2020[4]))
+                if tmp_2020[4] < x[4]:
+                    # want new one
+                    tmp_2020[1] = x[1]
+                    tmp_2020[2] = x[2]
+                    tmp_2020[3] = x[3]
+                    tmp_2020[4] = x[4]
+                else:
+                    if tmp_2020[3] < x[3]:
+                        # want new one
+                        tmp_2020[1] = x[1]
+                        tmp_2020[2] = x[2]
+                        tmp_2020[3] = x[3]
+                        tmp_2020[4] = x[4]
+                    else:
+                        if tmp_2020[2] < x[2]:
+                            # want new one
+                            tmp_2020[1] = x[1]
+                            tmp_2020[2] = x[2]
+                            tmp_2020[3] = x[3]
+                            tmp_2020[4] = x[4]
+                        else:
+                            if tmp_2020[1] < x[1]:
+                                # want new one
+                                tmp_2020[1] = x[1]
+                                tmp_2020[2] = x[2]
+                                tmp_2020[3] = x[3]
+                                tmp_2020[4] = x[4]
+                            else:
+                                # want new one
+                                tmp_2020[1] = x[1]
+                                tmp_2020[2] = x[2]
+                                tmp_2020[3] = x[3]
+                                tmp_2020[4] = x[4]
 
             # else if 2021
             elif surv_date > start_2021_season_date and \
                     surv_date < end_2021_season_date:
                 tmp_2021[0] = sites[s]['name']
-                tmp_2021[1] = max(x[1], tmp_2021[1])
-                tmp_2021[2] = max(x[2], tmp_2021[2])
-                tmp_2021[3] = max(x[3], tmp_2021[3])
-                tmp_2021[4] = int(max(x[4], tmp_2021[4]))
+                if tmp_2021[4] < x[4]:
+                    # want new one
+                    tmp_2021[1] = x[1]
+                    tmp_2021[2] = x[2]
+                    tmp_2021[3] = x[3]
+                    tmp_2021[4] = x[4]
+                else:
+                    if tmp_2021[3] < x[3]:
+                        # want new one
+                        tmp_2021[1] = x[1]
+                        tmp_2021[2] = x[2]
+                        tmp_2021[3] = x[3]
+                        tmp_2021[4] = x[4]
+                    else:
+                        if tmp_2021[2] < x[2]:
+                            # want new one
+                            tmp_2021[1] = x[1]
+                            tmp_2021[2] = x[2]
+                            tmp_2021[3] = x[3]
+                        else:
+                            if tmp_2021[1] < x[1]:
+                                # want new one
+                                tmp_2021[1] = x[1]
+                                tmp_2021[2] = x[2]
+                                tmp_2021[3] = x[3]
+                                tmp_2021[4] = x[4]
+                            else:
+                                # want new one
+                                tmp_2021[1] = x[1]
+                                tmp_2021[2] = x[2]
+                                tmp_2021[3] = x[3]
+                                tmp_2021[4] = x[4]
+
         if (tmp_2020[0] != 'ERROR') and ((tmp_2020[1] + tmp_2020[2] + tmp_2020[3] + tmp_2020[4]) > 0):
             data_2020.append(tmp_2020)
         if (tmp_2021[0] != 'ERROR') and ((tmp_2021[1] + tmp_2021[2] + tmp_2021[3] + tmp_2021[4]) > 0):

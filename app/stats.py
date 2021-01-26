@@ -395,7 +395,7 @@ def gen_predator_data():
 
     # convert seconds to hours
     for item in range(len(data['recorded_duration'])):
-        print(data['recorded_duration'][item][1])
+        # print(data['recorded_duration'][item][1])
         data['recorded_duration'][item][1] = round(
             data['recorded_duration'][item][1]/3600, 1
         )
