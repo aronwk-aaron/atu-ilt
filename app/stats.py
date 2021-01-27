@@ -189,28 +189,39 @@ def gen_site_data(sites):
         )):
             data[sites[s]['loc_type'].replace('-', '_')]['active'] += 1
 
+        renest = 0
         if len(site_ef) > 0:
             for egg in range(len(site_ef)):
-                if site_ef[egg] == 'NA':
-                    continue
-                if site_ef[egg] == 'i+':
-                    site_ef[egg] = ord('j')
-                    continue
-                site_ef[egg] = ord(site_ef[egg])
-            highest_ef = site_ef[0]
-            for egg in range(len(site_ef)):
-                if str(site_ef[egg]) == 'NA':
-                    if highest_ef == 'NA' and ((egg + 1) != len(site_ef)):
-                        highest_ef = site_ef[egg + 1]
-                    continue
-                if highest_ef <= site_ef[egg]:
-                    highest_ef = site_ef[egg]
-                else:  # variance of eggs in a site!!!!!
-                    if (highest_ef - site_ef[egg]) > 4:
-                        data[sites[s]['loc_type'].replace(
-                            '-', '_')]['nestingattempts'] += 1
-                        highest_ef = site_ef[egg]
-        # reset for next site
+                site_ef[egg] = ef_str_to_num(site_ef[egg])
+            # prime loop
+            oos = 0
+            yos = 0
+            for egg in range(int(len(site_ef) / 4)):
+                # we git rid of 0's since the are not useful
+                curr_efs = list(
+                    filter(lambda a: a, site_ef[egg * 4:4 + egg * 4]))
+                if len(curr_efs) > 0:
+                    ons = max(curr_efs)
+                    yns = min(curr_efs)
+                    if oos == 0 and yns > 0 and egg != 0:
+                        print("Re-nested")
+                        renest += 1
+                    elif abs(ons - yns) >= 6:
+                        print("Re-nested")
+                        renest += 1
+                    elif abs(ons - yos) >= 6:
+                        print("Re-nested")
+                        renest += 1
+                    elif yos >= 4 and yns > 0:
+                        print("Re-nested")
+                        renest += 1
+                    oos = max(curr_efs)
+                    yos = min(curr_efs)
+                else:
+                    oos = 0
+                    yos = 0
+        data[sites[s]['loc_type'].replace(
+            '-', '_')]['nestingattempts'] += renest
         site_count = {
             'adult_count': 0,
             'egg': 0,
@@ -223,6 +234,31 @@ def gen_site_data(sites):
         site_ef.clear()
 
     return data
+
+
+def ef_str_to_num(x):
+    if x == 'NA':
+        return 0
+    if x == 'a':
+        return 1
+    if x == 'b':
+        return 2
+    if x == 'c':
+        return 3
+    if x == 'd':
+        return 4
+    if x == 'e':
+        return 5
+    if x == 'f':
+        return 6
+    if x == 'g':
+        return 7
+    if x == 'h':
+        return 8
+    if x == 'i':
+        return 9
+    if x == 'i+':
+        return 10
 
 
 def gen_survey_data(surveys):
