@@ -83,41 +83,34 @@ def index():
                     tmp_2020[5] = surv_date - datetime.timedelta(
                             days=max(x[5])
                         )
+            want_new_2020 = False
             if surv_date > start_2020_peak_date and \
                     surv_date < end_2020_peak_date:
                 if tmp_2020[4] < x[4]:
                     # want new one
-                    tmp_2020[1] = x[1]
-                    tmp_2020[2] = x[2]
-                    tmp_2020[3] = x[3]
-                    tmp_2020[4] = x[4]
+                    want_new_2020 = True
                 elif tmp_2020[4] == [4]:
                     if tmp_2020[3] < x[3]:
                         # want new one
-                        tmp_2020[1] = x[1]
-                        tmp_2020[2] = x[2]
-                        tmp_2020[3] = x[3]
-                        tmp_2020[4] = x[4]
+                        want_new_2020 = True
                     elif tmp_2020[3] == [3]:
                         if tmp_2020[2] < x[2]:
                             # want new one
-                            tmp_2020[1] = x[1]
-                            tmp_2020[2] = x[2]
-                            tmp_2020[3] = x[3]
-                            tmp_2020[4] = x[4]
+                            want_new_2020 = True
                         elif tmp_2020[2] == [2]:
                             if tmp_2020[1] < x[1]:
                                 # want new one
-                                tmp_2020[1] = x[1]
-                                tmp_2020[2] = x[2]
-                                tmp_2020[3] = x[3]
-                                tmp_2020[4] = x[4]
+                                want_new_2020 = True
                             elif tmp_2020[1] == [1]:
                                 # want new one
-                                tmp_2020[1] = x[1]
-                                tmp_2020[2] = x[2]
-                                tmp_2020[3] = x[3]
-                                tmp_2020[4] = x[4]
+                                want_new_2020 = True
+
+                if want_new_2020:
+                    tmp_2020[1] = x[1]
+                    tmp_2020[2] = x[2]
+                    tmp_2020[3] = x[3]
+                    tmp_2020[4] = round(x[4], 0)
+
 
             # else if 2021
             if surv_date > start_2021_season_date and \
@@ -129,41 +122,33 @@ def index():
                     tmp_2021[5] = surv_date - datetime.timedelta(
                             days=max(x[5])
                         )
-            elif surv_date > start_2021_peak_date and \
+            want_new_2021 = False
+            if surv_date > start_2021_peak_date and \
                     surv_date < end_2021_peak_date:
                 if tmp_2021[4] < x[4]:
                     # want new one
-                    tmp_2021[1] = x[1]
-                    tmp_2021[2] = x[2]
-                    tmp_2021[3] = x[3]
-                    tmp_2021[4] = x[4]
+                    want_new_2021 = True
                 elif tmp_2021[4] == [4]:
                     if tmp_2021[3] < x[3]:
                         # want new one
-                        tmp_2021[1] = x[1]
-                        tmp_2021[2] = x[2]
-                        tmp_2021[3] = x[3]
-                        tmp_2021[4] = x[4]
+                        want_new_2021 = True
                     elif tmp_2021[3] == [3]:
                         if tmp_2021[2] < x[2]:
                             # want new one
-                            tmp_2021[1] = x[1]
-                            tmp_2021[2] = x[2]
-                            tmp_2021[3] = x[3]
-                        elif tmp_20212 == 2:
+                            want_new_2021 = True
+                        elif tmp_2021[2] == [2]:
                             if tmp_2021[1] < x[1]:
                                 # want new one
-                                tmp_2021[1] = x[1]
-                                tmp_2021[2] = x[2]
-                                tmp_2021[3] = x[3]
-                                tmp_2021[4] = x[4]
+                                want_new_2021 = True
                             elif tmp_2021[1] == [1]:
                                 # want new one
-                                tmp_2021[1] = x[1]
-                                tmp_2021[2] = x[2]
-                                tmp_2021[3] = x[3]
-                                tmp_2021[4] = x[4]
+                                want_new_2021 = True
 
+                if want_new_2021:
+                    tmp_2021[1] = x[1]
+                    tmp_2021[2] = x[2]
+                    tmp_2021[3] = x[3]
+                    tmp_2021[4] = round(x[4], 0)
 
         if (tmp_2020[0] != 'ERROR') and ((tmp_2020[1] + tmp_2020[2] + tmp_2020[3] + tmp_2020[4]) > 0):
             data_2020.append(tmp_2020)
