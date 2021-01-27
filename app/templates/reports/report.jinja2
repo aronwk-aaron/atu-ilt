@@ -27,6 +27,9 @@
                     <th scope="col">
                         {{ item[4] }}
                     </th>
+                    <th scope="col">
+                        {{ item[5] }}
+                    </th>
                 </thead>
             {% elif loop.last %}
                 <tfoot>
@@ -43,7 +46,9 @@
                         {{ item[3] }}
                     </td>
                     <td>
-                        {{ item[4] }}
+                        {{ item[4]|round(1) }}
+                    </td>
+                    <td>
                     </td>
                 </tfoot>
             {% else %}
@@ -61,7 +66,14 @@
                         {{ item[3] }}
                     </td>
                     <td>
-                        {{ item[4] }}
+                        {{ item[4]|round(1) }}
+                    </td>
+                    <td>
+                        {% if item[5] %}
+                            {{ item[5] }}
+                        {% else %}
+                            {{ item[6] }}
+                        {% endif %}
                     </td>
                 </tr>
             {% endif %}

@@ -35,7 +35,7 @@
                         {{ survey[0] }}
                     </td>
                     <td>
-                        {{ survey[1] }}
+                        {{ survey[1]|round(1) }}
                     </td>
                     <td>
                         {{ survey[2] }}
@@ -48,7 +48,7 @@
                     </td>
                 </tr>
             {% endif %}
-          
+
         {% endfor %}
       </tbody>
     </table>
