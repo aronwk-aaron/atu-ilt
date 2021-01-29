@@ -48,7 +48,7 @@ def index():
     )
 
     site_data = gen_site_data(sites)
-    survey_data = gen_survey_data(surveys)
+    survey_data = [gen_adult_survey_data(surveys), gen_nest_survey_data(surveys)]
     survey_camera_data = gen_camera_data(survey_cameras)
     predator_data = gen_predator_data()
 
@@ -261,7 +261,7 @@ def ef_str_to_num(x):
         return 10
 
 
-def gen_survey_data(surveys):
+def gen_adult_survey_data(surveys):
     data = [['Day', ' Adults', 'Fledgelings', 'Chicks', 'Eggs']]
 
     start_season_date = datetime.date(2020, 6, 15)
@@ -289,6 +289,81 @@ def gen_survey_data(surveys):
                             (surv['egg2'] * 2) +
                             (surv['egg3'] * 3)
                         )
+                    ]
+                )
+        sort_sublist(tmp_surveys, 0)
+        itter_data = [current_season_date, 0, 0, 0, 0]
+        i = 0
+        while i < len(tmp_surveys):
+            if (i + 1) < len(tmp_surveys):
+                while tmp_surveys[i][0] == tmp_surveys[i+1][0]:
+                    # print(tmp_surveys[i])
+                    # print(tmp_surveys[i+1])
+                    # HERE IS THE PLACE
+                    # to choose which one to drop
+                    if tmp_surveys[i][1] > tmp_surveys[i+1][1]:
+                        drop_survey = i + 1
+                    elif tmp_surveys[i][1] < tmp_surveys[i+1][1]:
+                        drop_survey = i
+                    else:
+                        if tmp_surveys[i][2] > tmp_surveys[i+1][2]:
+                            drop_survey = i + 1
+                        elif tmp_surveys[i][2] < tmp_surveys[i+1][2]:
+                            drop_survey = i
+                        else:
+                            if tmp_surveys[i][3] > tmp_surveys[i+1][3]:
+                                drop_survey = i + 1
+                            elif tmp_surveys[i][3] < tmp_surveys[i+1][3]:
+                                drop_survey = i
+                            else:
+                                if tmp_surveys[i][4] > tmp_surveys[i+1][4]:
+                                    drop_survey = i + 1
+                                elif tmp_surveys[i][4] < tmp_surveys[i+1][4]:
+                                    drop_survey = i
+                                else:
+                                    drop_survey = i
+
+                    # if drop_survey == i:
+                    #     print("Dropped First")
+                    # else:
+                    #     print("Dropped Second")
+                    del tmp_surveys[drop_survey]
+            itter_data[1] = itter_data[1] + tmp_surveys[i][1]
+            itter_data[2] = itter_data[2] + tmp_surveys[i][2]
+            itter_data[3] = itter_data[3] + tmp_surveys[i][3]
+            itter_data[4] = itter_data[4] + tmp_surveys[i][4]
+
+            i = i + 1
+        # print("End Period")
+        data.append(itter_data)
+        current_season_date += one_day
+    return data
+
+
+def gen_nest_survey_data(surveys):
+    data = [['Day', ' Adults', 'Fledgelings', 'Chicks', 'Nests']]
+
+    start_season_date = datetime.date(2020, 6, 15)
+    end_season_date = datetime.date(2020, 8, 31)
+    current_season_date = datetime.date(2020, 6, 15)
+    two_weeks = datetime.timedelta(days=14)
+    one_day = datetime.timedelta(days=1)
+    while current_season_date < end_season_date:
+
+        end_itter_date = current_season_date + two_weeks
+        tmp_surveys = []
+        for surv in surveys:
+            surv_date = datetime.date.fromisoformat(surv["date"])
+            if surv_date < start_season_date or surv_date > end_season_date:
+                continue  # not part of the season
+            elif current_season_date <= surv_date < end_itter_date:
+                tmp_surveys.append(
+                    [
+                        surv['site_id'],
+                        adult_avg(surv['ac1'], surv['ac2'], surv['ac3'], surv['egg1'] + surv['egg2'] + surv['egg3']),
+                        surv['fledgling'],
+                        surv['chick02'] + surv['chick39'] + surv['chick1017'],
+                        (surv['egg1'] + surv['egg2'] + surv['egg3'])
                     ]
                 )
         sort_sublist(tmp_surveys, 0)
@@ -472,7 +547,9 @@ def sort_sublist(sub_li, index=1):
     return sub_li
 
 
-def adult_avg(ac1, ac2, ac3):
+def adult_avg(ac1, ac2, ac3, nests=0):
+    if nests > 0:
+        return nests * 2
     adult_div = 0
     if ac1 > 0:
         adult_div += 1
