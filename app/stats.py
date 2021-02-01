@@ -48,7 +48,12 @@ def index():
     )
 
     site_data = gen_site_data(sites)
-    survey_data = [gen_adult_survey_data(surveys), gen_nest_survey_data(surveys)]
+    survey_data = [
+        gen_adult_survey_data(surveys, True),
+        gen_nest_survey_data(surveys, True),
+        gen_adult_survey_data(surveys, False),
+        gen_nest_survey_data(surveys, False)
+    ]
     survey_camera_data = gen_camera_data(survey_cameras)
     predator_data = gen_predator_data()
 
@@ -204,16 +209,16 @@ def gen_site_data(sites):
                     ons = max(curr_efs)
                     yns = min(curr_efs)
                     if oos == 0 and yns > 0 and egg != 0:
-                        print("Re-nested")
+                        # print("Re-nested")
                         renest += 1
                     elif abs(ons - yns) >= 6:
-                        print("Re-nested")
+                        # print("Re-nested")
                         renest += 1
                     elif abs(ons - yos) >= 6:
-                        print("Re-nested")
+                        # print("Re-nested")
                         renest += 1
                     elif yos >= 4 and yns > 0:
-                        print("Re-nested")
+                        # print("Re-nested")
                         renest += 1
                     oos = max(curr_efs)
                     yos = min(curr_efs)
@@ -261,7 +266,7 @@ def ef_str_to_num(x):
         return 10
 
 
-def gen_adult_survey_data(surveys):
+def gen_adult_survey_data(surveys, de_dupe):
     data = [['Day', ' Adults', 'Fledgelings', 'Chicks', 'Eggs']]
 
     start_season_date = datetime.date(2020, 6, 15)
@@ -294,40 +299,43 @@ def gen_adult_survey_data(surveys):
         sort_sublist(tmp_surveys, 0)
         itter_data = [current_season_date, 0, 0, 0, 0]
         i = 0
+        # print(f'Dedupe: {de_dupe}')
         while i < len(tmp_surveys):
-            if (i + 1) < len(tmp_surveys):
-                while tmp_surveys[i][0] == tmp_surveys[i+1][0]:
-                    # print(tmp_surveys[i])
-                    # print(tmp_surveys[i+1])
-                    # HERE IS THE PLACE
-                    # to choose which one to drop
-                    if tmp_surveys[i][1] > tmp_surveys[i+1][1]:
-                        drop_survey = i + 1
-                    elif tmp_surveys[i][1] < tmp_surveys[i+1][1]:
-                        drop_survey = i
-                    else:
-                        if tmp_surveys[i][2] > tmp_surveys[i+1][2]:
+            if de_dupe:
+                # print('Find the one to keep')
+                if (i + 1) < len(tmp_surveys):
+                    while tmp_surveys[i][0] == tmp_surveys[i+1][0]:
+                        # print(tmp_surveys[i])
+                        # print(tmp_surveys[i+1])
+                        # HERE IS THE PLACE
+                        # to choose which one to drop
+                        if tmp_surveys[i][1] > tmp_surveys[i+1][1]:
                             drop_survey = i + 1
-                        elif tmp_surveys[i][2] < tmp_surveys[i+1][2]:
+                        elif tmp_surveys[i][1] < tmp_surveys[i+1][1]:
                             drop_survey = i
                         else:
-                            if tmp_surveys[i][3] > tmp_surveys[i+1][3]:
+                            if tmp_surveys[i][2] > tmp_surveys[i+1][2]:
                                 drop_survey = i + 1
-                            elif tmp_surveys[i][3] < tmp_surveys[i+1][3]:
+                            elif tmp_surveys[i][2] < tmp_surveys[i+1][2]:
                                 drop_survey = i
                             else:
-                                if tmp_surveys[i][4] > tmp_surveys[i+1][4]:
+                                if tmp_surveys[i][3] > tmp_surveys[i+1][3]:
                                     drop_survey = i + 1
-                                elif tmp_surveys[i][4] < tmp_surveys[i+1][4]:
+                                elif tmp_surveys[i][3] < tmp_surveys[i+1][3]:
                                     drop_survey = i
                                 else:
-                                    drop_survey = i
+                                    if tmp_surveys[i][4] > tmp_surveys[i+1][4]:
+                                        drop_survey = i + 1
+                                    elif tmp_surveys[i][4] < tmp_surveys[i+1][4]:
+                                        drop_survey = i
+                                    else:
+                                        drop_survey = i
 
-                    # if drop_survey == i:
-                    #     print("Dropped First")
-                    # else:
-                    #     print("Dropped Second")
-                    del tmp_surveys[drop_survey]
+                        # if drop_survey == i:
+                            # print("Dropped First")
+                        # else:
+                            # print("Dropped Second")
+                        del tmp_surveys[drop_survey]
             itter_data[1] = itter_data[1] + tmp_surveys[i][1]
             itter_data[2] = itter_data[2] + tmp_surveys[i][2]
             itter_data[3] = itter_data[3] + tmp_surveys[i][3]
@@ -340,7 +348,7 @@ def gen_adult_survey_data(surveys):
     return data
 
 
-def gen_nest_survey_data(surveys):
+def gen_nest_survey_data(surveys, de_dupe):
     data = [['Day', ' Adults', 'Fledgelings', 'Chicks', 'Nests']]
 
     start_season_date = datetime.date(2020, 6, 15)
@@ -370,39 +378,40 @@ def gen_nest_survey_data(surveys):
         itter_data = [current_season_date, 0, 0, 0, 0]
         i = 0
         while i < len(tmp_surveys):
-            if (i + 1) < len(tmp_surveys):
-                while tmp_surveys[i][0] == tmp_surveys[i+1][0]:
-                    # print(tmp_surveys[i])
-                    # print(tmp_surveys[i+1])
-                    # HERE IS THE PLACE
-                    # to choose which one to drop
-                    if tmp_surveys[i][1] > tmp_surveys[i+1][1]:
-                        drop_survey = i + 1
-                    elif tmp_surveys[i][1] < tmp_surveys[i+1][1]:
-                        drop_survey = i
-                    else:
-                        if tmp_surveys[i][2] > tmp_surveys[i+1][2]:
+            if de_dupe:
+                if (i + 1) < len(tmp_surveys):
+                    while tmp_surveys[i][0] == tmp_surveys[i+1][0]:
+                        # print(tmp_surveys[i])
+                        # print(tmp_surveys[i+1])
+                        # HERE IS THE PLACE
+                        # to choose which one to drop
+                        if tmp_surveys[i][1] > tmp_surveys[i+1][1]:
                             drop_survey = i + 1
-                        elif tmp_surveys[i][2] < tmp_surveys[i+1][2]:
+                        elif tmp_surveys[i][1] < tmp_surveys[i+1][1]:
                             drop_survey = i
                         else:
-                            if tmp_surveys[i][3] > tmp_surveys[i+1][3]:
+                            if tmp_surveys[i][2] > tmp_surveys[i+1][2]:
                                 drop_survey = i + 1
-                            elif tmp_surveys[i][3] < tmp_surveys[i+1][3]:
+                            elif tmp_surveys[i][2] < tmp_surveys[i+1][2]:
                                 drop_survey = i
                             else:
-                                if tmp_surveys[i][4] > tmp_surveys[i+1][4]:
+                                if tmp_surveys[i][3] > tmp_surveys[i+1][3]:
                                     drop_survey = i + 1
-                                elif tmp_surveys[i][4] < tmp_surveys[i+1][4]:
+                                elif tmp_surveys[i][3] < tmp_surveys[i+1][3]:
                                     drop_survey = i
                                 else:
-                                    drop_survey = i
+                                    if tmp_surveys[i][4] > tmp_surveys[i+1][4]:
+                                        drop_survey = i + 1
+                                    elif tmp_surveys[i][4] < tmp_surveys[i+1][4]:
+                                        drop_survey = i
+                                    else:
+                                        drop_survey = i
 
-                    # if drop_survey == i:
-                    #     print("Dropped First")
-                    # else:
-                    #     print("Dropped Second")
-                    del tmp_surveys[drop_survey]
+                        # if drop_survey == i:
+                            # print("Dropped First")
+                        # else:
+                            # print("Dropped Second")
+                        del tmp_surveys[drop_survey]
             itter_data[1] = itter_data[1] + tmp_surveys[i][1]
             itter_data[2] = itter_data[2] + tmp_surveys[i][2]
             itter_data[3] = itter_data[3] + tmp_surveys[i][3]

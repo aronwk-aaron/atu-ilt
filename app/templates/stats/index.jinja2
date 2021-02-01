@@ -50,6 +50,8 @@
       2 (as it takes two adults to create a nest and interior least terns tend to pair up for the season). If a survey was completed for a site in which no nests were counted, then the average number
       of adults counted during that survey is added to the adult total in that time frame, as well. In instances when two surveys are completed for a single site in any two-week time frame, the survey with the
       higher number of nests is prioritized. Also enclosed in the table are the summed numbers of fledglings and chicks pulled from the adjacent surveys that were used to determine the peak number of nests.
+      <br/><br/>
+      Additionally, there are tabs that provide the data with out deduplicating sites that are surveyed twice in a two-week timeframe
     </div>
     {#############################################################}
     <hr/>
@@ -58,17 +60,33 @@
         <a class="nav-link active" id="adults-tab" data-toggle="tab" href="#adults" role="tab" aria-controls="adults" aria-selected="true">By Adults</a>
       </li>
       <li class="nav-item" role="presentation">
+        <a class="nav-link" id="adults-duped-tab" data-toggle="tab" href="#adults-duped" role="tab" aria-controls="adults-duped" aria-selected="false">By Adults w/o Dedupe</a>
+      </li>
+      <li class="nav-item" role="presentation">
         <a class="nav-link" id="nests-tab" data-toggle="tab" href="#nests" role="tab" aria-controls="nests" aria-selected="false">By Nests</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="nests-duped-tab" data-toggle="tab" href="#nests-duped" role="tab" aria-controls="nests-duped" aria-selected="false">By Nests w/o Dedupe</a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent2">
-      <div class="tab-pane fade show active" id="adults" role="tabpanel" aria-labelledby="adults-tab">
+      <div class="tab-pane show active" id="adults" role="tabpanel" aria-labelledby="adults-tab">
         {% with survey_data = survey_data[0]%}
           {% include "stats/surveys.jinja2" %}
         {% endwith %}
       </div>
-      <div class="tab-pane fade" id="nests" role="tabpanel" aria-labelledby="nests-tab">
+      <div class="tab-pane" id="adults-duped" role="tabpanel" aria-labelledby="adults-duped-tab">
+        {% with survey_data = survey_data[2]%}
+          {% include "stats/surveys.jinja2" %}
+        {% endwith %}
+      </div>
+      <div class="tab-pane" id="nests" role="tabpanel" aria-labelledby="nests-tab">
         {% with survey_data = survey_data[1]%}
+          {% include "stats/surveys.jinja2" %}
+        {% endwith %}
+      </div>
+      <div class="tab-pane" id="nests-duped" role="tabpanel" aria-labelledby="nests-duped-tab">
+        {% with survey_data = survey_data[3]%}
           {% include "stats/surveys.jinja2" %}
         {% endwith %}
       </div>
