@@ -32,8 +32,8 @@ def index():
 
     start_2021 = datetime.date(2021, 1, 1)
     end_2021 = datetime.date(2021, 12, 31)
-    print(cameras)
-    print(surveys)
+    # print(cameras)
+    # print(surveys)
     for c in range(len(cameras)):
         cameras[c]["used"] = []
         for s in range(len(surveys)):
@@ -48,7 +48,7 @@ def index():
                    cameras[c]["id"] == surveys[s]["cameras"][used_camera]["camera_id"]:
                     cameras[c]["used"].append("2021")
 
-    print(cameras)
+    # print(cameras)
     return render_template('cameras/index.jinja2', cameras=cameras)
 
 

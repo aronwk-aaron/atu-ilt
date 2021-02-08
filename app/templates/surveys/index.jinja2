@@ -29,6 +29,8 @@
         <th scope="col">Site</th>
         <th scope="col">Avg Adult Count</th>
         <th scope="col">Nests w/ Eggs</th>
+        <th scope="col">Chicks</th>
+        <th scope="col">Fledgelings</th>
         <th scope="col">Surveyed</th>
         <th scope="col">Cameras</th>
         <th scope="col">Surveyed Disturbers</th>
@@ -80,6 +82,12 @@
             </td>
             <td>
               {{ survey.egg1 + survey.egg2 + survey.egg3 }}
+            </td>
+            <td>
+              {{ survey.chick02 + survey.chick39 + survey.chick1017 }}
+            </td>
+            <td>
+              {{ survey.fledgling}}
             </td>
             <td>
               {{ survey.surveyed }}
