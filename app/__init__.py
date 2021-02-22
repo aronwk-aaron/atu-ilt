@@ -34,6 +34,14 @@ def create_app():
     app.config['DEBUG'] = False
     app.config['SECRET_KEY'] = os.getenv('APP_SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('APP_DATABASE_URI')
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        "pool_pre_ping": True,
+        "pool_size": 10,
+        "max_overflow": 2,
+        "pool_recycle": 300,
+        "pool_pre_ping": True,
+        "pool_use_lifo": True
+    }
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_SSL'] = False
