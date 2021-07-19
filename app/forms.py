@@ -103,8 +103,9 @@ class site_form(FlaskForm):
     )
     elevation = DecimalField(
         label='Elevation',
+        default=0,
         validators=[
-            Optional(),
+            InputRequired()
         ]
     )
     snag_perch = IntegerField(
@@ -121,6 +122,7 @@ class site_form(FlaskForm):
         ('sand', 'Sand'),
         ('sm_rocks', 'Small Rocks'),
     ]
+
     primary_substrate = SelectField(
         label='Primary Substrate',
         choices=substrate_choices,
@@ -172,6 +174,18 @@ class site_form(FlaskForm):
     )
     length = DecimalField(
         label='Length',
+        validators=[
+            Optional(),
+        ]
+    )
+    perimeter_length = DecimalField(
+        label='Perimeter Length',
+        validators=[
+            Optional(),
+        ]
+    )
+    mainland_distance = DecimalField(
+        label='Distnace to Mainland',
         validators=[
             Optional(),
         ]

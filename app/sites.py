@@ -33,6 +33,8 @@ def new():
             perimeter=form.perimeter.data,
 
             est_area=form.est_area.data,
+            perimeter_length=form.perimeter_length.data,
+            mainland_distance=form.mainland_distance.data,
             length=form.length.data,
             comment=form.comment.data
         )
@@ -62,6 +64,8 @@ def edit(id):
         data.sm_rocks = form.sm_rocks.data
 
         data.est_area = form.est_area.data
+        data.perimeter_length = form.perimeter_length.data
+        data.mainland_distance = form.mainland_distance.data
         data.length = form.length.data
         data.perimeter = form.perimeter.data
         data.comment = form.comment.data
@@ -82,6 +86,8 @@ def edit(id):
     form.sm_rocks.data = data.sm_rocks
 
     form.perimeter.data = data.perimeter
+    form.perimeter_length.data = data.perimeter_length
+    form.mainland_distance.data = data.mainland_distance
     form.est_area.data = data.est_area
     form.length.data = data.length
     form.comment.data = data.comment

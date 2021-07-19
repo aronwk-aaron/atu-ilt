@@ -101,6 +101,30 @@
       </div>
       <div class="row mt-3">
         <div class="col text-right">
+          Perimeter Length:
+        </div>
+        <div class="col">
+          {% if site[0].perimeter_length %}
+            {{ site[0].perimeter_length }} meters
+          {% else %}
+            No Data
+          {% endif %}
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col text-right">
+          Distance to Mainland:
+        </div>
+        <div class="col">
+          {% if site[0].mainland_distance %}
+            {{ site[0].mainland_distance }} meters
+          {% else %}
+            No Data
+          {% endif %}
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col text-right">
         Comment:
         </div>
         <div class="col">

@@ -198,6 +198,8 @@ class site(db.Model):
     est_area = db.Column(db.Float)
     length = db.Column(db.Float)
     perimeter = db.Column(db.Boolean)
+    perimeter_length = db.Column(db.Float)
+    mainland_distance = db.Column(db.Float)
     comment = db.Column(db.String(1024))
 
     surveys = db.relationship('survey', order_by='survey.date')
