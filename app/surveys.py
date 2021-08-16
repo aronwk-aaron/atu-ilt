@@ -263,8 +263,8 @@ def new_camera(survey_id):
             card_out_id=form.card_out.data,
             cleared=form.cleared.data,
             ch_bat=form.changed_battery.data,
-            started_recording=form.started_recording,
-            stopped_recording=form.stopped_recording,
+            started_recording=form.started_recording.data,
+            stopped_recording=form.stopped_recording.data,
             functional=form.functional.data,
             comment=form.comment.data
         )
