@@ -433,8 +433,9 @@ def gen_camera_data(survey_cameras):
 
     for survey_camera in survey_cameras:
         if survey_camera['started_recording']:
-            data['time_recorded'] += survey_camera['stopped_recording'] - survey_camera['started_recording']
-        else:
+            data['time_recorded'] += datetime.datetime.strptime(survey_camera['stopped_recording'], "%Y-%m-%dT%H:%M:%S") - \
+                datetime.datetime.strptime(survey_camera['started_recording'], "%Y-%m-%dT%H:%M:%S")
+        elif "setup" not in survey_camera["comment"].lower():
             data['no_time'] += 1
 
         if not survey_camera['functional']:
