@@ -239,7 +239,7 @@ class predator_form(FlaskForm):
         ]
     )
     risk = SelectField(
-        label='Classification',
+        label='Risk',
         choices=[
             ('none', 'None'),
             ('high', 'High'),
