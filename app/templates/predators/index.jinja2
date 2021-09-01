@@ -27,7 +27,8 @@
         <th scope="col"></th>
         <th scope="col">Species</th>
         <th scope="col">Type</th>
-        {# <th scope="col">Volatility</th> #}
+        <th scope="col">Classification</th>
+        <th scope="col">Risk</th>
       </tr>
       </thead>
       <tbody>
@@ -49,11 +50,12 @@
             <td>
               {{ helper.sentence_case(predator.predator_type) }}
             </td>
-            {# <td>
-              {% if predator.volatility %}
-                {{ predator.volatility }}
-              {% endif %}
-            </td> #}
+            <td>
+              {{ predator.classification }}
+            </td>
+            <td>
+              {{ predator.risk }}
+            </td>
           </tr>
         {% endfor %}
       </tbody>
