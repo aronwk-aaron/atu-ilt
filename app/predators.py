@@ -39,7 +39,6 @@ def edit(id):
     if form.validate_on_submit():
         data.species = form.species.data,
         data.predator_type = form.predator_type.data
-        data.volatility = form.volatility.data
         data.classification = form.classification.data
         data.risk = form.risk.data
         data.save()
