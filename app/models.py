@@ -216,7 +216,8 @@ class predator(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     species = db.Column(db.String(255), nullable=False)
     predator_type = db.Column(db.String(255), nullable=False)
-    volatility = db.Column(db.Integer)
+    classification = db.Column(db.String(255), nullable=True)
+    risk = db.Column(db.String(255), nullable=True)
     survey_predator = db.relationship(
         'survey_predator',
         back_populates="predator"

@@ -228,11 +228,25 @@ class predator_form(FlaskForm):
             DataRequired()
         ]
     )
-    volatility = IntegerField(
-        label='Volatility',
+    classification = SelectField(
+        label='Classification',
+        choices=[
+            ('predator', 'Predator'),
+            ('disturber', 'Disturber'),
+        ],
         validators=[
-            Optional(),
-            NumberRange(min=0, max=10),
+            DataRequired()
+        ]
+    )
+    risk = SelectField(
+        label='Classification',
+        choices=[
+            ('none', 'None'),
+            ('high', 'High'),
+            ("low", "Low")
+        ],
+        validators=[
+            DataRequired()
         ]
     )
     submit = SubmitField()
