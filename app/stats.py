@@ -44,8 +44,8 @@ def sites():
     )
 
 
-@stats_blueprint.route('/surveys')
-def surveys():
+@stats_blueprint.route('/two_weeks_2020')
+def two_weeks_2020():
 
     surveys = json.loads(
         survey_schema.jsonify(
@@ -60,7 +60,7 @@ def surveys():
         gen_nest_survey_data(surveys, False)
     ]
     return render_template(
-        'stats/surveys.jinja2',
+        'stats/two_weeks_2020.jinja2',
         survey_data=survey_data
     )
 

@@ -45,22 +45,22 @@
 <div class="tab-content" id="myTabContent2">
   <div class="tab-pane show active" id="adults" role="tabpanel" aria-labelledby="adults-tab">
     {% with survey_data = survey_data[0]%}
-      {% include "stats/surveys_table.jinja2" %}
+      {% include "stats/two_weeks_table.jinja2" %}
     {% endwith %}
   </div>
   <div class="tab-pane" id="adults-duped" role="tabpanel" aria-labelledby="adults-duped-tab">
     {% with survey_data = survey_data[2]%}
-      {% include "stats/surveys_table.jinja2" %}
+      {% include "stats/two_weeks_table.jinja2" %}
     {% endwith %}
   </div>
   <div class="tab-pane" id="nests" role="tabpanel" aria-labelledby="nests-tab">
     {% with survey_data = survey_data[1]%}
-      {% include "stats/surveys_table.jinja2" %}
+      {% include "stats/two_weeks_table.jinja2" %}
     {% endwith %}
   </div>
   <div class="tab-pane" id="nests-duped" role="tabpanel" aria-labelledby="nests-duped-tab">
     {% with survey_data = survey_data[3]%}
-      {% include "stats/surveys_table.jinja2" %}
+      {% include "stats/two_weeks_table.jinja2" %}
     {% endwith %}
   </div>
 </div>
