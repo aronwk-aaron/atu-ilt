@@ -1,0 +1,52 @@
+  <div class='table-responsive'>
+    <table class="table table-white table-striped table-bordered table-hover"
+          id="two_weeks"
+          data-order='[[ 1, "asc" ]]'
+          data-page-length='25'>
+      <thead>
+
+      </thead>
+      <tbody>
+        {% for survey in survey_data %}
+            {% if loop.index == 1 %}
+                <thead>
+                    <th scope="col">
+                        {{ survey[0] }}
+                    </th>
+                    <th scope="col">
+                        {{ survey[1] }}
+                    </th>
+                    <th scope="col">
+                        {{ survey[2] }}
+                    </th>
+                    <th scope="col">
+                        {{ survey[3] }}
+                    </th>
+                    <th scope="col">
+                        {{ survey[4] }}
+                    </th>
+                </thead>
+            {% else %}
+                <tr>
+                    <td>
+                        {{ survey[0] }}
+                    </td>
+                    <td>
+                        {{ survey[1]|round|int }}
+                    </td>
+                    <td>
+                        {{ survey[2] }}
+                    </td>
+                    <td>
+                        {{ survey[3] }}
+                    </td>
+                    <td>
+                        {{ survey[4] }}
+                    </td>
+                </tr>
+            {% endif %}
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>

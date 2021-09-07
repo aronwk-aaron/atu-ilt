@@ -1,52 +1,67 @@
-  <div class='table-responsive'>
-    <table class="table table-white table-striped table-bordered table-hover"
-          id="two_weeks"
-          data-order='[[ 1, "asc" ]]'
-          data-page-length='25'>
-      <thead>
+{% extends 'base.jinja2' %}
 
-      </thead>
-      <tbody>
-        {% for survey in survey_data %}
-            {% if loop.index == 1 %}
-                <thead>
-                    <th scope="col">
-                        {{ survey[0] }}
-                    </th>
-                    <th scope="col">
-                        {{ survey[1] }}
-                    </th>
-                    <th scope="col">
-                        {{ survey[2] }}
-                    </th>
-                    <th scope="col">
-                        {{ survey[3] }}
-                    </th>
-                    <th scope="col">
-                        {{ survey[4] }}
-                    </th>
-                </thead>
-            {% else %}
-                <tr>
-                    <td>
-                        {{ survey[0] }}
-                    </td>
-                    <td>
-                        {{ survey[1]|round|int }}
-                    </td>
-                    <td>
-                        {{ survey[2] }}
-                    </td>
-                    <td>
-                        {{ survey[3] }}
-                    </td>
-                    <td>
-                        {{ survey[4] }}
-                    </td>
-                </tr>
-            {% endif %}
+{% block title %}Survey Statistics{% endblock %}
 
-        {% endfor %}
-      </tbody>
-    </table>
+{% block content_before %}
+  Survey Statistics
+{% endblock %}
+
+{% block content %}
+<h3 class='mt-3'>Two Week Counts</h3>
+<p>River Surveys started on 2020-06-15</p>
+{#############################################################}
+<div>
+  Our "Two-Week Counts" tables are formulated based upon peak colony survey information on a two-week basis. Every new row is that two-week's sum of peak numbers from surveys, shifted daily.
+  These two-week peak counts start from our first river survey, June 15th, and continue until the end of season. Each sum is comprised of all unique site information that occurred within those two weeks,
+  with the beginning of the two weeks starting on the listed date of that row. The peak of season, then, can be determined based upon the highest numbers derived from the table.
+  <br/><br/>
+  "By Adults" is a two-week counts table based upon the peak number of adults from each survey. In instances when two surveys are completed for a single site in any two-week time frame,
+  the survey with the higher number of adults is prioritized. Also enclosed in the table are the summed numbers of fledglings, chicks, and total numbers of eggs from the adjacent surveys
+  used to determine the peak number of adults.
+  <br/><br/>
+  "By Nests" is a two-week counts table based upon the peak number of nests from each survey. The number of adults are theoretical and derived from multiplying the total nest number of that row by
+  2 (as it takes two adults to create a nest and interior least terns tend to pair up for the season). If a survey was completed for a site in which no nests were counted, then the average number
+  of adults counted during that survey is added to the adult total in that time frame, as well. In instances when two surveys are completed for a single site in any two-week time frame, the survey with the
+  higher number of nests is prioritized. Also enclosed in the table are the summed numbers of fledglings and chicks pulled from the adjacent surveys that were used to determine the peak number of nests.
+  <br/><br/>
+  Additionally, there are tabs that provide the data with out deduplicating sites that are surveyed twice in a two-week timeframe
+</div>
+{#############################################################}
+<hr/>
+<ul class="nav nav-tabs" id="myTab2" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="adults-tab" data-toggle="tab" href="#adults" role="tab" aria-controls="adults" aria-selected="true">By Adults</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="adults-duped-tab" data-toggle="tab" href="#adults-duped" role="tab" aria-controls="adults-duped" aria-selected="false">By Adults w/o Dedupe</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="nests-tab" data-toggle="tab" href="#nests" role="tab" aria-controls="nests" aria-selected="false">By Nests</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="nests-duped-tab" data-toggle="tab" href="#nests-duped" role="tab" aria-controls="nests-duped" aria-selected="false">By Nests w/o Dedupe</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent2">
+  <div class="tab-pane show active" id="adults" role="tabpanel" aria-labelledby="adults-tab">
+    {% with survey_data = survey_data[0]%}
+      {% include "stats/surveys_table.jinja2" %}
+    {% endwith %}
   </div>
+  <div class="tab-pane" id="adults-duped" role="tabpanel" aria-labelledby="adults-duped-tab">
+    {% with survey_data = survey_data[2]%}
+      {% include "stats/surveys_table.jinja2" %}
+    {% endwith %}
+  </div>
+  <div class="tab-pane" id="nests" role="tabpanel" aria-labelledby="nests-tab">
+    {% with survey_data = survey_data[1]%}
+      {% include "stats/surveys_table.jinja2" %}
+    {% endwith %}
+  </div>
+  <div class="tab-pane" id="nests-duped" role="tabpanel" aria-labelledby="nests-duped-tab">
+    {% with survey_data = survey_data[3]%}
+      {% include "stats/surveys_table.jinja2" %}
+    {% endwith %}
+  </div>
+</div>
+{% endblock %}

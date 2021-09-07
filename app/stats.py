@@ -29,39 +29,62 @@ recorded_predator_schema = recordedPredatorSchema()
 survey_camera_schema = surveyCameraSchema()
 
 
-@stats_blueprint.route('/')
-def index():
-    surveys = json.loads(
-        survey_schema.jsonify(
-            survey.query.order_by(survey.date).all(), many=True
-        ).data
-    )
+@stats_blueprint.route('/sites')
+def sites():
     sites = json.loads(
         site_schema.jsonify(
             site.query.order_by(site.id).all(), many=True
         ).data
     )
-    survey_cameras = json.loads(
-        survey_camera_schema.jsonify(
-            survey_camera_card.query.all(), many=True
+    site_data = gen_site_data(sites)
+
+    return render_template(
+        'stats/sites.jinja2',
+        data=site_data
+    )
+
+
+@stats_blueprint.route('/surveys')
+def surveys():
+
+    surveys = json.loads(
+        survey_schema.jsonify(
+            survey.query.order_by(survey.date).all(), many=True
         ).data
     )
 
-    site_data = gen_site_data(sites)
     survey_data = [
         gen_adult_survey_data(surveys, True),
         gen_nest_survey_data(surveys, True),
         gen_adult_survey_data(surveys, False),
         gen_nest_survey_data(surveys, False)
     ]
+    return render_template(
+        'stats/surveys.jinja2',
+        survey_data=survey_data
+    )
+
+
+@stats_blueprint.route('/cameras')
+def cameras():
+    survey_cameras = json.loads(
+        survey_camera_schema.jsonify(
+            survey_camera_card.query.all(), many=True
+        ).data
+    )
     survey_camera_data = gen_camera_data(survey_cameras)
-    predator_data = gen_predator_data()
 
     return render_template(
-        'stats/index.jinja2',
-        data=site_data,
-        survey_data=survey_data,
-        survey_camera_data=survey_camera_data,
+        'stats/cameras.jinja2',
+        survey_camera_data=survey_camera_data
+    )
+
+
+@stats_blueprint.route('/disturbers')
+def disturbers():
+    predator_data = gen_predator_data()
+    return render_template(
+        'stats/predators.jinja2',
         predator_data=predator_data
     )
 
