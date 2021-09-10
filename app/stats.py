@@ -29,19 +29,36 @@ recorded_predator_schema = recordedPredatorSchema()
 survey_camera_schema = surveyCameraSchema()
 
 
-@stats_blueprint.route('/sites')
-def sites():
+@stats_blueprint.route('/sites_2020')
+def sites_2020():
     sites = json.loads(
         site_schema.jsonify(
-            site.query.order_by(site.id).all(), many=True
+            site.query.order_by(site.id).filter(site.name.like("%Y20")).all(), many=True
         ).data
     )
     site_data = gen_site_data(sites)
 
     return render_template(
         'stats/sites.jinja2',
-        data=site_data
+        data=site_data,
+        year=2020
     )
+
+@stats_blueprint.route('/sites_2021')
+def sites_2021():
+    sites = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(site.name.like("%Y21")).all(), many=True
+        ).data
+    )
+    site_data = gen_site_data(sites)
+
+    return render_template(
+        'stats/sites.jinja2',
+        data=site_data,
+        year=2021
+    )
+
 
 
 @stats_blueprint.route('/two_weeks_2020')
@@ -49,7 +66,7 @@ def two_weeks_2020():
 
     surveys = json.loads(
         survey_schema.jsonify(
-            survey.query.order_by(survey.date).all(), many=True
+            survey.query.order_by(survey.date).filter(survey.site.has(site.name.like("%Y20"))).all(), many=True
         ).data
     )
 
@@ -60,23 +77,71 @@ def two_weeks_2020():
         gen_nest_survey_data(surveys, False)
     ]
     return render_template(
-        'stats/two_weeks_2020.jinja2',
+        'stats/two_weeks.jinja2',
+        survey_data=survey_data
+    )
+
+@stats_blueprint.route('/two_weeks_2021')
+def two_weeks_2021():
+
+    surveys = json.loads(
+        survey_schema.jsonify(
+            survey.query.order_by(survey.date).filter(survey.site.has(site.name.like("%Y21"))).all(), many=True
+        ).data
+    )
+
+    survey_data = [
+        gen_adult_survey_data(surveys, True),
+        gen_nest_survey_data(surveys, True),
+        gen_adult_survey_data(surveys, False),
+        gen_nest_survey_data(surveys, False)
+    ]
+    return render_template(
+        'stats/two_weeks.jinja2',
         survey_data=survey_data
     )
 
 
-@stats_blueprint.route('/cameras')
-def cameras():
-    survey_cameras = json.loads(
-        survey_camera_schema.jsonify(
-            survey_camera_card.query.all(), many=True
+@stats_blueprint.route('/cameras_2020')
+def cameras_2020():
+
+    sites = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(site.name.like("%Y20")).all(), many=True
         ).data
     )
+    survey_cameras = []
+    for s in sites:
+        for survey in s["surveys"]:
+            survey_cameras.extend(survey["cameras"])
+
     survey_camera_data = gen_camera_data(survey_cameras)
 
     return render_template(
         'stats/cameras.jinja2',
-        survey_camera_data=survey_camera_data
+        survey_camera_data=survey_camera_data,
+        year=2020
+    )
+
+@stats_blueprint.route('/cameras_2021')
+def cameras_2021():
+
+    sites = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(site.name.like("%Y21")).all(), many=True
+        ).data
+    )
+    survey_cameras = []
+    for s in sites:
+        for survey in s["surveys"]:
+            survey_cameras.extend(survey["cameras"])
+
+    survey_camera_data = gen_camera_data(survey_cameras)
+
+    return render_template(
+        'stats/cameras.jinja2',
+        survey_camera_data=survey_camera_data,
+        year=2021
     )
 
 
@@ -292,9 +357,9 @@ def ef_str_to_num(x):
 def gen_adult_survey_data(surveys, de_dupe):
     data = [['Day', ' Adults', 'Fledgelings', 'Chicks', 'Eggs']]
 
-    start_season_date = datetime.date(2020, 6, 15)
-    end_season_date = datetime.date(2020, 8, 31)
-    current_season_date = datetime.date(2020, 6, 15)
+    start_season_date = datetime.date.fromisoformat(surveys[0]["date"])
+    end_season_date = datetime.date.fromisoformat(surveys[-1]["date"])
+    current_season_date = datetime.date.fromisoformat(surveys[0]["date"])
     two_weeks = datetime.timedelta(days=14)
     one_day = datetime.timedelta(days=1)
     while current_season_date < end_season_date:
@@ -374,9 +439,9 @@ def gen_adult_survey_data(surveys, de_dupe):
 def gen_nest_survey_data(surveys, de_dupe):
     data = [['Day', ' Adults', 'Fledgelings', 'Chicks', 'Nests']]
 
-    start_season_date = datetime.date(2020, 6, 15)
-    end_season_date = datetime.date(2020, 8, 31)
-    current_season_date = datetime.date(2020, 6, 15)
+    start_season_date = datetime.date.fromisoformat(surveys[0]["date"])
+    end_season_date = datetime.date.fromisoformat(surveys[-1]["date"])
+    current_season_date = datetime.date.fromisoformat(surveys[0]["date"])
     two_weeks = datetime.timedelta(days=14)
     one_day = datetime.timedelta(days=1)
     while current_season_date < end_season_date:

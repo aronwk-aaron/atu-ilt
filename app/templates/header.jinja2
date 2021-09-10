@@ -55,9 +55,12 @@
             Statistics
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href='{{ url_for('stats.sites') }}'>Sites</a>
+            <a class="dropdown-item" href='{{ url_for('stats.sites_2020') }}'>Sites: 2020</a>
+            <a class="dropdown-item" href='{{ url_for('stats.sites_2021') }}'>Sites: 2021</a>
             <a class="dropdown-item" href='{{ url_for('stats.two_weeks_2020') }}'>Two Week Counts: 2020</a>
-            <a class="dropdown-item" href='{{ url_for('stats.cameras') }}'>Cameras</a>
+            <a class="dropdown-item" href='{{ url_for('stats.two_weeks_2021') }}'>Two Week Counts: 2021</a>
+            <a class="dropdown-item" href='{{ url_for('stats.cameras_2020') }}'>Cameras:2020</a>
+            <a class="dropdown-item" href='{{ url_for('stats.cameras_2021') }}'>Cameras:2021</a>
             <a class="dropdown-item" href='{{ url_for('stats.disturbers') }}'>Disturbers</a>
           </div>
         </li>
