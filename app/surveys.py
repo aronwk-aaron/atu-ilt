@@ -24,6 +24,8 @@ from flask_user import roles_accepted, login_required
 
 from sqlalchemy import cast, func, DECIMAL
 
+import datetime
+
 surveys_blueprint = Blueprint('surveys', __name__)
 
 
@@ -422,6 +424,12 @@ def new_recorded_predator(survey_id):
     ]
 
     if form.validate_on_submit():
+        if (datetime.datetime.fromisoformat(str(form.end.data)) -
+                datetime.datetime.fromisoformat(str(form.start.data)) < datetime.timedelta(0)):
+            return render_template(
+                'surveys/recorded_predator/edit.jinja2',
+                form=form,
+                time_error=f"Time cannot be {(datetime.datetime.fromisoformat(str(form.end.data)) - datetime.datetime.fromisoformat(str(form.start.data)))}")
         new_survey_predator_camera = survey_predator_camera(
             survey_id=form.survey_id.data,
             predator_id=form.predator_id.data,
@@ -436,7 +444,7 @@ def new_recorded_predator(survey_id):
         )
         new_survey_predator_camera.save()
         return redirect(url_for('surveys.view', id=survey_id))
-    return render_template('surveys/recorded_predator/new.jinja2', form=form)
+    return render_template('surveys/recorded_predator/new.jinja2', form=form, time_error="")
 
 
 @surveys_blueprint.route(
@@ -462,6 +470,12 @@ def edit_recorded_predator(survey_id, predator_id, start, end):
         .first()
 
     if form.validate_on_submit():
+        if (datetime.datetime.fromisoformat(str(form.end.data)) -
+                datetime.datetime.fromisoformat(str(form.start.data)) < datetime.timedelta(0)):
+            return render_template(
+                'surveys/recorded_predator/edit.jinja2',
+                form=form,
+                time_error=f"Time cannot be {(datetime.datetime.fromisoformat(str(form.end.data)) - datetime.datetime.fromisoformat(str(form.start.data)))}")
         data.survey_id = form.survey_id.data
         data.predator_id = form.predator_id.data
         data.start = form.start.data
