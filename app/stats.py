@@ -580,16 +580,20 @@ def gen_site_animal_data(sites):
     # 5: Totlap --> total elapsed time of all species recorded on sandbar, ///// Sum of 6 and 7
     # 6: Plap --> total elapsed time of just predators on sandbar
     # 7: Dlap --> Total elapsed time of just disturbers on sandbar
-    # 8: P_MAXocc --> The predator with the most reoccurences across time at sandbar
-    # 9: P_MAXlap --> The predator with the longest elapsed time at sandbar
-    # 10: Cam_survey --> Count of how many surveys we have camera data for (count possible 0-4)
-    # 11: SD_cards_out --> number of SD cards take out (count possible 0-8)
+    # 8: M_Pocc --> The predator with the most reoccurences across time at sandbar
+    # 9: M_Plap --> The predator with the longest elapsed time at sandbar
+    # 10: M_Pcnt --> The predator with the highest summed count of individuals across time at the sandbar
+    # 11: M_Docc --> The disturber with the most reoccurences across time at sandbar
+    # 12: M_Dlap --> The disturber with the longest elapsed time at sandbar
+    # 13: M_Dcnt --> The disturber with the highest summed count of individuals across time at the sandbar
+    # 14: Cam_survey --> Count of how many surveys we have camera data for (count possible 0-4)
+    # 15: SD_cards_out --> number of SD cards take out (count possible 0-8)
 
-    data = [["Site", "OPSF", "RPSF", "ODSF", "RDSF", "Totlap", "Plap", "Dlap", "P_MAXocc", "P_MAXlap", "Cam_survey", "SD_cards_out"]]
+    data = [["Site", "OPSF", "RPSF", "ODSF", "RDSF", "Totlap", "Plap", "Dlap", "M_Pocc", "M_Plap", "M_Pcnt", "M_Docc", "M_Dlap", "M_Dcnt", "Cam_survey", "SD_cards_out"]]
 
     for site in sites:
-        #              0       1  2  3  4  5  6  7  8  9  10 11
-        entry = [site["name"], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        #              0       1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
+        entry = [site["name"], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         site_surveyed_predators = []
         site_recorded_predators = []
         site_surveyed_disturbers = []
@@ -598,10 +602,10 @@ def gen_site_animal_data(sites):
         # Get the data we need gathered in one list to more easily interate through it
         for survey in site["surveys"]:
             if len(survey["cameras"]) > 0:
-                entry[10] += 1
+                entry[14] += 1
             for survey_camera in survey["cameras"]:
                 if survey_camera["card_out"]["name"] != "None":
-                    entry[11] += 1
+                    entry[15] += 1
             for recorded_animal in survey["recorded_predators"]:
                 if recorded_animal["predator"]["classification"] == "predator":
                     site_recorded_predators.append(recorded_animal)
@@ -627,17 +631,41 @@ def gen_site_animal_data(sites):
 
         pred_list = list(collections.Counter(c["predator"]["species"] for c in site_recorded_predators).keys())
         entry[8] = (pred_list[0] if len(pred_list) > 0 else None)
-        # entry[9] = sum(map(lambda x: time_difference(x) if (x["predator"]["species"] == entry[8]) else 0, site_recorded_predators))
+
         time_dict = {}
         for pred in pred_list:
             time_dict[pred] = sum(map(lambda x: time_difference(x) if (x["predator"]["species"] == pred) else 0, site_recorded_predators))
         entry[9] = max(time_dict, key= lambda x: time_dict[x]) if (len(time_dict) > 0) else "None"
 
+        count_dict = {}
+        for pred in pred_list:
+            count_dict[pred] = sum(
+                map(lambda x: x["count"] if (x["predator"]["species"] == pred) else 0, site_recorded_predators))
+            count_dict[pred] += sum(
+                map(lambda x: x["count"] if (x["predator"]["species"] == pred) else 0, site_surveyed_predators))
+        entry[10] = max(time_dict, key= lambda x: count_dict[x]) if (len(count_dict) > 0) else "None"
+
+        dist_list = list(collections.Counter(c["predator"]["species"] for c in site_recorded_disturbers).keys())
+        entry[11] = (dist_list[0] if len(dist_list) > 0 else None)
+
+        time_dict = {}
+        for dist in dist_list:
+            time_dict[dist] = sum(map(lambda x: time_difference(x) if (x["predator"]["species"] == dist) else 0, site_recorded_disturbers))
+        entry[12] = max(time_dict, key= lambda x: time_dict[x]) if (len(time_dict) > 0) else "None"
+
+        count_dict = {}
+        for dist in dist_list:
+            count_dict[dist] = sum(
+                map(lambda x: x["count"]if (x["predator"]["species"] == dist) else 0, site_recorded_disturbers))
+            count_dict[dist] += sum(
+                map(lambda x: x["count"]if (x["predator"]["species"] == dist) else 0, site_surveyed_disturbers))
+        entry[13] = max(count_dict, key= lambda x: count_dict[x]) if (len(count_dict) > 0) else "None"
+
         # normalize the number of cameras,
         # since there will be an exit entry that's counted,
         # but shouldn't be counted
-        if entry[10] > 0:
-            entry[10] -= 1
+        if entry[14] > 0:
+            entry[14] -= 1
         data.append(entry)
 
     return data

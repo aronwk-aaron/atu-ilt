@@ -16,10 +16,14 @@
     # 5: Totlap --> total elapsed time of all species recorded on sandbar, ///// Sum of 6 and 7<br>
     # 6: Plap --> total elapsed time of just predators on sandbar<br>
     # 7: Dlap --> Total elapsed time of just disturbers on sandbar<br>
-    # 8: P_MAXocc --> The predator with the most reoccurences across time at sandbar<br>
-    # 9: P_MAXlap --> The predator with the longest elapsed time at sandbar<br>
-    # 10: Cam_survey --> Count of how many surveys we have camera data for (count possible 0-4)<br>
-    # 11: SD_cards_out --> number of SD cards take out (count possible 0-8)<br>
+    # 8: M_Pocc --> The predator with the most reoccurences across time at sandbar<br>
+    # 9: M_Plap --> The predator with the longest elapsed time at sandbar<br>
+    # 10: M_Pcnt --> The predator with the highest summed count of individuals across time at the sandbar<br>
+    # 11: M_Docc --> The disturber with the most reoccurences across time at sandbar<br>
+    # 12: M_Dlap --> The disturber with the longest elapsed time at sandbar<br>
+    # 13: M_Dcnt --> The disturber with the highest summed count of individuals across time at the sandbar<br>
+    # 14: Cam_survey --> Count of how many surveys we have camera data for (count possible 0-4)<br>
+    # 15: SD_cards_out --> number of SD cards take out (count possible 0-8)<br>
   </div>
 
   <div class='table-responsive'>
@@ -34,81 +38,19 @@
         {% for site in data %}
           {% if loop.index == 1 %}
             <thead>
-              <th scope="col">
-                  {{ site[0] }}
-              </th>
-              <th scope="col">
-                  {{ site[1] }}
-              </th>
-              <th scope="col">
-                  {{ site[2] }}
-              </th>
-              <th scope="col">
-                  {{ site[3] }}
-              </th>
-              <th scope="col">
-                  {{ site[4] }}
-              </th>
-              <th scope="col">
-                  {{ site[5] }}
-              </th>
-              <th scope="col">
-                  {{ site[6] }}
-              </th>
-              <th scope="col">
-                  {{ site[7] }}
-              </th>
-              <th scope="col">
-                  {{ site[8] }}
-              </th>
-              <th scope="col">
-                  {{ site[9] }}
-              </th>
-              <th scope="col">
-                  {{ site[10] }}
-              </th>
-              <th scope="col">
-                  {{ site[11] }}
-              </th>
+              {% for item in site %}
+                <th scope="col">
+                  {{ item }}
+                </th>
+              {% endfor %}
             </thead>
           {% else%}
             <tr>
-              <td scope="col">
-                  {{ site[0] }}
-              </td>
-              <td scope="col">
-                  {{ site[1] }}
-              </td>
-              <td scope="col">
-                  {{ site[2] }}
-              </td>
-              <td scope="col">
-                  {{ site[3] }}
-              </td>
-              <td scope="col">
-                  {{ site[4] }}
-              </td>
-              <td scope="col">
-                  {{ site[5] }}
-              </td>
-              <td scope="col">
-                  {{ site[6] }}
-              </td>
-              <td scope="col">
-                  {{ site[7] }}
-              </td>
-              <td scope="col">
-                  {{ site[8] }}
-              </td>
-              <td scope="col">
-                  {{ site[9] }}
-              </td>
-              <td scope="col">
-                  {{ site[10] }}
-              </td>
-              <td scope="col">
-                  {{ site[11] }}
-              </td>
+              {% for item in site %}
+                <td>
+                  {{ item }}
+                </td>
+              {% endfor %}
             </tr>
           {% endif %}
         {% endfor %}
