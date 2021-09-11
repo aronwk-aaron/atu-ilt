@@ -583,7 +583,7 @@ def gen_site_animal_data(sites):
     # 8: P_MAXocc --> The predator with the most reoccurences across time at sandbar
     # 9: P_MAXlap --> The predator with the longest elapsed time at sandbar
     # 10: Cam_survey --> Count of how many surveys we have camera data for (count possible 0-4)
-    # 11: SD_cars_out --> number of SD cards take out (count possible 0-8)
+    # 11: SD_cards_out --> number of SD cards take out (count possible 0-8)
 
     data = [["Site", "OPSF", "RPSF", "ODSF", "RDSF", "Totlap", "Plap", "Dlap", "P_MAXocc", "P_MAXlap", "Cam_survey", "SD_cards_out"]]
 
