@@ -7,6 +7,21 @@
 {% endblock %}
 
 {% block content %}
+  <div>
+    # 0: Site --> Table with site name<br><br>
+    # 1: OPSF --> number of species of observed predators total at sandbar,<br>
+    # 2: RPSF --> number of species of recorded predators total at sandbar,<br>
+    # 3: ODSF --> number of species of observed disturbed total at sandbar,<br>
+    # 4: RDSF --> number of species of recorded disturbers total at sandbar,<br>
+    # 5: Totlap --> total elapsed time of all species recorded on sandbar, ///// Sum of 6 and 7<br>
+    # 6: Plap --> total elapsed time of just predators on sandbar<br>
+    # 7: Dlap --> Total elapsed time of just disturbers on sandbar<br>
+    # 8: P_MAXocc --> The predator with the most reoccurences across time at sandbar<br>
+    # 9: P_MAXlap --> The predator with the longest elapsed time at sandbar<br>
+    # 10: Cam_survey --> Count of how many surveys we have camera data for (count possible 0-4)<br>
+    # 11: SD_cars_out --> number of SD cards take out (count possible 0-8)<br>
+  </div>
+
   <div class='table-responsive'>
     <table class="table table-white table-striped table-bordered table-hover"
           id="two_weeks"
