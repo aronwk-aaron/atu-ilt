@@ -736,15 +736,17 @@ def gen_predator_data():
 
 
 def time_difference(x):
-    # print(x)
     difference = (
         datetime.datetime.fromisoformat(x["end"]) -
         datetime.datetime.fromisoformat(x["start"])
     )
-    # print(difference)
-    # print(type(difference))
+    # if time is within the same minute, make it 30 seconds
+    if difference.total_seconds() == 0:
+        difference = 30
+    else:
+        difference = difference.total_seconds()
 
-    return difference.total_seconds()
+    return difference
 
 
 def sort_sublist(sub_li, index=1):

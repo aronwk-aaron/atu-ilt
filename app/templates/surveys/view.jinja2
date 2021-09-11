@@ -209,6 +209,7 @@
             <th scope="col">Species</th>
             <th scope="col">Start Time</th>
             <th scope="col">End Time</th>
+            <th scope="col">Elapsed Time</th>
             <th scope="col">Count</th>
             <th scope="col">Sightings</th>
             <th scope="col">Comments</th>
@@ -236,6 +237,9 @@
                 </td>
                 <td>
                     {{ recorded_predator.end }}
+                </td>
+                <td>
+                  {{ recorded_predator.start|time_delta(recorded_predator.end) }}
                 </td>
                 <td>
                     {{ recorded_predator.count }}
