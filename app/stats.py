@@ -18,6 +18,7 @@ from app.schemas import (
 )
 import json
 import datetime
+import collections
 
 stats_blueprint = Blueprint('stats', __name__)
 
@@ -44,6 +45,7 @@ def sites_2020():
         year=2020
     )
 
+
 @stats_blueprint.route('/sites_2021')
 def sites_2021():
     sites = json.loads(
@@ -58,7 +60,6 @@ def sites_2021():
         data=site_data,
         year=2021
     )
-
 
 
 @stats_blueprint.route('/two_weeks_2020')
@@ -80,6 +81,7 @@ def two_weeks_2020():
         'stats/two_weeks.jinja2',
         survey_data=survey_data
     )
+
 
 @stats_blueprint.route('/two_weeks_2021')
 def two_weeks_2021():
@@ -123,6 +125,7 @@ def cameras_2020():
         year=2020
     )
 
+
 @stats_blueprint.route('/cameras_2021')
 def cameras_2021():
 
@@ -141,6 +144,41 @@ def cameras_2021():
     return render_template(
         'stats/cameras.jinja2',
         survey_camera_data=survey_camera_data,
+        year=2021
+    )
+
+
+@stats_blueprint.route('/site_animals_2020')
+def site_animals_2020():
+    sites = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(site.name.like("%Y20")).all(), many=True
+        ).data
+    )
+
+    data = gen_site_animal_data(sites)
+
+    return render_template(
+        'stats/site_animals.jinja2',
+        data=data,
+        year=2020
+    )
+
+
+@stats_blueprint.route('/site_animals_2021')
+def site_animals_2021():
+
+    sites = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(site.name.like("%Y21")).all(), many=True
+        ).data
+    )
+
+    data = gen_site_animal_data(sites)
+
+    return render_template(
+        'stats/site_animals.jinja2',
+        data=data,
         year=2021
     )
 
@@ -532,6 +570,79 @@ def gen_camera_data(survey_cameras):
     return data
 
 
+def gen_site_animal_data(sites):
+
+    # 0: Site --> Table with site name
+    # 1: OPSF --> number of species of observed predators total at sandbar,
+    # 2: RPSF --> number of species of recorded predators total at sandbar,
+    # 3: ODSF --> number of species of observed disturbed total at sandbar,
+    # 4: RDSF --> number of species of recorded disturbers total at sandbar,
+    # 5: Totlap --> total elapsed time of all species recorded on sandbar, ///// Sum of 6 and 7
+    # 6: Plap --> total elapsed time of just predators on sandbar
+    # 7: Dlap --> Total elapsed time of just disturbers on sandbar
+    # 8: P_MAXocc --> The predator with the most reoccurences across time at sandbar
+    # 9: P_MAXlap --> The predator with the longest elapsed time at sandbar
+    # 10: Cam_survey --> Count of how many surveys we have camera data for (count possible 0-4)
+    # 11: SD_cars_out --> number of SD cards take out (count possible 0-8)
+
+    data = [["Site", "OPSF", "RPSF", "ODSF", "RDSF", "Totlap", "Plap", "Dlap", "P_MAXocc", "P_MAXlap", "Cam_survey", "SD_cards_out"]]
+
+    for site in sites:
+        #              0       1  2  3  4  5  6  7  8  9  10 11
+        entry = [site["name"], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        site_surveyed_predators = []
+        site_recorded_predators = []
+        site_surveyed_disturbers = []
+        site_recorded_disturbers = []
+
+        # Get the data we need gathered in one list to more easily interate through it
+        for survey in site["surveys"]:
+            if len(survey["cameras"]) > 0:
+                entry[10] += 1
+            for survey_camera in survey["cameras"]:
+                if survey_camera["card_out"]["name"] != "None":
+                    entry[11] += 1
+            for recorded_animal in survey["recorded_predators"]:
+                if recorded_animal["predator"]["classification"] == "predator":
+                    site_recorded_predators.append(recorded_animal)
+                else:
+                    site_recorded_disturbers.append(recorded_animal)
+            for surveyed_animal in survey["surveyed_predators"]:
+                if surveyed_animal["predator"]["classification"] == "predator":
+                    site_surveyed_predators.append(surveyed_animal)
+                else:
+                    site_surveyed_disturbers.append(surveyed_animal)
+
+        # collects will get the count of each unique entry, i just want the number of unique entries
+        entry[1] = len(collections.Counter(c["predator"]["species"] for c in site_surveyed_predators))
+        entry[2] = len(collections.Counter(c["predator"]["species"] for c in site_recorded_predators))
+        entry[3] = len(collections.Counter(c["predator"]["species"] for c in site_surveyed_disturbers))
+        entry[4] = len(collections.Counter(c["predator"]["species"] for c in site_recorded_disturbers))
+
+        # magic lambda functions
+        entry[6] = round(sum(map(lambda x: time_difference(x), site_recorded_predators))/3600, 1)
+        entry[7] = round(sum(map(lambda x: time_difference(x), site_recorded_disturbers))/3600, 1)
+
+        entry[5] = round(entry[6] + entry[7], 1)
+
+        pred_list = list(collections.Counter(c["predator"]["species"] for c in site_recorded_predators).keys())
+        entry[8] = (pred_list[0] if len(pred_list) > 0 else None)
+        # entry[9] = sum(map(lambda x: time_difference(x) if (x["predator"]["species"] == entry[8]) else 0, site_recorded_predators))
+        time_dict = {}
+        for pred in pred_list:
+            time_dict[pred] = sum(map(lambda x: time_difference(x) if (x["predator"]["species"] == pred) else 0, site_recorded_predators))
+        entry[9] = max(time_dict, key= lambda x: time_dict[x]) if (len(time_dict) > 0) else "None"
+
+        # normalize the number of cameras,
+        # since there will be an exit entry that's counted,
+        # but shouldn't be counted
+        if entry[10] > 0:
+            entry[10] -= 1
+        data.append(entry)
+
+    return data
+
+
 def gen_predator_data():
     data = {
         'surveyed_prevalence': [],
@@ -634,7 +745,6 @@ def time_difference(x):
     # print(type(difference))
 
     return difference.total_seconds()
-
 
 
 def sort_sublist(sub_li, index=1):

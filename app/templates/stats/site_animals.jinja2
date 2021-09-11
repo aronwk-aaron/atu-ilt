@@ -1,0 +1,103 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Site Statistics{% endblock %}
+
+{% block content_before %}
+  Site <-> Animal Statistics: {{ year }}
+{% endblock %}
+
+{% block content %}
+  <div class='table-responsive'>
+    <table class="table table-white table-striped table-bordered table-hover"
+          id="two_weeks"
+          data-order='[[ 1, "asc" ]]'
+          data-page-length='25'>
+      <thead>
+
+      </thead>
+      <tbody>
+        {% for site in data %}
+          {% if loop.index == 1 %}
+            <thead>
+              <th scope="col">
+                  {{ site[0] }}
+              </th>
+              <th scope="col">
+                  {{ site[1] }}
+              </th>
+              <th scope="col">
+                  {{ site[2] }}
+              </th>
+              <th scope="col">
+                  {{ site[3] }}
+              </th>
+              <th scope="col">
+                  {{ site[4] }}
+              </th>
+              <th scope="col">
+                  {{ site[5] }}
+              </th>
+              <th scope="col">
+                  {{ site[6] }}
+              </th>
+              <th scope="col">
+                  {{ site[7] }}
+              </th>
+              <th scope="col">
+                  {{ site[8] }}
+              </th>
+              <th scope="col">
+                  {{ site[9] }}
+              </th>
+              <th scope="col">
+                  {{ site[10] }}
+              </th>
+              <th scope="col">
+                  {{ site[11] }}
+              </th>
+            </thead>
+          {% else%}
+            <tr>
+              <td scope="col">
+                  {{ site[0] }}
+              </td>
+              <td scope="col">
+                  {{ site[1] }}
+              </td>
+              <td scope="col">
+                  {{ site[2] }}
+              </td>
+              <td scope="col">
+                  {{ site[3] }}
+              </td>
+              <td scope="col">
+                  {{ site[4] }}
+              </td>
+              <td scope="col">
+                  {{ site[5] }}
+              </td>
+              <td scope="col">
+                  {{ site[6] }}
+              </td>
+              <td scope="col">
+                  {{ site[7] }}
+              </td>
+              <td scope="col">
+                  {{ site[8] }}
+              </td>
+              <td scope="col">
+                  {{ site[9] }}
+              </td>
+              <td scope="col">
+                  {{ site[10] }}
+              </td>
+              <td scope="col">
+                  {{ site[11] }}
+              </td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
