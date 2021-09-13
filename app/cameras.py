@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect
-from app.models import camera, survey
+from app.models import camera, survey, survey_camera_card
 from app.forms import camera_form
 from flask_user import roles_accepted, login_required
 from app.schemas import surveySchema, cameraSchema
@@ -32,8 +32,7 @@ def index():
 
     start_2021 = datetime.date(2021, 1, 1)
     end_2021 = datetime.date(2021, 12, 31)
-    # print(cameras)
-    # print(surveys)
+
     for c in range(len(cameras)):
         cameras[c]["used"] = []
         for s in range(len(surveys)):
@@ -48,7 +47,6 @@ def index():
                    cameras[c]["id"] == surveys[s]["cameras"][used_camera]["camera_id"]:
                     cameras[c]["used"].append("2021")
 
-    # print(cameras)
     return render_template('cameras/index.jinja2', cameras=cameras)
 
 
@@ -88,3 +86,14 @@ def edit(id):
     form.functional.data = data.functional
     form.comment.data = data.comment
     return render_template('cameras/edit.jinja2', form=form)
+
+
+@cameras_blueprint.route('/view/<id>')
+def view(id):
+    camera_data = camera.query.filter(camera.id == id).first()
+    surveys = survey.query.join(survey_camera_card).filter(survey_camera_card.camera_id == id).all()
+    return render_template(
+        'cameras/view.jinja2',
+        surveys=surveys,
+        camera=camera_data
+    )

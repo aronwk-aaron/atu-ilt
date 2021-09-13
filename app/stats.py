@@ -630,13 +630,13 @@ def gen_site_animal_data(sites):
         entry[5] = round(entry[6] + entry[7], 2)
 
         new_pred_list = collections.Counter(c["predator"]["species"] for c in site_recorded_predators).most_common()
-        entry[8] = (f"{new_pred_list[0][0]}: { new_pred_list[0][1]}" if len(new_pred_list) > 0 else None)
+        entry[8] = (f"{new_pred_list[0][0]}: {new_pred_list[0][1]}" if len(new_pred_list) > 0 else None)
 
         pred_list = list(collections.Counter(c["predator"]["species"] for c in site_recorded_predators).keys())
         time_dict = {}
         for pred in pred_list:
             time_dict[pred] = sum(map(lambda x: time_difference(x) if (x["predator"]["species"] == pred) else 0, site_recorded_predators))
-        entry[9] = max(time_dict.items(), key= lambda x: x[1]) if (len(time_dict) > 0) else "None"
+        entry[9] = max(time_dict.items(), key=lambda x: x[1]) if (len(time_dict) > 0) else "None"
         if entry[9] != "None":
             entry[9] = f"{entry[9][0]}: {round(entry[9][1]/3600, 2)}"
 
@@ -646,7 +646,7 @@ def gen_site_animal_data(sites):
                 map(lambda x: x["count"] if (x["predator"]["species"] == pred) else 0, site_recorded_predators))
             count_dict[pred] += sum(
                 map(lambda x: x["count"] if (x["predator"]["species"] == pred) else 0, site_surveyed_predators))
-        entry[10] = max(count_dict.items(), key= lambda x: x[1]) if (len(count_dict) > 0) else "None"
+        entry[10] = max(count_dict.items(), key=lambda x: x[1]) if (len(count_dict) > 0) else "None"
         if entry[10] != "None":
             entry[10] = f"{entry[10][0]}: {entry[10][1]}"
 
@@ -657,7 +657,7 @@ def gen_site_animal_data(sites):
         time_dict = {}
         for dist in dist_list:
             time_dict[dist] = sum(map(lambda x: time_difference(x) if (x["predator"]["species"] == dist) else 0, site_recorded_disturbers))
-        entry[12] = max(time_dict.items(), key= lambda x: x[1]) if (len(time_dict) > 0) else "None"
+        entry[12] = max(time_dict.items(), key=lambda x: x[1]) if (len(time_dict) > 0) else "None"
         if entry[12] != "None":
             entry[12] = f"{entry[12][0]}: {round(entry[12][1]/3600, 2)}"
 
@@ -667,7 +667,7 @@ def gen_site_animal_data(sites):
                 map(lambda x: x["count"]if (x["predator"]["species"] == dist) else 0, site_recorded_disturbers))
             count_dict[dist] += sum(
                 map(lambda x: x["count"]if (x["predator"]["species"] == dist) else 0, site_surveyed_disturbers))
-        entry[13] = max(count_dict.items(), key= lambda x: x[1]) if (len(count_dict) > 0) else "None"
+        entry[13] = max(count_dict.items(), key=lambda x: x[1]) if (len(count_dict) > 0) else "None"
         if entry[13] != "None":
             entry[13] = f"{entry[13][0]}: {entry[13][1]}"
 
