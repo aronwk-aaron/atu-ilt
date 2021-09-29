@@ -122,6 +122,6 @@ def register_blueprints(app):
     from .surveys import surveys_blueprint
     app.register_blueprint(surveys_blueprint, url_prefix='/surveys')
     from .stats import stats_blueprint
-    app.register_blueprint(stats_blueprint, url_prefix='/stats')
+    app.register_blueprint(stats_blueprint, url_prefix='/summary')
     from .reports import reports_blueprint
     app.register_blueprint(reports_blueprint, url_prefix='/reports')

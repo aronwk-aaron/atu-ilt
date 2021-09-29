@@ -20,7 +20,7 @@ import json
 import datetime
 import collections
 
-stats_blueprint = Blueprint('stats', __name__)
+stats_blueprint = Blueprint('summary', __name__)
 
 site_schema = siteSchema()
 survey_schema = surveySchema()
