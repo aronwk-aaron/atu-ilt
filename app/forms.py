@@ -233,6 +233,7 @@ class predator_form(FlaskForm):
         choices=[
             ('predator', 'Predator'),
             ('disturber', 'Disturber'),
+            ('other', 'Other'),
         ],
         validators=[
             DataRequired()
