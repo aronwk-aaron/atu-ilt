@@ -430,6 +430,12 @@ def new_recorded_species(survey_id):
                 'surveys/recorded_species/edit.jinja2',
                 form=form,
                 time_error=f"Time cannot be {(datetime.datetime.fromisoformat(str(form.end.data)) - datetime.datetime.fromisoformat(str(form.start.data)))}")
+        elif(datetime.datetime.fromisoformat(str(form.end.data)) -
+                datetime.datetime.fromisoformat(str(form.start.data)) >= datetime.timedelta(hours=48)):
+            return render_template(
+                'surveys/recorded_species/edit.jinja2',
+                form=form,
+                time_error=f"Time cannot be over 48 hours: you entered time that was: {(datetime.datetime.fromisoformat(str(form.end.data)) - datetime.datetime.fromisoformat(str(form.start.data)))}")
         new_survey_species_camera = survey_species_camera(
             survey_id=form.survey_id.data,
             species_id=form.species_id.data,
@@ -476,6 +482,12 @@ def edit_recorded_species(survey_id, species_id, start, end):
                 'surveys/recorded_species/edit.jinja2',
                 form=form,
                 time_error=f"Time cannot be {(datetime.datetime.fromisoformat(str(form.end.data)) - datetime.datetime.fromisoformat(str(form.start.data)))}")
+        elif(datetime.datetime.fromisoformat(str(form.end.data)) -
+                datetime.datetime.fromisoformat(str(form.start.data)) >= datetime.timedelta(hours=48)):
+            return render_template(
+                'surveys/recorded_species/edit.jinja2',
+                form=form,
+                time_error=f"Time cannot be over 48 hours: you entered time that was: {(datetime.datetime.fromisoformat(str(form.end.data)) - datetime.datetime.fromisoformat(str(form.start.data)))}")
         data.survey_id = form.survey_id.data
         data.species_id = form.species_id.data
         data.start = form.start.data
