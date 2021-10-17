@@ -214,7 +214,7 @@ class species_form(FlaskForm):
             DataRequired()
         ]
     )
-    species_type = SelectField(
+    classification = SelectField(
         label='Classification',
         choices=[
             ('mammal', 'Mammal'),
@@ -228,7 +228,7 @@ class species_form(FlaskForm):
             DataRequired()
         ]
     )
-    classification = SelectField(
+    species_type = SelectField(
         label='Type',
         choices=[
             ('species', 'Predator'),
