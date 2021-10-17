@@ -231,7 +231,7 @@ class species_form(FlaskForm):
     species_type = SelectField(
         label='Type',
         choices=[
-            ('species', 'Predator'),
+            ('predator', 'Predator'),
             ('disturber', 'Disturber'),
             ('other', 'Other'),
         ],
@@ -262,7 +262,7 @@ class species_form(FlaskForm):
             ('songbird', 'Songbird'),
             ('trampler', 'Trampler'),
             ('wader', 'Wader'),
-            ('waterfoul', 'Waterfoul'),
+            ('waterfowl', 'Waterfowl'),
         ],
         validators=[
             DataRequired()

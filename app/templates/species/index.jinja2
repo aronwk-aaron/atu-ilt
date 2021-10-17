@@ -49,16 +49,24 @@
               {{ species.species }}
             </td>
             <td>
-              {{ helper.sentence_case(species.classification) }}
+              {% if species.classification %}
+                {{ helper.sentence_case(species.classification) }}
+              {% endif %}
             </td>
             <td>
-              {{ species.species_type }}
+              {% if species.species_type %}
+                {{ helper.sentence_case(species.species_type) }}
+              {% endif %}
             </td>
             <td>
-              {{ species.risk }}
+              {% if species.risk %}
+                {{ helper.sentence_case(species.risk) }}
+              {% endif %}
             </td>
             <td>
-              {{ species.group }}
+              {% if species.group %}
+                {{ helper.sentence_case(species.group) }}
+              {% endif %}
             </td>
           </tr>
         {% endfor %}
