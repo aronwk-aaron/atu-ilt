@@ -1,9 +1,9 @@
 {% extends 'base.jinja2' %}
 
-{% block title %}Disturbers{% endblock %}
+{% block title %}Animals{% endblock %}
 
 {% block content_before %}
-  Disturbers
+  Animals
 {% endblock %}
 
 {% block content %}
@@ -26,9 +26,10 @@
       <tr>
         <th scope="col"></th>
         <th scope="col">Species</th>
-        <th scope="col">Type</th>
         <th scope="col">Classification</th>
+        <th scope="col">Type</th>
         <th scope="col">Risk</th>
+        <th scope="col">Group</th>
       </tr>
       </thead>
       <tbody>
@@ -56,13 +57,16 @@
             <td>
               {{ predator.risk }}
             </td>
+            <td>
+              {{ predator.group }}
+            </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
   {% else %}
-    No Disturbers to show
+    No Animals to show
   {% endif %}
 {% endblock %}
 

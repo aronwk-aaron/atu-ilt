@@ -215,7 +215,7 @@ class predator_form(FlaskForm):
         ]
     )
     predator_type = SelectField(
-        label='Type',
+        label='Classification',
         choices=[
             ('mammal', 'Mammal'),
             ('avian', 'Avian'),
@@ -229,7 +229,7 @@ class predator_form(FlaskForm):
         ]
     )
     classification = SelectField(
-        label='Classification',
+        label='Type',
         choices=[
             ('predator', 'Predator'),
             ('disturber', 'Disturber'),
@@ -245,6 +245,24 @@ class predator_form(FlaskForm):
             ('none', 'None'),
             ('high', 'High'),
             ("low", "Low")
+        ],
+        validators=[
+            DataRequired()
+        ]
+    )
+    group = SelectField(
+        label='Group',
+        choices=[
+            ('herp', 'Herp'),
+            ('human', 'Human'),
+            ('meso', 'Meso'),
+            ('raptor', 'Raptor'),
+            ('shorebird', 'Shorebird'),
+            ('smammal', 'SMammal'),
+            ('songbird', 'Songbird'),
+            ('trampler', 'Trampler'),
+            ('wader', 'Wader'),
+            ('waterfoul', 'Waterfoul'),
         ],
         validators=[
             DataRequired()

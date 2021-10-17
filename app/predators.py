@@ -22,7 +22,8 @@ def new():
             species=form.species.data,
             predator_type=form.predator_type.data,
             classification=form.classification.data,
-            risk=form.risk.data
+            risk=form.risk.data,
+            group=form.group.data
         )
         new_predator.save()
         return redirect('/predators')
@@ -41,10 +42,12 @@ def edit(id):
         data.predator_type = form.predator_type.data
         data.classification = form.classification.data
         data.risk = form.risk.data
+        data.group = form.group.data
         data.save()
         return redirect('/predators')
     form.species.data = data.species
     form.predator_type.data = data.predator_type
     form.risk.data = data.risk
+    form.group.data = data.group
     form.classification.data = data.classification
     return render_template('predators/edit.jinja2', form=form)

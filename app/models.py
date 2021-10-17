@@ -216,8 +216,10 @@ class predator(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     species = db.Column(db.String(255), nullable=False)
     predator_type = db.Column(db.String(255), nullable=False)
-    classification = db.Column(db.String(255), nullable=True)
-    risk = db.Column(db.String(255), nullable=True)
+    classification = db.Column(db.String(255), nullable=True)  # Actually risk
+    risk = db.Column(db.String(255), nullable=True)  # Actully classicication
+    group = db.Column(db.String(255), nullable=True)
+
     survey_predator = db.relationship(
         'survey_predator',
         back_populates="predator"
