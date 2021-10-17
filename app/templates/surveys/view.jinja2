@@ -103,20 +103,20 @@
     <hr/>
     <div class="row justify-content-start">
       <div class="col-6 col-sm-3">
-        <h3>Surveyed Disturbers</h3>
+        <h3>Surveyed Species</h3>
       </div>
       {% if current_user.is_authenticated %}
         <div class="col-6 col-sm-3">
-          <a href="{{ url_for('surveys.new_surveyed_predator', survey_id=survey.id) }}"
+          <a href="{{ url_for('surveys.new_surveyed_species', survey_id=survey.id) }}"
                     class="btn btn-primary btn-block"
                     role="button"
                     aria-disabled="true">
-            New Surveyed Disturber
+            New Surveyed Species
           </a>
         </div>
       {% endif %}
     </div>
-    {% if surveyed_predators %}
+    {% if surveyed_species %}
     <div class='table-responsive'>
       <table class="table table-white table-striped table-bordered table-hover"
               id="sp_table_id"
@@ -132,11 +132,11 @@
           </tr>
           </thead>
           <tbody>
-          {% for surveyed_predator in surveyed_predators %}
+          {% for surveyed_species in surveyed_species %}
               <tr>
                 <td>
                   {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('surveys.edit_surveyed_predator', survey_id=survey.id, predator_id=surveyed_predator.predator.id) }}"
+                    <a href="{{ url_for('surveys.edit_surveyed_species', survey_id=survey.id, species_id=surveyed_species.species.id) }}"
                       class="btn btn-primary"
                       role="button"
                       aria-disabled="true">
@@ -145,33 +145,33 @@
                   {% endif %}
                 </td>
                 <td>
-                    {{ surveyed_predator.predator.species }}
+                    {{ surveyed_species.species.species }}
                 </td>
                 <td class="text-center">
-                  {% if surveyed_predator.tracks %}
+                  {% if surveyed_species.tracks %}
                     <div class='mb-1'>Tracks<br/></div>
                   {% endif %}
-                  {% if surveyed_predator.sighting %}
+                  {% if surveyed_species.sighting %}
                     <div class='mb-1'>Saw<br/></div>
                   {% endif %}
-                  {% if surveyed_predator.scat %}
+                  {% if surveyed_species.scat %}
                     <div class='mb-1'>Scat<br/></div>
                   {% endif %}
-                  {% if surveyed_predator.chick_mort %}
+                  {% if surveyed_species.chick_mort %}
                     <div class='mb-1'>Chick Mortality<br/></div>
                   {% endif %}
-                  {% if surveyed_predator.adult_mort %}
+                  {% if surveyed_species.adult_mort %}
                     <div class='mb-1'>Adult Mortality<br/></div>
                   {% endif %}
-                  {% if surveyed_predator.nest_dest %}
+                  {% if surveyed_species.nest_dest %}
                     <div class='mb-1'>Nest Destruction<br/></div>
                   {% endif %}
                 </td>
                 <td>
-                    {{ surveyed_predator.count }}
+                    {{ surveyed_species.count }}
                 </td>
                 <td>
-                    {{ surveyed_predator.comment }}
+                    {{ surveyed_species.comment }}
                 </td>
               </tr>
           {% endfor %}
@@ -179,25 +179,25 @@
       </table>
     </div>
   {% else %}
-    No Surveyed Disturbers to show
+    No Surveyed Species to show
   {% endif %}
     <hr/>
     <div class="row justify-content-start">
       <div class="col-6 col-sm-3">
-        <h3>Recorded Disturbers</h3>
+        <h3>Recorded Species</h3>
       </div>
       {% if current_user.is_authenticated %}
         <div class="col-6 col-sm-3">
-          <a href="{{ url_for('surveys.new_recorded_predator', survey_id=survey.id) }}"
+          <a href="{{ url_for('surveys.new_recorded_species', survey_id=survey.id) }}"
                     class="btn btn-primary btn-block"
                     role="button"
                     aria-disabled="true">
-            New Recorded Disturber
+            New Recorded Species
           </a>
         </div>
       {% endif %}
     </div>
-    {% if recorded_predators %}
+    {% if recorded_species %}
     <div class='table-responsive'>
       <table class="table table-white table-striped table-bordered table-hover"
               id="rp_table_id"
@@ -217,11 +217,11 @@
           </tr>
           </thead>
           <tbody>
-          {% for recorded_predator in recorded_predators %}
+          {% for recorded_species in recorded_species %}
               <tr>
                 <td>
                   {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('surveys.edit_recorded_predator', predator_id=recorded_predator.predator.id, survey_id=survey.id, start=recorded_predator.start, end=recorded_predator.end) }}"
+                    <a href="{{ url_for('surveys.edit_recorded_species', species_id=recorded_species.species.id, survey_id=survey.id, start=recorded_species.start, end=recorded_species.end) }}"
                         class="btn btn-primary"
                         role="button"
                         aria-disabled="true">
@@ -230,43 +230,43 @@
                   {% endif %}
                 </td>
                 <td>
-                    {{ recorded_predator.predator.species }}
+                    {{ recorded_species.species.species }}
                 </td>
                 <td>
-                    {{ recorded_predator.start }}
+                    {{ recorded_species.start }}
                 </td>
                 <td>
-                    {{ recorded_predator.end }}
+                    {{ recorded_species.end }}
                 </td>
                 <td>
-                  {{ recorded_predator.start|time_delta(recorded_predator.end) }}
+                  {{ recorded_species.start|time_delta(recorded_species.end) }}
                 </td>
                 <td>
-                    {{ recorded_predator.count }}
+                    {{ recorded_species.count }}
                 </td>
                 <td class="text-center">
-                  {% if recorded_predator.scat %}
+                  {% if recorded_species.scat %}
                     <div class='mb-1'>Scat<br/></div>
                   {% endif %}
-                  {% if recorded_predator.chick_mort %}
+                  {% if recorded_species.chick_mort %}
                     <div class='mb-1'>Chick Mortality<br/></div>
                   {% endif %}
-                  {% if recorded_predator.adult_mort %}
+                  {% if recorded_species.adult_mort %}
                     <div class='mb-1'>Adult Mortality<br/></div>
                   {% endif %}
-                  {% if recorded_predator.nest_dest %}
+                  {% if recorded_species.nest_dest %}
                     <div class='mb-1'>Nest Destruction<br/></div>
                   {% endif %}
                 </td>
                 <td>
-                    {{ recorded_predator.comment }}
+                    {{ recorded_species.comment }}
                 </td>
                 <td>
                   {% if current_user.is_authenticated %}
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ recorded_predator.predator.species|replace(' ', '')|replace('/', '') }}{{ recorded_predator.start|replace(' ', '')|replace(':', '')  }}{{ recorded_predator.end|replace(' ', '')|replace(':', '') }}-modal">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ recorded_species.species.species|replace(' ', '')|replace('/', '') }}{{ recorded_species.start|replace(' ', '')|replace(':', '')  }}{{ recorded_species.end|replace(' ', '')|replace(':', '') }}-modal">
                       Delete
                     </button>
-                    <div class="modal fade bd-example-modal-lg" id="delete{{ recorded_predator.predator.species|replace(' ', '')|replace('/', '') }}{{ recorded_predator.start|replace(' ', '')|replace(':', '')  }}{{ recorded_predator.end|replace(' ', '')|replace(':', '') }}-modal" tabindex="-1" role="dialog" aria-labelledby="delete{{ recorded_predator.predator.species|replace(' ', '') }}{{ recorded_predator.start|replace(' ', '')  }}{{ recorded_predator.end|replace(' ', '') }}-modalLabel" aria-hidden="true">
+                    <div class="modal fade bd-example-modal-lg" id="delete{{ recorded_species.species.species|replace(' ', '')|replace('/', '') }}{{ recorded_species.start|replace(' ', '')|replace(':', '')  }}{{ recorded_species.end|replace(' ', '')|replace(':', '') }}-modal" tabindex="-1" role="dialog" aria-labelledby="delete{{ recorded_species.species.species|replace(' ', '') }}{{ recorded_species.start|replace(' ', '')  }}{{ recorded_species.end|replace(' ', '') }}-modalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -289,40 +289,40 @@
                               </tr>
                               <tr>
                                 <td>
-                                  {{ recorded_predator.predator.species }}
+                                  {{ recorded_species.species.species }}
                                 </td>
                                 <td>
-                                    {{ recorded_predator.start }}
+                                    {{ recorded_species.start }}
                                 </td>
                                 <td>
-                                    {{ recorded_predator.end }}
+                                    {{ recorded_species.end }}
                                 </td>
                                 <td>
-                                    {{ recorded_predator.count }}
+                                    {{ recorded_species.count }}
                                 </td>
                                 <td class="text-center">
-                                  {% if recorded_predator.scat %}
+                                  {% if recorded_species.scat %}
                                     <div class='mb-1'>Scat<br/></div>
                                   {% endif %}
-                                  {% if recorded_predator.chick_mort %}
+                                  {% if recorded_species.chick_mort %}
                                     <div class='mb-1'>Chick Mortality<br/></div>
                                   {% endif %}
-                                  {% if recorded_predator.adult_mort %}
+                                  {% if recorded_species.adult_mort %}
                                     <div class='mb-1'>Adult Mortality<br/></div>
                                   {% endif %}
-                                  {% if recorded_predator.nest_dest %}
+                                  {% if recorded_species.nest_dest %}
                                     <div class='mb-1'>Nest Destruction<br/></div>
                                   {% endif %}
                                 </td>
                                 <td>
-                                    {{ recorded_predator.comment }}
+                                    {{ recorded_species.comment }}
                                 </td>
                               </tr>
                             </table>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                            <a href="{{ url_for('surveys.delete_recorded_predator', predator_id=recorded_predator.predator.id, survey_id=survey.id, start=recorded_predator.start, end=recorded_predator.end) }}"
+                            <a href="{{ url_for('surveys.delete_recorded_species', species_id=recorded_species.species.id, survey_id=survey.id, start=recorded_species.start, end=recorded_species.end) }}"
                               class="btn btn-danger"
                               role="button"
                               aria-disabled="true">
@@ -340,7 +340,7 @@
       </table>
     </div>
   {% else %}
-    No Recorded Disturbers to show
+    No Recorded Species to show
   {% endif %}
     <hr/>
     <div class="row">

@@ -1,9 +1,9 @@
 {% extends 'base.jinja2' %}
 
-{% block title %}Disturber Summary{% endblock %}
+{% block title %}Species Summary{% endblock %}
 
 {% block content_before %}
-  Disturber Summary
+  Species Summary
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,7 @@
       Surveyed Prevalence
     </div>
     <div class='col'>
-      {% for item in predator_data['surveyed_prevalence'] %}
+      {% for item in species_data['surveyed_prevalence'] %}
         <div class='row'>
         <div class='col text-right'>
           {{ item[0] }}:
@@ -31,7 +31,7 @@
       Surveyed Frequency
     </div>
     <div class='col'>
-      {% for item in predator_data['surveyed_abundance'] %}
+      {% for item in species_data['surveyed_abundance'] %}
         <div class='row'>
         <div class='col text-right'>
           {{ item[0] }}:
@@ -49,7 +49,7 @@
       Recorded Prevalence
     </div>
     <div class='col'>
-      {% for item in predator_data['recorded_prevalence'] %}
+      {% for item in species_data['recorded_prevalence'] %}
         <div class='row'>
         <div class='col text-right'>
           {{ item[0] }}:
@@ -67,7 +67,7 @@
       Recorded Frequency
     </div>
     <div class='col'>
-      {% for item in predator_data['recorded_abundance'] %}
+      {% for item in species_data['recorded_abundance'] %}
         <div class='row'>
         <div class='col text-right'>
           {{ item[0] }}:
@@ -85,7 +85,7 @@
       Recorded Duration
     </div>
     <div class='col'>
-      {% for item in predator_data['recorded_duration'] %}
+      {% for item in species_data['recorded_duration'] %}
         <div class='row'>
         <div class='col text-right'>
           {{ item[0] }}:

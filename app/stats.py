@@ -4,9 +4,9 @@ from app.models import (
     site,
     survey,
     survey_camera_card,
-    predator,
-    survey_predator,
-    survey_predator_camera
+    species,
+    survey_species,
+    survey_species_camera
 )
 from app.schemas import (
     siteSchema,
@@ -14,7 +14,7 @@ from app.schemas import (
     surveyCameraSchema,
     recordedPredatorSchema,
     surveyedPredatorSchema,
-    predatorSchema,
+    specieschema,
 )
 import json
 import datetime
@@ -24,9 +24,9 @@ stats_blueprint = Blueprint('summary', __name__)
 
 site_schema = siteSchema()
 survey_schema = surveySchema()
-predator_schema = predatorSchema()
-surveyed_predator_schema = surveyedPredatorSchema()
-recorded_predator_schema = recordedPredatorSchema()
+species_schema = specieschema()
+surveyed_species_schema = surveyedPredatorSchema()
+recorded_species_schema = recordedPredatorSchema()
 survey_camera_schema = surveyCameraSchema()
 
 
@@ -148,25 +148,25 @@ def cameras_2021():
     )
 
 
-@stats_blueprint.route('/site_animals_2020')
-def site_animals_2020():
+@stats_blueprint.route('/site_species_2020')
+def site_species_2020():
     sites = json.loads(
         site_schema.jsonify(
             site.query.order_by(site.id).filter(site.name.like("%Y20")).all(), many=True
         ).data
     )
 
-    data = gen_site_animal_data(sites)
+    data = gen_site_species_data(sites)
 
     return render_template(
-        'stats/site_animals.jinja2',
+        'stats/site_species.jinja2',
         data=data,
         year=2020
     )
 
 
-@stats_blueprint.route('/site_animals_2021')
-def site_animals_2021():
+@stats_blueprint.route('/site_species_2021')
+def site_species_2021():
 
     sites = json.loads(
         site_schema.jsonify(
@@ -174,21 +174,21 @@ def site_animals_2021():
         ).data
     )
 
-    data = gen_site_animal_data(sites)
+    data = gen_site_species_data(sites)
 
     return render_template(
-        'stats/site_animals.jinja2',
+        'stats/site_species.jinja2',
         data=data,
         year=2021
     )
 
 
-@stats_blueprint.route('/disturbers')
-def disturbers():
-    predator_data = gen_predator_data()
+@stats_blueprint.route('/species')
+def species_route():
+    species_data = gen_species_data()
     return render_template(
-        'stats/predators.jinja2',
-        predator_data=predator_data
+        'stats/species.jinja2',
+        species_data=species_data
     )
 
 
@@ -570,19 +570,19 @@ def gen_camera_data(survey_cameras):
     return data
 
 
-def gen_site_animal_data(sites):
+def gen_site_species_data(sites):
 
     # 0: Site --> Table with site name
-    # 1: OPSF --> number of species of observed predators total at sandbar,
-    # 2: RPSF --> number of species of recorded predators total at sandbar,
+    # 1: OPSF --> number of species of observed species total at sandbar,
+    # 2: RPSF --> number of species of recorded species total at sandbar,
     # 3: ODSF --> number of species of observed disturbed total at sandbar,
     # 4: RDSF --> number of species of recorded disturbers total at sandbar,
     # 5: Totlap --> total elapsed time of all species recorded on sandbar, ///// Sum of 6 and 7
-    # 6: Plap --> total elapsed time of just predators on sandbar
+    # 6: Plap --> total elapsed time of just species on sandbar
     # 7: Dlap --> Total elapsed time of just disturbers on sandbar
-    # 8: M_Pocc --> The predator with the most reoccurences across time at sandbar
-    # 9: M_Plap --> The predator with the longest elapsed time at sandbar
-    # 10: M_Pcnt --> The predator with the highest summed count of individuals across time at the sandbar
+    # 8: M_Pocc --> The species with the most reoccurences across time at sandbar
+    # 9: M_Plap --> The species with the longest elapsed time at sandbar
+    # 10: M_Pcnt --> The species with the highest summed count of individuals across time at the sandbar
     # 11: M_Docc --> The disturber with the most reoccurences across time at sandbar
     # 12: M_Dlap --> The disturber with the longest elapsed time at sandbar
     # 13: M_Dcnt --> The disturber with the highest summed count of individuals across time at the sandbar
@@ -594,8 +594,8 @@ def gen_site_animal_data(sites):
     for site in sites:
         #              0       1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
         entry = [site["name"], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        site_surveyed_predators = []
-        site_recorded_predators = []
+        site_surveyed_predator = []
+        site_recorded_predator = []
         site_surveyed_disturbers = []
         site_recorded_disturbers = []
 
@@ -606,36 +606,36 @@ def gen_site_animal_data(sites):
             for survey_camera in survey["cameras"]:
                 if survey_camera["card_out"]["name"] != "None":
                     entry[15] += 1
-            for recorded_animal in survey["recorded_predators"]:
-                if recorded_animal["predator"]["classification"] == "predator":
-                    site_recorded_predators.append(recorded_animal)
+            for recorded_species in survey["recorded_species"]:
+                if recorded_species["species"]["species_type"] == "predator":
+                    site_recorded_predator.append(recorded_species)
                 else:
-                    site_recorded_disturbers.append(recorded_animal)
-            for surveyed_animal in survey["surveyed_predators"]:
-                if surveyed_animal["predator"]["classification"] == "predator":
-                    site_surveyed_predators.append(surveyed_animal)
+                    site_recorded_disturbers.append(recorded_species)
+            for surveyed_species in survey["surveyed_species"]:
+                if surveyed_species["species"]["species_type"] == "predator":
+                    site_surveyed_predator.append(surveyed_species)
                 else:
-                    site_surveyed_disturbers.append(surveyed_animal)
+                    site_surveyed_disturbers.append(surveyed_species)
 
         # collects will get the count of each unique entry, i just want the number of unique entries
-        entry[1] = len(collections.Counter(c["predator"]["species"] for c in site_surveyed_predators))
-        entry[2] = len(collections.Counter(c["predator"]["species"] for c in site_recorded_predators))
-        entry[3] = len(collections.Counter(c["predator"]["species"] for c in site_surveyed_disturbers))
-        entry[4] = len(collections.Counter(c["predator"]["species"] for c in site_recorded_disturbers))
+        entry[1] = len(collections.Counter(c["species"]["species"] for c in site_surveyed_predator))
+        entry[2] = len(collections.Counter(c["species"]["species"] for c in site_recorded_predator))
+        entry[3] = len(collections.Counter(c["species"]["species"] for c in site_surveyed_disturbers))
+        entry[4] = len(collections.Counter(c["species"]["species"] for c in site_recorded_disturbers))
 
         # magic lambda functions
-        entry[6] = round(sum(map(lambda x: time_difference(x), site_recorded_predators))/3600, 2)
+        entry[6] = round(sum(map(lambda x: time_difference(x), site_recorded_predator))/3600, 2)
         entry[7] = round(sum(map(lambda x: time_difference(x), site_recorded_disturbers))/3600, 2)
 
         entry[5] = round(entry[6] + entry[7], 2)
 
-        new_pred_list = collections.Counter(c["predator"]["species"] for c in site_recorded_predators).most_common()
+        new_pred_list = collections.Counter(c["species"]["species"] for c in site_recorded_predator).most_common()
         entry[8] = (f"{new_pred_list[0][0]}: {new_pred_list[0][1]}" if len(new_pred_list) > 0 else None)
 
-        pred_list = list(collections.Counter(c["predator"]["species"] for c in site_recorded_predators).keys())
+        pred_list = list(collections.Counter(c["species"]["species"] for c in site_recorded_predator).keys())
         time_dict = {}
         for pred in pred_list:
-            time_dict[pred] = sum(map(lambda x: time_difference(x) if (x["predator"]["species"] == pred) else 0, site_recorded_predators))
+            time_dict[pred] = sum(map(lambda x: time_difference(x) if (x["species"]["species"] == pred) else 0, site_recorded_predator))
         entry[9] = max(time_dict.items(), key=lambda x: x[1]) if (len(time_dict) > 0) else "None"
         if entry[9] != "None":
             entry[9] = f"{entry[9][0]}: {round(entry[9][1]/3600, 2)}"
@@ -643,20 +643,20 @@ def gen_site_animal_data(sites):
         count_dict = {}
         for pred in pred_list:
             count_dict[pred] = sum(
-                map(lambda x: x["count"] if (x["predator"]["species"] == pred) else 0, site_recorded_predators))
+                map(lambda x: x["count"] if (x["species"]["species"] == pred) else 0, site_recorded_predator))
             count_dict[pred] += sum(
-                map(lambda x: x["count"] if (x["predator"]["species"] == pred) else 0, site_surveyed_predators))
+                map(lambda x: x["count"] if (x["species"]["species"] == pred) else 0, site_surveyed_predator))
         entry[10] = max(count_dict.items(), key=lambda x: x[1]) if (len(count_dict) > 0) else "None"
         if entry[10] != "None":
             entry[10] = f"{entry[10][0]}: {entry[10][1]}"
 
-        new_dist_list = collections.Counter(c["predator"]["species"] for c in site_recorded_disturbers).most_common()
+        new_dist_list = collections.Counter(c["species"]["species"] for c in site_recorded_disturbers).most_common()
         entry[11] = (f"{new_dist_list[0][0]}: { new_dist_list[0][1]}" if len(new_dist_list) > 0 else None)
 
-        dist_list = list(collections.Counter(c["predator"]["species"] for c in site_recorded_disturbers).keys())
+        dist_list = list(collections.Counter(c["species"]["species"] for c in site_recorded_disturbers).keys())
         time_dict = {}
         for dist in dist_list:
-            time_dict[dist] = sum(map(lambda x: time_difference(x) if (x["predator"]["species"] == dist) else 0, site_recorded_disturbers))
+            time_dict[dist] = sum(map(lambda x: time_difference(x) if (x["species"]["species"] == dist) else 0, site_recorded_disturbers))
         entry[12] = max(time_dict.items(), key=lambda x: x[1]) if (len(time_dict) > 0) else "None"
         if entry[12] != "None":
             entry[12] = f"{entry[12][0]}: {round(entry[12][1]/3600, 2)}"
@@ -664,9 +664,9 @@ def gen_site_animal_data(sites):
         count_dict = {}
         for dist in dist_list:
             count_dict[dist] = sum(
-                map(lambda x: x["count"]if (x["predator"]["species"] == dist) else 0, site_recorded_disturbers))
+                map(lambda x: x["count"]if (x["species"]["species"] == dist) else 0, site_recorded_disturbers))
             count_dict[dist] += sum(
-                map(lambda x: x["count"]if (x["predator"]["species"] == dist) else 0, site_surveyed_disturbers))
+                map(lambda x: x["count"]if (x["species"]["species"] == dist) else 0, site_surveyed_disturbers))
         entry[13] = max(count_dict.items(), key=lambda x: x[1]) if (len(count_dict) > 0) else "None"
         if entry[13] != "None":
             entry[13] = f"{entry[13][0]}: {entry[13][1]}"
@@ -681,7 +681,7 @@ def gen_site_animal_data(sites):
     return data
 
 
-def gen_predator_data():
+def gen_species_data():
     data = {
         'surveyed_prevalence': [],
         'recorded_prevalence': [],
@@ -690,23 +690,23 @@ def gen_predator_data():
         'recorded_duration': []
     }
 
-    predators = json.loads(
-        predator_schema.jsonify(
-            predator.query.order_by(predator.species).all(), many=True
+    species_data = json.loads(
+        species_schema.jsonify(
+            species.query.order_by(species.species).all(), many=True
         ).data
     )
 
-    for p in predators:  # surveyed
-        surveyed_prevalence = survey_predator.query.filter(
-                p['id'] == survey_predator.predator_id
+    for p in species_data:  # surveyed
+        surveyed_prevalence = survey_species.query.filter(
+                p['id'] == survey_species.species_id
             ).count()
         data['surveyed_prevalence'].append(
             (p['species'], surveyed_prevalence)
         )
         surveyed_abundance = json.loads(
-            surveyed_predator_schema.jsonify(
-                survey_predator.query.filter(
-                    p['id'] == survey_predator.predator_id
+            surveyed_species_schema.jsonify(
+                survey_species.query.filter(
+                    p['id'] == survey_species.species_id
                 ).all(), many=True
             ).data
         )
@@ -718,17 +718,17 @@ def gen_predator_data():
         )
 
         # recorded
-        recorded_prevalence = survey_predator_camera.query.filter(
-                p['id'] == survey_predator_camera.predator_id
+        recorded_prevalence = survey_species_camera.query.filter(
+                p['id'] == survey_species_camera.species_id
             ).count()
         data['recorded_prevalence'].append(
             (p['species'], recorded_prevalence)
         )
 
         recorded_abundance = json.loads(
-            recorded_predator_schema.jsonify(
-                survey_predator_camera.query.filter(
-                    p['id'] == survey_predator_camera.predator_id
+            recorded_species_schema.jsonify(
+                survey_species_camera.query.filter(
+                    p['id'] == survey_species_camera.species_id
                 ).all(), many=True
             ).data
         )

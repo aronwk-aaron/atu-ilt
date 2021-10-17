@@ -9,16 +9,16 @@ from app.models import (
     site,
     card,
     camera,
-    predator,
+    species,
     survey_camera_card,
-    survey_predator,
-    survey_predator_camera,
+    survey_species,
+    survey_species_camera,
 )
 from app.forms import (
     survey_form,
     survey_camera_form,
-    survey_predator_form,
-    survey_predator_camera_form
+    survey_species_form,
+    survey_species_camera_form
 )
 from flask_user import roles_accepted, login_required
 
@@ -224,17 +224,17 @@ def view(id):
 
     cameras = survey_camera_card.query \
         .filter(data.id == survey_camera_card.survey_id).all()
-    surveyed_predators = survey_predator.query \
-        .filter(data.id == survey_predator.survey_id).all()
-    recorded_predators = survey_predator_camera.query \
-        .filter(data.id == survey_predator_camera.survey_id).all()
+    surveyed_species = survey_species.query \
+        .filter(data.id == survey_species.survey_id).all()
+    recorded_species = survey_species_camera.query \
+        .filter(data.id == survey_species_camera.survey_id).all()
 
     return render_template(
         'surveys/view.jinja2',
         survey=data,
         cameras=cameras,
-        surveyed_predators=surveyed_predators,
-        recorded_predators=recorded_predators
+        surveyed_species=surveyed_species,
+        recorded_species=recorded_species
     )
 
 
@@ -328,22 +328,22 @@ def edit_camera(survey_id, camera_id):
 
 
 @surveys_blueprint.route(
-    '/<survey_id>/new_surveyed_predator',
+    '/<survey_id>/new_surveyed_species',
     methods=('GET', 'POST')
 )
 @login_required
 @roles_accepted('user', 'admin')
-def new_surveyed_predator(survey_id):
-    form = survey_predator_form()
+def new_surveyed_species(survey_id):
+    form = survey_species_form()
     form.survey_id.data = survey_id
-    form.predator_id.choices = [
-        (p.id, p.species) for p in predator.query.order_by(
-            predator.species
+    form.species_id.choices = [
+        (p.id, p.species) for p in species.query.order_by(
+            species.species
         ).all()
     ]
 
     if form.validate_on_submit():
-        new_survey_predator = survey_predator(
+        new_survey_species = survey_species(
             survey_id=form.survey_id.data,
             sighting=form.sighting.data,
             tracks=form.tracks.data,
@@ -351,33 +351,33 @@ def new_surveyed_predator(survey_id):
             adult_mort=form.adult_mort.data,
             chick_mort=form.chick_mort.data,
             nest_dest=form.nest_dest.data,
-            predator_id=form.predator_id.data,
+            species_id=form.species_id.data,
             count=form.count.data,
             comment=form.comment.data
         )
-        new_survey_predator.save()
+        new_survey_species.save()
         return redirect(url_for('surveys.view', id=survey_id))
-    return render_template('surveys/surveyed_predator/new.jinja2', form=form)
+    return render_template('surveys/surveyed_species/new.jinja2', form=form)
 
 
 @surveys_blueprint.route(
-    '/<survey_id>/edit_surveyed_predator/<predator_id>',
+    '/<survey_id>/edit_surveyed_species/<species_id>',
     methods=('GET', 'POST')
 )
 @login_required
 @roles_accepted('user', 'admin')
-def edit_surveyed_predator(survey_id, predator_id):
-    form = survey_predator_form()
-    form.predator_id.choices = [
-        (p.id, p.species) for p in predator.query.order_by(
-            predator.species
+def edit_surveyed_species(survey_id, species_id):
+    form = survey_species_form()
+    form.species_id.choices = [
+        (p.id, p.species) for p in species.query.order_by(
+            species.species
         ).all()
     ]
 
-    data = survey_predator.query \
+    data = survey_species.query \
         .filter(
-            survey_predator.survey_id == survey_id,
-            survey_predator.predator_id == predator_id) \
+            survey_species.survey_id == survey_id,
+            survey_species.species_id == species_id) \
         .first()
 
     if form.validate_on_submit():
@@ -388,7 +388,7 @@ def edit_surveyed_predator(survey_id, predator_id):
         data.adult_mort = form.adult_mort.data
         data.chick_mort = form.chick_mort.data
         data.nest_dest = form.nest_dest.data
-        data.predator_id = form.predator_id.data
+        data.species_id = form.species_id.data
         data.count = form.count.data
         data.comment = form.comment.data
         data.save()
@@ -401,25 +401,25 @@ def edit_surveyed_predator(survey_id, predator_id):
     form.adult_mort.data = data.adult_mort
     form.chick_mort.data = data.chick_mort
     form.nest_dest.data = data.nest_dest
-    form.predator_id.data = data.predator_id
+    form.species_id.data = data.species_id
     form.count.data = data.count
     form.comment.data = data.comment
 
-    return render_template('surveys/surveyed_predator/edit.jinja2', form=form)
+    return render_template('surveys/surveyed_species/edit.jinja2', form=form)
 
 
 @surveys_blueprint.route(
-    '/<survey_id>/new_recorded_predator',
+    '/<survey_id>/new_recorded_species',
     methods=('GET', 'POST')
 )
 @login_required
 @roles_accepted('user', 'admin')
-def new_recorded_predator(survey_id):
-    form = survey_predator_camera_form()
+def new_recorded_species(survey_id):
+    form = survey_species_camera_form()
     form.survey_id.data = survey_id
-    form.predator_id.choices = [
-        (p.id, p.species) for p in predator.query.order_by(
-            predator.species
+    form.species_id.choices = [
+        (p.id, p.species) for p in species.query.order_by(
+            species.species
         ).all()
     ]
 
@@ -427,12 +427,12 @@ def new_recorded_predator(survey_id):
         if (datetime.datetime.fromisoformat(str(form.end.data)) -
                 datetime.datetime.fromisoformat(str(form.start.data)) < datetime.timedelta(0)):
             return render_template(
-                'surveys/recorded_predator/edit.jinja2',
+                'surveys/recorded_species/edit.jinja2',
                 form=form,
                 time_error=f"Time cannot be {(datetime.datetime.fromisoformat(str(form.end.data)) - datetime.datetime.fromisoformat(str(form.start.data)))}")
-        new_survey_predator_camera = survey_predator_camera(
+        new_survey_species_camera = survey_species_camera(
             survey_id=form.survey_id.data,
-            predator_id=form.predator_id.data,
+            species_id=form.species_id.data,
             start=form.start.data,
             end=form.end.data,
             count=form.count.data,
@@ -442,42 +442,42 @@ def new_recorded_predator(survey_id):
             nest_dest=form.nest_dest.data,
             comment=form.comment.data
         )
-        new_survey_predator_camera.save()
+        new_survey_species_camera.save()
         return redirect(url_for('surveys.view', id=survey_id))
-    return render_template('surveys/recorded_predator/new.jinja2', form=form, time_error="")
+    return render_template('surveys/recorded_species/new.jinja2', form=form, time_error="")
 
 
 @surveys_blueprint.route(
-    '/<survey_id>/edit_recorded_predator/<predator_id>/<start>/<end>',
+    '/<survey_id>/edit_recorded_species/<species_id>/<start>/<end>',
     methods=('GET', 'POST')
 )
 @login_required
 @roles_accepted('user', 'admin')
-def edit_recorded_predator(survey_id, predator_id, start, end):
-    form = survey_predator_camera_form()
-    form.predator_id.choices = [
-        (p.id, p.species) for p in predator.query.order_by(
-            predator.species
+def edit_recorded_species(survey_id, species_id, start, end):
+    form = survey_species_camera_form()
+    form.species_id.choices = [
+        (p.id, p.species) for p in species.query.order_by(
+            species.species
         ).all()
     ]
 
-    data = survey_predator_camera.query \
+    data = survey_species_camera.query \
         .filter(
-            survey_predator_camera.survey_id == survey_id,
-            survey_predator_camera.predator_id == predator_id,
-            survey_predator_camera.start == start,
-            survey_predator_camera.end == end) \
+            survey_species_camera.survey_id == survey_id,
+            survey_species_camera.species_id == species_id,
+            survey_species_camera.start == start,
+            survey_species_camera.end == end) \
         .first()
 
     if form.validate_on_submit():
         if (datetime.datetime.fromisoformat(str(form.end.data)) -
                 datetime.datetime.fromisoformat(str(form.start.data)) < datetime.timedelta(0)):
             return render_template(
-                'surveys/recorded_predator/edit.jinja2',
+                'surveys/recorded_species/edit.jinja2',
                 form=form,
                 time_error=f"Time cannot be {(datetime.datetime.fromisoformat(str(form.end.data)) - datetime.datetime.fromisoformat(str(form.start.data)))}")
         data.survey_id = form.survey_id.data
-        data.predator_id = form.predator_id.data
+        data.species_id = form.species_id.data
         data.start = form.start.data
         data.end = form.end.data
         data.count = form.count.data
@@ -490,7 +490,7 @@ def edit_recorded_predator(survey_id, predator_id, start, end):
         return redirect(url_for('surveys.view', id=survey_id))
 
     form.survey_id.data = data.survey_id
-    form.predator_id.data = data.predator_id
+    form.species_id.data = data.species_id
     form.start.data = data.start
     form.end.data = data.end
     form.count.data = data.count
@@ -500,21 +500,21 @@ def edit_recorded_predator(survey_id, predator_id, start, end):
     form.nest_dest.data = data.nest_dest
     form.comment.data = data.comment
 
-    return render_template('surveys/recorded_predator/edit.jinja2', form=form)
+    return render_template('surveys/recorded_species/edit.jinja2', form=form)
 
 
 @surveys_blueprint.route(
-    '/<survey_id>/delete_recorded_predator/<predator_id>/<start>/<end>',
+    '/<survey_id>/delete_recorded_species/<species_id>/<start>/<end>',
     methods=('GET', 'POST', 'DELETE')
 )
 @login_required
 @roles_accepted('user', 'admin')
-def delete_recorded_predator(survey_id, predator_id, start, end):
-    survey_predator_camera.query \
+def delete_recorded_species(survey_id, species_id, start, end):
+    survey_species_camera.query \
         .filter(
-            survey_predator_camera.survey_id == survey_id,
-            survey_predator_camera.predator_id == predator_id,
-            survey_predator_camera.start == start,
-            survey_predator_camera.end == end) \
+            survey_species_camera.survey_id == survey_id,
+            survey_species_camera.species_id == species_id,
+            survey_species_camera.start == start,
+            survey_species_camera.end == end) \
         .first().delete()
     return redirect(url_for('surveys.view', id=survey_id))

@@ -5,10 +5,10 @@ from app.models import (
     survey,
     card as card_model,
     camera as camera_model,
-    predator as predator_model,
+    species as species_model,
     survey_camera_card,
-    survey_predator,
-    survey_predator_camera)
+    survey_species,
+    survey_species_camera)
 from flask_marshmallow import Marshmallow
 
 ma = Marshmallow()
@@ -48,9 +48,9 @@ class cardSchema(ma.SQLAlchemyAutoSchema): #  noqa
         include_fk = True
 
 
-class predatorSchema(ma.SQLAlchemyAutoSchema): #  noqa
+class specieschema(ma.SQLAlchemyAutoSchema): #  noqa
     class Meta:
-        model = predator_model
+        model = species_model
         include_relationships = False
         load_instance = True
         include_fk = True
@@ -70,22 +70,22 @@ class surveyCameraSchema(ma.SQLAlchemyAutoSchema): #  noqa
 
 class surveyedPredatorSchema(ma.SQLAlchemyAutoSchema): #  noqa
     class Meta:
-        model = survey_predator
+        model = survey_species
         include_relationships = True
         load_instance = True
         include_fk = True
 
-    predator = ma.Nested(predatorSchema)
+    species = ma.Nested(specieschema)
 
 
 class recordedPredatorSchema(ma.SQLAlchemyAutoSchema): #  noqa
     class Meta:
-        model = survey_predator_camera
+        model = survey_species_camera
         include_relationships = True
         load_instance = True
         include_fk = True
 
-    predator = ma.Nested(predatorSchema)
+    species = ma.Nested(specieschema)
 
 
 class surveySchema(ma.SQLAlchemyAutoSchema): #  noqa
@@ -96,8 +96,8 @@ class surveySchema(ma.SQLAlchemyAutoSchema): #  noqa
         include_fk = True
 
     cameras = ma.Nested(surveyCameraSchema, many=True)
-    surveyed_predators = ma.Nested(surveyedPredatorSchema, many=True)
-    recorded_predators = ma.Nested(recordedPredatorSchema, many=True)
+    surveyed_species = ma.Nested(surveyedPredatorSchema, many=True)
+    recorded_species = ma.Nested(recordedPredatorSchema, many=True)
 
 
 class siteSchema(ma.SQLAlchemyAutoSchema): #  noqa

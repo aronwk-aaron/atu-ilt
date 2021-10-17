@@ -1,13 +1,12 @@
 <form method=post>
   {{ form.csrf_token }}
-  <h2 style="color:red" class="text-center"> {{ time_error }} </h2>
   <div class="card shadow-sm mx-auto pb-3" style="width: 18rem;">
     <div class="card-body">
       {{ helper.render_field(form.survey_id) }}
-      {{ helper.render_field(form.predator_id) }}
-      {{ helper.render_field(form.start) }}
-      {{ helper.render_field(form.end) }}
+      {{ helper.render_field(form.species_id) }}
       {{ helper.render_field(form.count) }}
+      {{ helper.render_checkbox_field(form.tracks) }}
+      {{ helper.render_checkbox_field(form.sighting) }}
       {{ helper.render_checkbox_field(form.scat) }}
       {{ helper.render_checkbox_field(form.adult_mort) }}
       {{ helper.render_checkbox_field(form.chick_mort) }}

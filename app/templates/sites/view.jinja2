@@ -158,8 +158,8 @@
           <th scope="col">Nests w/ Eggs</th>
           <th scope="col">Surveyed</th>
           <th scope="col">Cameras</th>
-          <th scope="col">Surveyed Disturbers</th>
-          <th scope="col">Recorded Disturbers</th>
+          <th scope="col">Surveyed Species</th>
+          <th scope="col">Recorded Species</th>
         </tr>
         </thead>
         <tbody>
@@ -215,10 +215,10 @@
                 {{ survey.cameras|length }}
               </td>
               <td>
-                {{ survey.surveyed_predators|length }}
+                {{ survey.surveyed_species|length }}
               </td>
               <td>
-                {{ survey.recorded_predators|length }}
+                {{ survey.recorded_species|length }}
               </td>
             </tr>
           {% endfor %}

@@ -115,8 +115,8 @@ def register_blueprints(app):
     app.register_blueprint(cameras_blueprint, url_prefix='/cameras')
     from .cards import cards_blueprint
     app.register_blueprint(cards_blueprint, url_prefix='/cards')
-    from .predators import predators_blueprint
-    app.register_blueprint(predators_blueprint, url_prefix='/predators')
+    from .species import species_blueprint
+    app.register_blueprint(species_blueprint, url_prefix='/species')
     from .sites import sites_blueprint
     app.register_blueprint(sites_blueprint, url_prefix='/sites')
     from .surveys import surveys_blueprint

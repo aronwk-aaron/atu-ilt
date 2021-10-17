@@ -1,0 +1,11 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}New Recorded Species{% endblock %}
+
+{% block content_before %}
+  New Recorded Species
+{% endblock %}
+
+{% block content %}
+  {% include "surveys/recorded_species/form.jinja2" %}
+{% endblock %}

@@ -33,8 +33,8 @@
         <th scope="col">Fledgelings</th>
         <th scope="col">Surveyed</th>
         <th scope="col">Cameras</th>
-        <th scope="col">Surveyed Disturbers</th>
-        <th scope="col">Recorded Disturbers</th>
+        <th scope="col">Surveyed Speciess</th>
+        <th scope="col">Recorded Speciess</th>
       </tr>
       </thead>
       <tbody>
@@ -96,10 +96,10 @@
               {{ survey.cameras|length }}
             </td>
             <td>
-              {{ survey.surveyed_predators|length }}
+              {{ survey.surveyed_species|length }}
             </td>
             <td>
-              {{ survey.recorded_predators|length }}
+              {{ survey.recorded_species|length }}
             </td>
           </tr>
         {% endfor %}

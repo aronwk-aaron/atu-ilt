@@ -207,14 +207,14 @@ class site_form(FlaskForm):
     submit = SubmitField()
 
 
-class predator_form(FlaskForm):
+class species_form(FlaskForm):
     species = StringField(
         label='Species',
         validators=[
             DataRequired()
         ]
     )
-    predator_type = SelectField(
+    species_type = SelectField(
         label='Classification',
         choices=[
             ('mammal', 'Mammal'),
@@ -231,7 +231,7 @@ class predator_form(FlaskForm):
     classification = SelectField(
         label='Type',
         choices=[
-            ('predator', 'Predator'),
+            ('species', 'Predator'),
             ('disturber', 'Disturber'),
             ('other', 'Other'),
         ],
@@ -635,14 +635,14 @@ class survey_camera_form(FlaskForm):
     submit = SubmitField()
 
 
-class survey_predator_form(FlaskForm):
+class survey_species_form(FlaskForm):
     survey_id = HiddenField(
         label='survey',
         validators=[
             DataRequired()
         ]
     )
-    predator_id = SelectField(
+    species_id = SelectField(
         label='Species',
         coerce=int,
         choices=[],
@@ -699,14 +699,14 @@ class survey_predator_form(FlaskForm):
     submit = SubmitField()
 
 
-class survey_predator_camera_form(FlaskForm):
+class survey_species_camera_form(FlaskForm):
     survey_id = HiddenField(
         label='survey',
         validators=[
             DataRequired()
         ]
     )
-    predator_id = SelectField(
+    species_id = SelectField(
         label='Species',
         coerce=int,
         choices=[],

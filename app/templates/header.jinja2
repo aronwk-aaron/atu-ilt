@@ -47,7 +47,7 @@
         <a id='main-index' class='nav-link' href='{{ url_for('main.index') }}'>Home</a>
         <a id='main-sd_cards' class='nav-link' href='{{ url_for('cards.index') }}'>SD Cards</a>
         <a id='main-cameras' class='nav-link' href='{{ url_for('cameras.index') }}'>Cameras</a>
-        <a id='main-predators' class='nav-link' href='{{ url_for('predators.index') }}'>Animals</a>
+        <a id='main-species' class='nav-link' href='{{ url_for('species.index') }}'>Species</a>
         <a id='main-sites' class='nav-link' href='{{ url_for('sites.index') }}'>Sites</a>
         <a id='main-surveys' class='nav-link' href='{{ url_for('surveys.index') }}'>Surveys</a>
         {# <a id='main-stats' class='nav-link' href='{{ url_for('stats.index') }}'>Summary</a> #}
@@ -58,13 +58,13 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href='{{ url_for('summary.sites_2020') }}'>Sites: 2020</a>
             <a class="dropdown-item" href='{{ url_for('summary.sites_2021') }}'>Sites: 2021</a>
-            <a class="dropdown-item" href='{{ url_for('summary.site_animals_2020') }}'>Site Animals: 2020</a>
-            <a class="dropdown-item" href='{{ url_for('summary.site_animals_2021') }}'>Site Animals: 2021</a>
+            <a class="dropdown-item" href='{{ url_for('summary.site_species_2020') }}'>Site Species: 2020</a>
+            <a class="dropdown-item" href='{{ url_for('summary.site_species_2021') }}'>Site Species: 2021</a>
             <a class="dropdown-item" href='{{ url_for('summary.two_weeks_2020') }}'>Two Week Counts: 2020</a>
             <a class="dropdown-item" href='{{ url_for('summary.two_weeks_2021') }}'>Two Week Counts: 2021</a>
             <a class="dropdown-item" href='{{ url_for('summary.cameras_2020') }}'>Cameras:2020</a>
             <a class="dropdown-item" href='{{ url_for('summary.cameras_2021') }}'>Cameras:2021</a>
-            <a class="dropdown-item" href='{{ url_for('summary.disturbers') }}'>Animals</a>
+            <a class="dropdown-item" href='{{ url_for('summary.species_route') }}'>Species</a>
           </div>
         </li>
         <a id='main-about' class='nav-link' href='{{ url_for('reports.index') }}'>Reports</a>

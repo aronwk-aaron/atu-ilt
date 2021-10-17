@@ -1,22 +1,22 @@
 {% extends 'base.jinja2' %}
 
-{% block title %}Animals{% endblock %}
+{% block title %}Species{% endblock %}
 
 {% block content_before %}
-  Animals
+  Species
 {% endblock %}
 
 {% block content %}
   {% if current_user.is_authenticated %}
-    <a href="{{ url_for('predators.new') }}"
+    <a href="{{ url_for('species.new') }}"
                       class="btn btn-primary"
                       role="button"
                       aria-disabled="true">
-          New Disturber
+          New Species
         </a>
     <hr/>
   {% endif %}
-  {% if predators %}
+  {% if species %}
   <div class='table-responsive'>
     <table class="table table-white table-striped table-bordered table-hover"
           id="table_id"
@@ -33,11 +33,11 @@
       </tr>
       </thead>
       <tbody>
-        {% for predator in predators %}
+        {% for species in species %}
           <tr>
             <td>
               {% if current_user.is_authenticated %}
-                <a href="{{ url_for('predators.edit', id=predator.id) }}"
+                <a href="{{ url_for('species.edit', id=species.id) }}"
                   class="btn btn-primary btn-block"
                   role="button"
                   aria-disabled="true">
@@ -46,19 +46,19 @@
               {% endif %}
             </td>
             <td>
-              {{ predator.species }}
+              {{ species.species }}
             </td>
             <td>
-              {{ helper.sentence_case(predator.predator_type) }}
+              {{ helper.sentence_case(species.classification) }}
             </td>
             <td>
-              {{ predator.classification }}
+              {{ species.species_type }}
             </td>
             <td>
-              {{ predator.risk }}
+              {{ species.risk }}
             </td>
             <td>
-              {{ predator.group }}
+              {{ species.group }}
             </td>
           </tr>
         {% endfor %}
@@ -66,7 +66,7 @@
     </table>
   </div>
   {% else %}
-    No Animals to show
+    No Species to show
   {% endif %}
 {% endblock %}
 

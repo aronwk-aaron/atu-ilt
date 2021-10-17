@@ -3,22 +3,22 @@
 {% block title %}Site Summary{% endblock %}
 
 {% block content_before %}
-  Site <-> Animal Summary: {{ year }}
+  Site <-> Species Summary: {{ year }}
 {% endblock %}
 
 {% block content %}
   <div>
     # 0: Site --> Table with site name<br>
-    # 1: OPSF --> number of species of observed predators total at sandbar,<br>
-    # 2: RPSF --> number of species of recorded predators total at sandbar,<br>
+    # 1: OPSF --> number of species of observed species total at sandbar,<br>
+    # 2: RPSF --> number of species of recorded species total at sandbar,<br>
     # 3: ODSF --> number of species of observed disturbed total at sandbar,<br>
     # 4: RDSF --> number of species of recorded disturbers total at sandbar,<br>
     # 5: Totlap --> total elapsed time of all species recorded on sandbar, ///// Sum of 6 and 7<br>
-    # 6: Plap --> total elapsed time of just predators on sandbar<br>
+    # 6: Plap --> total elapsed time of just species on sandbar<br>
     # 7: Dlap --> Total elapsed time of just disturbers on sandbar<br>
-    # 8: M_Pocc --> The predator with the most reoccurences across time at sandbar<br>
-    # 9: M_Plap --> The predator with the longest elapsed time at sandbar<br>
-    # 10: M_Pcnt --> The predator with the highest summed count of individuals across time at the sandbar<br>
+    # 8: M_Pocc --> The species with the most reoccurences across time at sandbar<br>
+    # 9: M_Plap --> The species with the longest elapsed time at sandbar<br>
+    # 10: M_Pcnt --> The species with the highest summed count of individuals across time at the sandbar<br>
     # 11: M_Docc --> The disturber with the most reoccurences across time at sandbar<br>
     # 12: M_Dlap --> The disturber with the longest elapsed time at sandbar<br>
     # 13: M_Dcnt --> The disturber with the highest summed count of individuals across time at the sandbar<br>

@@ -210,23 +210,23 @@ class site(db.Model):
         db.session.refresh(self)
 
 
-class predator(db.Model):
-    __tablename__ = 'predators'
+class species(db.Model):
+    __tablename__ = 'species'
 
     id = db.Column(db.Integer, primary_key=True)
     species = db.Column(db.String(255), nullable=False)
-    predator_type = db.Column(db.String(255), nullable=False)
-    classification = db.Column(db.String(255), nullable=True)  # Actually risk
-    risk = db.Column(db.String(255), nullable=True)  # Actully classicication
+    species_type = db.Column(db.String(255), nullable=False)
+    risk = db.Column(db.String(255), nullable=True)
+    classification = db.Column(db.String(255), nullable=True)
     group = db.Column(db.String(255), nullable=True)
 
-    survey_predator = db.relationship(
-        'survey_predator',
-        back_populates="predator"
+    survey_species = db.relationship(
+        'survey_species',
+        back_populates="species"
     )
-    recorded_predator = db.relationship(
-        'survey_predator_camera',
-        back_populates="predator"
+    recorded_species = db.relationship(
+        'survey_species_camera',
+        back_populates="species"
     )
 
     def save(self):
@@ -293,8 +293,8 @@ class survey(db.Model):
     comment = db.Column(db.String(1024))
 
     cameras = db.relationship('survey_camera_card')
-    surveyed_predators = db.relationship('survey_predator')
-    recorded_predators = db.relationship('survey_predator_camera')
+    surveyed_species = db.relationship('survey_species')
+    recorded_species = db.relationship('survey_species_camera')
 
     def save(self):
         db.session.add(self)
@@ -343,18 +343,18 @@ class survey_camera_card(db.Model):
         db.session.refresh(self)
 
 
-class survey_predator(db.Model):
+class survey_species(db.Model):
     survey_id = db.Column(
         db.Integer,
         db.ForeignKey(survey.id),
         primary_key=True
     )
-    predator_id = db.Column(
+    species_id = db.Column(
         db.Integer,
-        db.ForeignKey(predator.id),
+        db.ForeignKey(species.id),
         primary_key=True
     )
-    predator = db.relationship('predator')
+    species = db.relationship('species')
 
     tracks = db.Column(db.Boolean)
     sighting = db.Column(db.Boolean)
@@ -371,18 +371,18 @@ class survey_predator(db.Model):
         db.session.refresh(self)
 
 
-class survey_predator_camera(db.Model):
+class survey_species_camera(db.Model):
     survey_id = db.Column(
         db.Integer,
         db.ForeignKey(survey.id),
         primary_key=True
     )
-    predator_id = db.Column(
+    species_id = db.Column(
         db.Integer,
-        db.ForeignKey(predator.id),
+        db.ForeignKey(species.id),
         primary_key=True
     )
-    predator = db.relationship('predator')
+    species = db.relationship('species')
 
     start = db.Column(
         db.DateTime(),
