@@ -6,7 +6,7 @@ from flask.cli import with_appcontext
 import datetime
 from flask_user import current_app
 from app import db
-from app.models import Role, User, site
+from app.models import Role, User, site, survey_species_camera
 from app.schemas import siteSchema
 
 
@@ -65,6 +65,26 @@ def find_or_create_user(first_name, last_name, email, password, role=None):
             user.roles.append(role)
         db.session.add(user)
     return user
+
+@click.command("fix_times")
+@with_appcontext
+def fix_times():
+    '''
+        Fix recoreded times
+        where start is end and start
+        is the same.
+        Should only be used once really
+    '''
+
+    species_camera_times = survey_species_camera.query.all()
+    fix_count = 0
+    for item in species_camera_times:
+        if item.start == item.end:
+            fix_count += 1
+            item.end = (item.end + datetime.timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S')
+            item.save()
+    print(f"Fixed: {fix_count} entries")
+    return
 
 
 @click.command("export_csv")

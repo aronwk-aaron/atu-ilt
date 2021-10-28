@@ -7,7 +7,7 @@ from app.models import db, migrate
 from app.schemas import ma
 from flask_wtf.csrf import CSRFProtect
 
-from app.commands import init_db, init_users, export_csv
+from app.commands import init_db, init_users, export_csv, fix_times
 from app.models import User, Role, UsersRoles, UserInvitation
 from flask_user import user_registered, UserManager
 
@@ -60,9 +60,10 @@ def create_app():
     register_extensions(app)
     register_blueprints(app)
     # add the init_db command to flask cli
-    app.cli.add_command(init_db)
+    # app.cli.add_command(init_db)
     app.cli.add_command(init_users)
     app.cli.add_command(export_csv)
+    app.cli.add_command(fix_times)
 
     @user_registered.connect_via(app)
     def after_register_hook(sender, user, **extra):

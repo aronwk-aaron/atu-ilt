@@ -779,10 +779,7 @@ def time_difference(x):
         datetime.datetime.fromisoformat(x["start"])
     )
     # if time is within the same minute, make it 30 seconds
-    if difference.total_seconds() == 0:
-        difference = 30
-    else:
-        difference = difference.total_seconds()
+    difference = difference.total_seconds()
 
     return difference
 

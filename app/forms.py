@@ -716,7 +716,7 @@ class survey_species_camera_form(FlaskForm):
     )
     start = DateTimeLocalField(
         label='Time In',
-        format='%Y-%m-%dT%H:%M',
+        format='%Y-%m-%dT%H:%M:%S',
         default=datetime.datetime.now(),
         validators=[
             DataRequired()
@@ -724,7 +724,7 @@ class survey_species_camera_form(FlaskForm):
     )
     end = DateTimeLocalField(
         label='Time Out',
-        format='%Y-%m-%dT%H:%M',
+        format='%Y-%m-%dT%H:%M:%S',
         default=datetime.datetime.now(),
         validators=[
             DataRequired()
