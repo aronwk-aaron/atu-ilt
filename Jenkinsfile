@@ -29,7 +29,7 @@ node('worker'){
             ]
         ])
     }
-    def tag = ''
+    String tag = ''
     step("Build Container"){
 
         if (params.BRANCH.contains('master')){
