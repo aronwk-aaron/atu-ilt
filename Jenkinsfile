@@ -1,15 +1,33 @@
-
+properties([
+  parameters([
+    gitParameter(
+        branch: '',
+        branchFilter: 'origin/(.*)',
+        defaultValue: 'master',
+        description: '',
+        name: 'BRANCH',
+        quickFilterEnabled: false,
+        selectedValue: 'NONE',
+        sortMode: 'NONE',
+        tagFilter: '*',
+        useRepository: 'git@github.com:aronwk-aaron/atu-ilt.git',
+        type: 'PT_BRANCH'
+    )
+  ])
+])
 node('worker'){
     step('Checkout Code')[{
-        bbs_checkout(
-            branches: [[name: params.BRANCH]],
-            credentialsId: 'jira',
-            id: '4cb99901-7fe3-46f3-a934-e4bde92eb5d6',
-            projectName: 'ILT',
-            repositoryName: 'atu-ilt',
-            serverId: 'c7ae57bb-3c1a-4ec6-b598-a2660b26e64f',
-            sshCredentialsId: 'aronwk'
-        )
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: '*/master']],
+            extensions: [],
+            userRemoteConfigs: [
+                [
+                    credentialsId: 'aronwk',
+                    url: 'git@github.com:aronwk-aaron/atu-ilt.git'
+                ]
+            ]
+        ])
     }
     def tag = ''
     step("Build Container"){
