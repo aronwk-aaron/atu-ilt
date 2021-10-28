@@ -16,7 +16,7 @@ properties([
   ])
 ])
 node('worker'){
-    step('Checkout Code')[{
+    step('Checkout Code'){
         checkout([
             $class: 'GitSCM',
             branches: [[name: '*/master']],
@@ -29,7 +29,7 @@ node('worker'){
             ]
         ])
     }
-    String tag = ''
+    def tag = ''
     step("Build Container"){
 
         if (params.BRANCH.contains('master')){
