@@ -15,11 +15,12 @@ properties([
     )
   ])
 ])
+
 node('worker'){
-    step('Checkout Code'){
+    stage('Clone Code'){
         checkout([
             $class: 'GitSCM',
-            branches: [[name: '*/master']],
+            branches: [[name: params.BRANCH]],
             extensions: [],
             userRemoteConfigs: [
                 [
@@ -30,19 +31,19 @@ node('worker'){
         ])
     }
     def tag = ''
-    step("Build Container"){
+    stage("Build Container"){
 
         if (params.BRANCH.contains('master')){
             tag = 'latest'
         } else {
-            tag = params.BRANCH.repace('\\', '-')
+            tag = params.BRANCH.replace('\\', '-')
         }
-        sh 'sudo docker build -t aronwk/ilt:${tag} .'
+        sh "docker build -t aronwk/ilt:${tag} ."
     }
     stage("Push Container"){
         withCredentials([usernamePassword(credentialsId: 'docker-hub-token', passwordVariable: 'password', usernameVariable: 'username')]) {
-            sh 'docker login -u ${username} -p ${password}'
-            sh 'docker push aronwk/ilt:${tag}'
+            sh "docker login -u ${username} -p ${password}"
+            sh "docker push aronwk/ilt:${tag}"
             sh 'docker logout'
         }
     }
