@@ -578,8 +578,8 @@ def gen_site_species_data(sites):
     # 3: ODSF --> number of species of observed disturbed total at sandbar,
     # 4: RDSF --> number of species of recorded disturbers total at sandbar,
     # 5: Totlap --> total elapsed time of all species recorded on sandbar, ///// Sum of 6 and 7
-    # 6: Plap --> total elapsed time of just species on sandbar
-    # 7: Dlap --> Total elapsed time of just disturbers on sandbar
+    # 6: T_Pre_lap --> total elapsed time of just species on sandbar
+    # 7: T_Dis_lap --> Total elapsed time of just disturbers on sandbar
     # 8: M_Pocc --> The species with the most reoccurences across time at sandbar
     # 9: M_Plap --> The species with the longest elapsed time at sandbar
     # 10: M_Pcnt --> The species with the highest summed count of individuals across time at the sandbar
@@ -588,21 +588,197 @@ def gen_site_species_data(sites):
     # 13: M_Dcnt --> The disturber with the highest summed count of individuals across time at the sandbar
     # 14: Cam_survey --> Count of how many surveys we have camera data for (count possible 0-4)
     # 15: SD_cards_out --> number of SD cards take out (count possible 0-8)
+    # 16: Camlap --> Total elapsed time for cameras on this site
+    # 17: T_Pre_cnt
+    # 18: T_Pre_occ
+    # 19: T_Dis_cnt
+    # 20: T_Dis_occ
+    # ------ Classification
+    # 21: C_Mam_lap
+    # 22: C_Mam_cnt
+    # 23: C_Mam_occ
+    # 24: C_Avi_lap
+    # 25: C_Avi_cnt
+    # 26: C_Avi_occ
+    # 27: C_Hum_lap
+    # 28: C_Hum_cnt
+    # 29: C_Hum_occ
+    # 30: C_Rep_lap
+    # 31: C_Rep_cnt
+    # 32: C_Rep_occ
+    # 33: C_Env_lap
+    # 34: C_Env_cnt
+    # 35: C_Env_occ
+    # 36: C_Oth_lap
+    # 37: C_Oth_cnt
+    # 38: C_Oth_occ
+    # ------ Risk
+    # 39: R_Hig_lap
+    # 40: R_Hig_cnt
+    # 41: R_Hig_occ
+    # 42: R_Low_lap
+    # 43: R_Low_cnt
+    # 44: R_Low_occ
+    # 45: R_Non_lap
+    # 46: R_Non_cnt
+    # 47: R_Non_occ
+    # ------ Group
+    # 48: G_Her_lap
+    # 49: G_Her_cnt
+    # 50: G_Her_occ
+    # 51: G_Hum_lap
+    # 52: G_Hum_cnt
+    # 53: G_Hum_occ
+    # 54: G_Mes_lap
+    # 55: G_Mes_cnt
+    # 56: G_Mes_occ
+    # 57: G_Rap_lap
+    # 58: G_Rap_cnt
+    # 59: G_Rap_occ
+    # 60: G_Sho_lap
+    # 61: G_Sho_cnt
+    # 62: G_Sho_occ
+    # 63: G_SMa_lap
+    # 64: G_SMa_cnt
+    # 65: G_SMa_occ
+    # 66: G_Son_lap
+    # 67: G_Son_cnt
+    # 68: G_Son_occ
+    # 69: G_Tra_lap
+    # 70: G_Tra_cnt
+    # 71: G_Tra_occ
+    # 72: G_Wad_lap
+    # 73: G_Wad_cnt
+    # 74: G_Wad_occ
+    # 75: G_Wat_lap
+    # 76: G_Wat_cnt
+    # 77: G_Wat_occ
 
-    data = [["Site", "OPSF", "RPSF", "ODSF", "RDSF", "Totlap", "Plap", "Dlap", "M_Pocc", "M_Plap", "M_Pcnt", "M_Docc", "M_Dlap", "M_Dcnt", "Cam_survey", "SD_cards_out"]]
+    data = [
+        [
+            "Site",
+            "OPSF",
+            "RPSF",
+            "ODSF",
+            "RDSF",
+            "Totlap",
+            "Plap",
+            "Dlap",
+            "M_Pocc",
+            "M_Plap",
+            "M_Pcnt",
+            "M_Docc",
+            "M_Dlap",
+            "M_Dcnt",
+            "Cam_survey",
+            "SD_cards_out",
+            "Camlap",
+            "T_Pre_cnt",
+            "T_Pre_occ",
+            "T_Dis_cnt",
+            "T_Dis_occ",
+            "C_Mam_lap",
+            "C_Mam_cnt",
+            "C_Mam_occ",
+            "C_Avi_lap",
+            "C_Avi_cnt",
+            "C_Avi_occ",
+            "C_Hum_lap",
+            "C_Hum_cnt",
+            "C_Hum_occ",
+            "C_Rep_lap",
+            "C_Rep_cnt",
+            "C_Rep_occ",
+            "C_Env_lap",
+            "C_Env_cnt",
+            "C_Env_occ",
+            "C_Oth_lap",
+            "C_Oth_cnt",
+            "C_Oth_occ",
+            "R_Hig_lap",
+            "R_Hig_cnt",
+            "R_Hig_occ",
+            "R_Low_lap",
+            "R_Low_cnt",
+            "R_Low_occ",
+            "R_Non_lap",
+            "R_Non_cnt",
+            "R_Non_occ",
+            "G_Her_lap",
+            "G_Her_cnt",
+            "G_Her_occ",
+            "G_Hum_lap",
+            "G_Hum_cnt",
+            "G_Hum_occ",
+            "G_Mes_lap",
+            "G_Mes_cnt",
+            "G_Mes_occ",
+            "G_Rap_lap",
+            "G_Rap_cnt",
+            "G_Rap_occ",
+            "G_Sho_lap",
+            "G_Sho_cnt",
+            "G_Sho_occ",
+            "G_SMa_lap",
+            "G_SMa_cnt",
+            "G_SMa_occ",
+            "G_Son_lap",
+            "G_Son_cnt",
+            "G_Son_occ",
+            "G_Tra_lap",
+            "G_Tra_cnt",
+            "G_Tra_occ",
+            "G_Wad_lap",
+            "G_Wad_cnt",
+            "G_Wad_occ",
+            "G_Wat_lap",
+            "G_Wat_cnt",
+            "G_Wat_occ",
+        ]
+    ]
 
     for site in sites:
-        #              0       1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
-        entry = [site["name"], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        entry = [
+            site["name"][:-3],0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] #noqa
         site_surveyed_predator = []
         site_recorded_predator = []
         site_surveyed_disturbers = []
         site_recorded_disturbers = []
 
+        # only by camera data
+        # --- Classification
+        site_c_mam = []
+        site_c_avi = []
+        site_c_hum = []
+        site_c_rep = []
+        site_c_env = []
+        site_c_oth = []
+        # --- Risk
+        site_r_non = []
+        site_r_hig = []
+        site_r_low = []
+        # --- Group
+        site_g_her = []
+        site_g_hum = []
+        site_g_mes = []
+        site_g_rap = []
+        site_g_sho = []
+        site_g_sma = []
+        site_g_son = []
+        site_g_tra = []
+        site_g_wad = []
+        site_g_wat = []
+
         # Get the data we need gathered in one list to more easily interate through it
         for survey in site["surveys"]:
             if len(survey["cameras"]) > 0:
                 entry[14] += 1
+            for camera in survey["cameras"]:
+                if camera["stopped_recording"]:
+                    entry[16] += (
+                        datetime.datetime.fromisoformat(camera["stopped_recording"]) -
+                        datetime.datetime.fromisoformat(camera["started_recording"])
+                    ).total_seconds()
             for survey_camera in survey["cameras"]:
                 if survey_camera["card_out"]["name"] != "None":
                     entry[15] += 1
@@ -611,6 +787,47 @@ def gen_site_species_data(sites):
                     site_recorded_predator.append(recorded_species)
                 else:
                     site_recorded_disturbers.append(recorded_species)
+                # --- Classification
+                if recorded_species['species']['classification'] == 'mammal':
+                    site_c_mam.append(recorded_species)
+                elif recorded_species['species']['classification'] == 'avian':
+                    site_c_avi.append(recorded_species)
+                elif recorded_species['species']['classification'] == 'human':
+                    site_c_hum.append(recorded_species)
+                elif recorded_species['species']['classification'] == 'reptile':
+                    site_c_rep.append(recorded_species)
+                elif recorded_species['species']['classification'] == 'environmental':
+                    site_c_env.append(recorded_species)
+                else:
+                    site_c_oth.append(recorded_species)
+                # --- Risk
+                if recorded_species['species']['risk'] == 'high':
+                    site_r_hig.append(recorded_species)
+                elif recorded_species['species']['risk'] == 'low':
+                    site_r_low.append(recorded_species)
+                else:
+                    site_r_non.append(recorded_species)
+                # --- Group
+                if recorded_species['species']['group'] == 'herp':
+                    site_g_her.append(recorded_species)
+                elif recorded_species['species']['group'] == 'human':
+                    site_g_hum.append(recorded_species)
+                elif recorded_species['species']['group'] == 'meso':
+                    site_g_mes.append(recorded_species)
+                elif recorded_species['species']['group'] == 'raptor':
+                    site_g_rap.append(recorded_species)
+                elif recorded_species['species']['group'] == 'shorebird':
+                    site_g_sho.append(recorded_species)
+                elif recorded_species['species']['group'] == 'smammal':
+                    site_g_sma.append(recorded_species)
+                elif recorded_species['species']['group'] == 'songbird':
+                    site_g_son.append(recorded_species)
+                elif recorded_species['species']['group'] == 'trampler':
+                    site_g_tra.append(recorded_species)
+                elif recorded_species['species']['group'] == 'wader':
+                    site_g_wad.append(recorded_species)
+                else:
+                    site_g_wat.append(recorded_species)
             for surveyed_species in survey["surveyed_species"]:
                 if surveyed_species["species"]["species_type"] == "predator":
                     site_surveyed_predator.append(surveyed_species)
@@ -670,6 +887,70 @@ def gen_site_species_data(sites):
         entry[13] = max(count_dict.items(), key=lambda x: x[1]) if (len(count_dict) > 0) else "None"
         if entry[13] != "None":
             entry[13] = f"{entry[13][0]}: {entry[13][1]}"
+
+        entry[16] = round(entry[16]/3600, 2)
+
+        entry[17] = sum(map(lambda x: x["count"], site_recorded_predator))
+        entry[18] = len(site_recorded_predator)
+        entry[19] = sum(map(lambda x: x["count"], site_recorded_disturbers))
+        entry[20] = len(site_recorded_disturbers)
+        entry[21] = round(sum(map(lambda x: time_difference(x), site_c_mam))/3600, 2)
+        entry[22] = sum(map(lambda x: x["count"], site_c_mam))
+        entry[23] = len(site_c_mam)
+        entry[24] = round(sum(map(lambda x: time_difference(x), site_c_avi))/3600, 2)
+        entry[25] = sum(map(lambda x: x["count"], site_c_avi))
+        entry[26] = len(site_c_avi)
+        entry[27] = round(sum(map(lambda x: time_difference(x), site_c_hum))/3600, 2)
+        entry[28] = sum(map(lambda x: x["count"], site_c_hum))
+        entry[29] = len(site_c_hum)
+        entry[30] = round(sum(map(lambda x: time_difference(x), site_c_rep))/3600, 2)
+        entry[31] = sum(map(lambda x: x["count"], site_c_rep))
+        entry[32] = len(site_c_rep)
+        entry[33] = round(sum(map(lambda x: time_difference(x), site_c_env))/3600, 2)
+        entry[34] = sum(map(lambda x: x["count"], site_c_env))
+        entry[35] = len(site_c_env)
+        entry[36] = round(sum(map(lambda x: time_difference(x), site_c_oth))/3600, 2)
+        entry[37] = sum(map(lambda x: x["count"], site_c_oth))
+        entry[38] = len(site_c_oth)
+        entry[39] = round(sum(map(lambda x: time_difference(x), site_r_non))/3600, 2)
+        entry[40] = sum(map(lambda x: x["count"], site_r_non))
+        entry[41] = len(site_r_non)
+        entry[42] = round(sum(map(lambda x: time_difference(x), site_r_hig))/3600, 2)
+        entry[43] = sum(map(lambda x: x["count"], site_r_hig))
+        entry[44] = len(site_r_hig)
+        entry[45] = round(sum(map(lambda x: time_difference(x), site_r_low))/3600, 2)
+        entry[46] = sum(map(lambda x: x["count"], site_r_low))
+        entry[47] = len(site_r_low)
+        entry[48] = round(sum(map(lambda x: time_difference(x), site_g_her))/3600, 2)
+        entry[49] = sum(map(lambda x: x["count"], site_g_her))
+        entry[50] = len(site_g_her)
+        entry[51] = round(sum(map(lambda x: time_difference(x), site_g_hum))/3600, 2)
+        entry[52] = sum(map(lambda x: x["count"], site_g_hum))
+        entry[53] = len(site_g_hum)
+        entry[54] = round(sum(map(lambda x: time_difference(x), site_g_mes))/3600, 2)
+        entry[55] = sum(map(lambda x: x["count"], site_g_mes))
+        entry[56] = len(site_g_mes)
+        entry[57] = round(sum(map(lambda x: time_difference(x), site_g_rap))/3600, 2)
+        entry[58] = sum(map(lambda x: x["count"], site_g_rap))
+        entry[59] = len(site_g_rap)
+        entry[60] = round(sum(map(lambda x: time_difference(x), site_g_sho))/3600, 2)
+        entry[61] = sum(map(lambda x: x["count"], site_g_sho))
+        entry[62] = len(site_g_sho)
+        entry[63] = round(sum(map(lambda x: time_difference(x), site_g_sma))/3600, 2)
+        entry[64] = sum(map(lambda x: x["count"], site_g_sma))
+        entry[65] = len(site_g_sma)
+        entry[66] = round(sum(map(lambda x: time_difference(x), site_g_son))/3600, 2)
+        entry[67] = sum(map(lambda x: x["count"], site_g_son))
+        entry[68] = len(site_g_son)
+        entry[69] = round(sum(map(lambda x: time_difference(x), site_g_tra))/3600, 2)
+        entry[70] = sum(map(lambda x: x["count"], site_g_tra))
+        entry[71] = len(site_g_tra)
+        entry[72] = round(sum(map(lambda x: time_difference(x), site_g_wad))/3600, 2)
+        entry[73] = sum(map(lambda x: x["count"], site_g_wad))
+        entry[74] = len(site_g_wad)
+        entry[75] = round(sum(map(lambda x: time_difference(x), site_g_wat))/3600, 2)
+        entry[76] = sum(map(lambda x: x["count"], site_g_wat))
+        entry[77] = len(site_g_wat)
 
         # normalize the number of cameras,
         # since there will be an exit entry that's counted,
