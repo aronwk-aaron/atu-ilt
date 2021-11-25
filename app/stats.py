@@ -192,6 +192,38 @@ def species_route():
     )
 
 
+@stats_blueprint.route('/species_matrix/<year>')
+def site_species_matrix(year):
+
+    sites_data = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(
+                    site.name.like(f"%{year[-2:]}")
+                ).all(), many=True
+        ).data
+    )
+
+    species_data = json.loads(
+        species_schema.jsonify(
+            species.query.order_by(
+                species.species
+            ).all(), many=True
+        ).data
+    )
+
+    by_time = gen_site_species_matrix(sites_data, species_data, "time")
+    by_count = gen_site_species_matrix(sites_data, species_data, "count")
+    by_occ = gen_site_species_matrix(sites_data, species_data, "occ")
+
+    return render_template(
+        "stats/site_species_matricies.jinja2",
+        year=year,
+        by_time=by_time,
+        by_count=by_count,
+        by_occ=by_occ
+    )
+
+
 def gen_site_data(sites):
     data = {
         'sandbar_island': {
@@ -960,6 +992,38 @@ def gen_site_species_data(sites):
         data.append(entry)
 
     return data
+
+
+def gen_site_species_matrix(sites, species, data_type):
+
+    header = ["Site"]
+    for speci in species:
+        header.append(speci["species"])
+    matrix = []
+    matrix.append(header)
+    for site in sites:
+        intermed = [site["name"]]
+        intermed.extend([0] * len(species))
+        matrix.append(intermed)
+
+    for site in sites:
+        site_index = [
+            (i, el.index(site["name"]))
+            for i, el in enumerate(matrix)
+            if site["name"] in el
+        ][0][0]
+        print(site_index)
+        for survey in site["surveys"]:
+            for rec_species in survey["recorded_species"]:
+                species_index = header.index(rec_species["species"]["species"])
+                if data_type == "time":
+                    matrix[site_index][species_index] += time_difference(rec_species)
+                elif data_type == "count":
+                    matrix[site_index][species_index] += rec_species["count"]
+                else:
+                    matrix[site_index][species_index] += 1
+
+    return matrix
 
 
 def gen_species_data():
