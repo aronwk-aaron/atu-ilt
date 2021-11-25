@@ -1,0 +1,31 @@
+  <div class='table-responsive'>
+    <table class="table table-white table-striped table-bordered table-hover"
+          id="two_weeks"
+          data-order='[[ 1, "asc" ]]'
+          data-page-length='25'>
+      <thead>
+
+      </thead>
+      <tbody>
+        {% for site in data %}
+          {% if loop.index == 1 %}
+            <thead>
+              {% for item in site %}
+                <th scope="col">
+                  {{ item }}
+                </th>
+              {% endfor %}
+            </thead>
+          {% else%}
+            <tr>
+              {% for item in site %}
+                <td>
+                  {{ item }}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>

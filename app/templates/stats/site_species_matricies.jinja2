@@ -1,0 +1,27 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Site <-> Species {{ data_type }}: {{ year }}{% endblock %}
+
+{% block content_before %}
+  Site <-> Species Matricies{{ data_type }}: {{ year }}
+{% endblock %}
+
+{% block content %}
+  <h2 class="text-center">By Elapsed Time (in seconds)</h2>
+  <hr/>
+  {% with data=by_time %}
+    {% include "stats/generic_table.jinja2" %}
+  {% endwith %}
+  <hr/>
+  <h2 class="text-center">By Count</h2>
+  <hr/>
+  {% with data=by_count %}
+    {% include "stats/generic_table.jinja2" %}
+  {% endwith %}
+  <hr/>
+  <h2 class="text-center">By Occurence</h2>
+  <hr/>
+  {% with data=by_occ %}
+    {% include "stats/generic_table.jinja2" %}
+  {% endwith %}
+{% endblock %}
