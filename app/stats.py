@@ -1012,7 +1012,6 @@ def gen_site_species_matrix(sites, species, data_type):
             for i, el in enumerate(matrix)
             if site["name"] in el
         ][0][0]
-        print(site_index)
         for survey in site["surveys"]:
             for rec_species in survey["recorded_species"]:
                 species_index = header.index(rec_species["species"]["species"])
