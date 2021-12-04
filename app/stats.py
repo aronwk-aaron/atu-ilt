@@ -1022,6 +1022,11 @@ def gen_site_species_matrix(sites, species, data_type):
                 else:
                     matrix[site_index][species_index] += 1
 
+    if data_type == "time":
+        for i in range(1,len(matrix)):
+            for j in range(1, len(matrix[0])):
+                matrix[i][j] = round(matrix[i][j]/3600, 2)
+
     return matrix
 
 
