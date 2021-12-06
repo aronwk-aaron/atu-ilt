@@ -1,4 +1,5 @@
 from flask import render_template, Blueprint
+from flask_user import login_required
 from app.models import site
 from app.schemas import siteSchema
 import datetime
