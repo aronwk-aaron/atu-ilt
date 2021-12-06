@@ -36,7 +36,10 @@
                   role="button"
                   aria-disabled="true">
                   {{ row[1].species.species }}
-                </a>
+                </a><br/>
+                {% for key, value in row[1].items() %}
+                  {{ key }}: {{ value }}<br/>
+                {% endfor %}
               </td>
               <td>
                 <a href="{{ url_for('surveys.edit_recorded_species', species_id=row[2].species.id, survey_id=row[2].survey_id, start=row[2].start, end=row[2].end) }}"
@@ -44,9 +47,11 @@
                   role="button"
                   aria-disabled="true">
                   {{ row[2].species.species }}
-                </a>
+                </a><br/>
+                {% for key, value in row[2].items() %}
+                  {{ key }}: {{ value }}<br/>
+                {% endfor %}
               </td>
-
             </tr>
           {% endif %}
         {% endfor %}
