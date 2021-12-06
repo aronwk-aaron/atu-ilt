@@ -80,7 +80,7 @@ def recorded_species_overlap():
                             ]
                         )
                 i += 1
-    print(len(overlapped))
+
     return render_template(
         'validation/recorded_speciees_overlap.jinja2',
         data=overlapped
