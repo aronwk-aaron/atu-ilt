@@ -83,6 +83,9 @@ def fix_times():
             fix_count += 1
             item.end = (item.end + datetime.timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S')
             item.save()
+        item.start = (item.start + datetime.timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S')
+        item.end = (item.end + datetime.timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S')
+        item.save()
     print(f"Fixed: {fix_count} entries")
     return
 
