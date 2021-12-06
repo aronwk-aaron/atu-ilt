@@ -34,14 +34,14 @@ def recorded_species_overlap():
             while i+1 < len(recorded_species_list) and \
                     recorded_species_list[i]['species_id'] == \
                     recorded_species_list[i+1]['species_id']:
-                if max(
+                if (max(
                             datetime.datetime.fromisoformat(
                                 recorded_species_list[i]['start']
                             ),
                             datetime.datetime.fromisoformat(
                                 recorded_species_list[i+1]['start']
                             )
-                        ) < \
+                        ) <=
                         min(
                             datetime.datetime.fromisoformat(
                                 recorded_species_list[i]['end']
@@ -49,7 +49,16 @@ def recorded_species_overlap():
                             datetime.datetime.fromisoformat(
                                 recorded_species_list[i+1]['end']
                             )
-                        ):
+                        )) or (datetime.datetime.fromisoformat(
+                            recorded_species_list[i]['end']
+                        ) ==
+                        datetime.datetime.fromisoformat(
+                            recorded_species_list[i+1]['end'])) \
+                        or (datetime.datetime.fromisoformat(
+                            recorded_species_list[i]['start']
+                        ) ==
+                        datetime.datetime.fromisoformat(
+                            recorded_species_list[i+1]['start'])):
                     intermed1 = [
                         s["name"],
                         recorded_species_list[i],
@@ -71,7 +80,7 @@ def recorded_species_overlap():
                             ]
                         )
                 i += 1
-
+    print(len(overlapped))
     return render_template(
         'validation/recorded_speciees_overlap.jinja2',
         data=overlapped
