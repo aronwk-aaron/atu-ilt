@@ -27,16 +27,26 @@
             </thead>
           {% else%}
             <tr>
-              {% for col in row %}
-                <td>
-                  <a href="{{ url_for('surveys.edit_recorded_species', species_id=col.species.id, survey_id=col.survey_id, start=col.start, end=col.end) }}"
-                    class="btn btn-primary"
-                    role="button"
-                    aria-disabled="true">
-                    {{ col.species.species }}
+              <td>
+                {{ row[0] }}
+              </td>
+              <td>
+                <a href="{{ url_for('surveys.edit_recorded_species', species_id=row[1].species.id, survey_id=row[1].survey_id, start=row[1].start, end=row[1].end) }}"
+                  class="btn btn-primary"
+                  role="button"
+                  aria-disabled="true">
+                  {{ row[1].species.species }}
                 </a>
-                </td>
-              {% endfor %}
+              </td>
+              <td>
+                <a href="{{ url_for('surveys.edit_recorded_species', species_id=row[2].species.id, survey_id=row[2].survey_id, start=row[2].start, end=row[2].end) }}"
+                  class="btn btn-primary"
+                  role="button"
+                  aria-disabled="true">
+                  {{ row[2].species.species }}
+                </a>
+              </td>
+
             </tr>
           {% endif %}
         {% endfor %}

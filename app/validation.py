@@ -19,7 +19,7 @@ def recorded_species_overlap():
         ).data
     )
 
-    overlapped = [["Entry 1", "Entry 2"]]
+    overlapped = [["Site", "Entry 1", "Entry 2"]]
 
     for s in site_data:
         recorded_species_list = []
@@ -51,10 +51,12 @@ def recorded_species_overlap():
                             )
                         ):
                     intermed1 = [
+                        s["name"],
                         recorded_species_list[i],
                         recorded_species_list[i+1]
                     ]
                     intermed2 = [
+                        s["name"],
                         recorded_species_list[i+1],
                         recorded_species_list[i]
                     ]
@@ -63,6 +65,7 @@ def recorded_species_overlap():
                             or any(j == intermed2 for j in overlapped)):
                         overlapped.append(
                             [
+                                s["name"],
                                 recorded_species_list[i],
                                 recorded_species_list[i+1]
                             ]
