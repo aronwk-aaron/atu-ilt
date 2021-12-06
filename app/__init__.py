@@ -126,3 +126,5 @@ def register_blueprints(app):
     app.register_blueprint(stats_blueprint, url_prefix='/summary')
     from .reports import reports_blueprint
     app.register_blueprint(reports_blueprint, url_prefix='/reports')
+    from .validation import validation_blueprint
+    app.register_blueprint(validation_blueprint, url_prefix='/validation')

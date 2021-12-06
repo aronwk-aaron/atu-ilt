@@ -1,0 +1,46 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Overlapped things{% endblock %}
+
+{% block content_before %}
+  Overlapped things
+{% endblock %}
+
+{% block content %}
+  <div class='table-responsive'>
+    <table class="table table-white table-striped table-bordered table-hover"
+          id="two_weeks"
+          data-order='[[ 1, "asc" ]]'
+          data-page-length='25'>
+      <thead>
+
+      </thead>
+      <tbody>
+        {% for row in data %}
+          {% if loop.index == 1 %}
+            <thead>
+              {% for col in row %}
+                <th scope="col">
+                  {{ col }}
+                </th>
+              {% endfor %}
+            </thead>
+          {% else%}
+            <tr>
+              {% for col in row %}
+                <td>
+                  <a href="{{ url_for('surveys.edit_recorded_species', species_id=col.species.id, survey_id=col.survey_id, start=col.start, end=col.end) }}"
+                    class="btn btn-primary"
+                    role="button"
+                    aria-disabled="true">
+                    {{ col.species.species }}
+                </a>
+                </td>
+              {% endfor %}
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

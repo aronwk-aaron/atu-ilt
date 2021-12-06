@@ -70,7 +70,9 @@
           </div>
         </li>
         <a id='main-about' class='nav-link' href='{{ url_for('reports.index') }}'>Reports</a>
+
         {% if current_user.is_authenticated %}
+          <a id='validation_overlap' class='nav-link' href='{{ url_for('validation.recorded_species_overlap') }}'>validation</a>
           {% if current_user.has_roles('admin') %}
             <a id='main-users' class='nav-link' href='{{ url_for('main.users') }}'>Users</a>
           {% endif %}

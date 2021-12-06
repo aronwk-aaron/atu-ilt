@@ -36,7 +36,8 @@ class RetryingQuery(BaseQuery):
                 else:
                     raise
             except StatementError as ex:
-                if "reconnect until invalid transaction is rolled back" not in str(ex):
+                if "reconnect until invalid transaction is rolled back" not \
+                        in str(ex):
                     raise
                 self.session.rollback()
 
@@ -52,7 +53,12 @@ class User(db.Model, UserMixin):
         'is_active', db.Boolean(), nullable=False, server_default='1'
     )
 
-    email = db.Column(db.Unicode(255), nullable=False, server_default=u'', unique=True)
+    email = db.Column(
+        db.Unicode(255),
+        nullable=False,
+        server_default=u'',
+        unique=True
+    )
     password = db.Column(db.String(255), nullable=False, server_default='')
     email_confirmed_at = db.Column(db.DateTime())
 
