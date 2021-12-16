@@ -192,8 +192,8 @@ def species_route():
     )
 
 
-@stats_blueprint.route('/species_matrix/<year>')
-def site_species_matrix(year):
+@stats_blueprint.route('/recorded_species_matrix/<year>')
+def site_recorded_species_matrix(year):
 
     sites_data = json.loads(
         site_schema.jsonify(
@@ -211,16 +211,47 @@ def site_species_matrix(year):
         ).data
     )
 
-    by_time = gen_site_species_matrix(sites_data, species_data, "time")
-    by_count = gen_site_species_matrix(sites_data, species_data, "count")
-    by_occ = gen_site_species_matrix(sites_data, species_data, "occ")
+    by_time = gen_site_species_matrix(sites_data, species_data, "time", "recorded")
+    by_count = gen_site_species_matrix(sites_data, species_data, "count", "recorded")
+    by_occ = gen_site_species_matrix(sites_data, species_data, "occ", "recorded")
 
     return render_template(
         "stats/site_species_matricies.jinja2",
         year=year,
         by_time=by_time,
         by_count=by_count,
-        by_occ=by_occ
+        by_occ=by_occ,
+        data_set="Recorded"
+    )
+
+@stats_blueprint.route('/surveyed_species_matrix/<year>')
+def site_surveyed_species_matrix(year):
+
+    sites_data = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(
+                    site.name.like(f"%{year[-2:]}")
+                ).all(), many=True
+        ).data
+    )
+
+    species_data = json.loads(
+        species_schema.jsonify(
+            species.query.order_by(
+                species.species
+            ).all(), many=True
+        ).data
+    )
+
+    by_count = gen_site_species_matrix(sites_data, species_data, "count", "surveyed")
+    by_occ = gen_site_species_matrix(sites_data, species_data, "occ", "surveyed")
+
+    return render_template(
+        "stats/site_species_matricies.jinja2",
+        year=year,
+        by_count=by_count,
+        by_occ=by_occ,
+        data_set="Surveyed"
     )
 
 
@@ -994,7 +1025,7 @@ def gen_site_species_data(sites):
     return data
 
 
-def gen_site_species_matrix(sites, species, data_type):
+def gen_site_species_matrix(sites, species, data_type, data_set):
 
     header = ["Site"]
     for speci in species:
@@ -1013,7 +1044,7 @@ def gen_site_species_matrix(sites, species, data_type):
             if site["name"] in el
         ][0][0]
         for survey in site["surveys"]:
-            for rec_species in survey["recorded_species"]:
+            for rec_species in survey[f"{data_set}_species"]:
                 species_index = header.index(rec_species["species"]["species"])
                 if data_type == "time":
                     matrix[site_index][species_index] += time_difference(rec_species)

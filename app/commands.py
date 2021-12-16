@@ -1,6 +1,6 @@
 import click
 import json
-import pandas
+# import pandas
 from flatten_json import flatten
 from flask.cli import with_appcontext
 import datetime
@@ -90,18 +90,18 @@ def fix_times():
     return
 
 
-@click.command("export_csv")
-@with_appcontext
-def export_csv():
-    """ Genetate CVS report of all sites and surveys"""
-    site_schema = siteSchema()
-    sites = json.loads(
-        site_schema.jsonify(
-            site.query.order_by(site.id).all(), many=True
-        ).data
-    )
-    # pure jank
-    df = pandas.json_normalize([flatten(site) for site in sites])
+# @click.command("export_csv")
+# @with_appcontext
+# def export_csv():
+#     """ Genetate CVS report of all sites and surveys"""
+#     site_schema = siteSchema()
+#     sites = json.loads(
+#         site_schema.jsonify(
+#             site.query.order_by(site.id).all(), many=True
+#         ).data
+#     )
+#     # pure jank
+#     df = pandas.json_normalize([flatten(site) for site in sites])
 
-    df.to_csv('test.csv', index=False, encoding='utf-8')
-    return
+#     df.to_csv('test.csv', index=False, encoding='utf-8')
+#     return
