@@ -19,6 +19,7 @@ from app.schemas import (
 import json
 import datetime
 import collections
+from sqlalchemy import extract
 
 stats_blueprint = Blueprint('summary', __name__)
 
@@ -216,13 +217,15 @@ def site_recorded_species_matrix(year):
     by_occ = gen_site_species_matrix(sites_data, species_data, "occ", "recorded")
 
     return render_template(
-        "stats/site_species_matricies.jinja2",
+        "stats/site_stuff_matricies.jinja2",
+        by="Species",
         year=year,
         by_time=by_time,
         by_count=by_count,
         by_occ=by_occ,
         data_set="Recorded"
     )
+
 
 @stats_blueprint.route('/surveyed_species_matrix/<year>')
 def site_surveyed_species_matrix(year):
@@ -247,12 +250,234 @@ def site_surveyed_species_matrix(year):
     by_occ = gen_site_species_matrix(sites_data, species_data, "occ", "surveyed")
 
     return render_template(
-        "stats/site_species_matricies.jinja2",
+        "stats/site_stuff_matricies.jinja2",
+        by="Species",
         year=year,
         by_count=by_count,
         by_occ=by_occ,
         data_set="Surveyed"
     )
+
+
+@stats_blueprint.route('/recorded_groups_matrix/<year>')
+def site_recorded_groups_matrix(year):
+
+    sites_data = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(
+                    site.name.like(f"%{year[-2:]}")
+                ).all(), many=True
+        ).data
+    )
+
+    groups = json.loads(
+        species_schema.jsonify(
+            species.query.order_by(
+            ).distinct(species.group), many=True
+        ).data
+    )
+
+    by_time = gen_site_group_matrix(sites_data, groups, "time", "recorded")
+    by_count = gen_site_group_matrix(sites_data, groups, "count", "recorded")
+    by_occ = gen_site_group_matrix(sites_data, groups, "occ", "recorded")
+
+    return render_template(
+        "stats/site_stuff_matricies.jinja2",
+        by="Group",
+        year=year,
+        by_time=by_time,
+        by_count=by_count,
+        by_occ=by_occ,
+        data_set="Recorded"
+    )
+
+
+@stats_blueprint.route('/surveyed_groups_matrix/<year>')
+def site_surveyed_groups_matrix(year):
+
+    sites_data = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(
+                    site.name.like(f"%{year[-2:]}")
+                ).all(), many=True
+        ).data
+    )
+
+    groups = json.loads(
+        species_schema.jsonify(
+            species.query.order_by(
+            ).distinct(species.group), many=True
+        ).data
+    )
+
+    by_count = gen_site_group_matrix(sites_data, groups, "count", "surveyed")
+    by_occ = gen_site_group_matrix(sites_data, groups, "occ", "surveyed")
+
+    return render_template(
+        "stats/site_stuff_matricies.jinja2",
+        by="Group",
+        year=year,
+        by_count=by_count,
+        by_occ=by_occ,
+        data_set="Surveyed"
+    )
+
+
+@stats_blueprint.route('/recorded_site_date_groups_matrix/<year>')
+def site_date_recorded_groups_matrix(year):
+
+    start_date = survey.query.filter(
+                    extract(
+                        'year',
+                        survey.date
+                    ) == year
+                ).order_by(
+                    survey.date.asc()
+                ).first().date
+    # print(start_date)
+    end_date = survey.query.filter(
+                    extract(
+                        'year',
+                        survey.date
+                    ) == year
+                ).order_by(
+                    survey.date.desc()
+                ).first().date
+    # print(end_date)
+
+    sites_data = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(
+                    site.name.like(f"%{year[-2:]}")
+                ).all(), many=True
+        ).data
+    )
+
+    date_range = [start_date+datetime.timedelta(days=x) for x in range((end_date-start_date).days)]
+
+    groups = json.loads(
+        species_schema.jsonify(
+            species.query.order_by(
+            ).distinct(species.group), many=True
+        ).data
+    )
+
+    matricies = []
+
+    for group in groups:
+        matricies.append({
+            group['group']: gen_site_date_group_matrix(sites_data, group['group'], date_range, "count", "recorded")
+        })
+
+    return render_template(
+        "stats/site_group_date_matricies.jinja2",
+        matricies=matricies,
+        by="Group",
+        data_type="Date",
+        year=year,
+        data_set="Recorded"
+    )
+
+
+@stats_blueprint.route('/surveyed_site_date_groups_matrix/<year>')
+def site_date_surveyed_groups_matrix(year):
+
+    start_date = survey.query.filter(
+                    extract(
+                        'year',
+                        survey.date
+                    ) == year
+                ).order_by(
+                    survey.date.asc()
+                ).first().date
+    # print(start_date)
+    end_date = survey.query.filter(
+                    extract(
+                        'year',
+                        survey.date
+                    ) == year
+                ).order_by(
+                    survey.date.desc()
+                ).first().date
+    # print(end_date)
+
+    sites_data = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(
+                    site.name.like(f"%{year[-2:]}")
+                ).all(), many=True
+        ).data
+    )
+
+    date_range = [start_date+datetime.timedelta(days=x) for x in range((end_date-start_date).days)]
+
+    groups = json.loads(
+        species_schema.jsonify(
+            species.query.order_by(
+            ).distinct(species.group), many=True
+        ).data
+    )
+
+    matricies = []
+
+    for group in groups:
+        matricies.append({
+            group['group']: gen_site_date_group_matrix(sites_data, group['group'], date_range, "count", "surveyed")
+        })
+
+    return render_template(
+        "stats/site_group_date_matricies.jinja2",
+        matricies=matricies,
+        by="Group",
+        data_type="Date",
+        year=year,
+        data_set="Surveyed"
+    )
+
+def gen_site_date_group_matrix(sites, group, date_range, data_type, data_set):
+    header = ["Site"]
+    for date in date_range:
+        header.append(date)
+
+    matrix = []
+    matrix.append(header)
+
+    for site in sites:
+        intermed = [site["name"]]
+        intermed.extend([0] * (len(header)-1))
+        matrix.append(intermed)
+
+    for site in sites:
+        site_index = [
+            (i, el.index(site["name"]))
+            for i, el in enumerate(matrix)
+            if site["name"] in el
+        ][0][0]
+        for survey in site["surveys"]:
+            for item in survey[f"{data_set}_species"]:
+                check = ''
+                if data_set == "recorded":
+                    check = datetime.datetime.fromisoformat(item["start"]).date()
+                else:
+                    check = datetime.date.fromisoformat(survey["date"])
+                if (check in header and item["species"]["group"] == group):
+                    date = header.index(check)
+                    if data_type == "time":
+                        matrix[site_index][date] += time_difference(item)
+                    elif data_type == "count":
+                        matrix[site_index][date] += item["count"]
+                    else:
+                        matrix[site_index][date] += 1
+                else:
+                    # print(item)
+                    pass
+
+    if data_type == "time":
+        for i in range(1,len(matrix)):
+            for j in range(1, len(matrix[0])):
+                matrix[i][j] = round(matrix[i][j]/3600, 2)
+
+    return matrix
 
 
 def gen_site_data(sites):
@@ -1044,14 +1269,49 @@ def gen_site_species_matrix(sites, species, data_type, data_set):
             if site["name"] in el
         ][0][0]
         for survey in site["surveys"]:
-            for rec_species in survey[f"{data_set}_species"]:
-                species_index = header.index(rec_species["species"]["species"])
+            for species in survey[f"{data_set}_species"]:
+                species_index = header.index(species["species"]["species"])
                 if data_type == "time":
-                    matrix[site_index][species_index] += time_difference(rec_species)
+                    matrix[site_index][species_index] += time_difference(species)
                 elif data_type == "count":
-                    matrix[site_index][species_index] += rec_species["count"]
+                    matrix[site_index][species_index] += species["count"]
                 else:
                     matrix[site_index][species_index] += 1
+
+    if data_type == "time":
+        for i in range(1,len(matrix)):
+            for j in range(1, len(matrix[0])):
+                matrix[i][j] = round(matrix[i][j]/3600, 2)
+
+    return matrix
+
+
+def gen_site_group_matrix(sites, groups, data_type, data_set):
+    header = ["Site"]
+    for group in groups:
+        header.append(group["group"])
+    matrix = []
+    matrix.append(header)
+    for site in sites:
+        intermed = [site["name"]]
+        intermed.extend([0] * len(groups))
+        matrix.append(intermed)
+
+    for site in sites:
+        site_index = [
+            (i, el.index(site["name"]))
+            for i, el in enumerate(matrix)
+            if site["name"] in el
+        ][0][0]
+        for survey in site["surveys"]:
+            for item in survey[f"{data_set}_species"]:
+                groups_index = header.index(item["species"]["group"])
+                if data_type == "time":
+                    matrix[site_index][groups_index] += time_difference(item)
+                elif data_type == "count":
+                    matrix[site_index][groups_index] += item["count"]
+                else:
+                    matrix[site_index][groups_index] += 1
 
     if data_type == "time":
         for i in range(1,len(matrix)):

@@ -1,9 +1,9 @@
 {% extends 'base.jinja2' %}
 
-{% block title %}Site <-> {{ data_set }} Species {{ data_type }}: {{ year }}{% endblock %}
+{% block title %}Site <-> {{ data_set }} {{ by }} {{ data_type }}: {{ year }}{% endblock %}
 
 {% block content_before %}
-  Site <-> {{ data_set }} Species {{ data_type }}: {{ year }}
+  Site <-> {{ data_set }} {{ by }} {{ data_type }}: {{ year }}
 {% endblock %}
 
 {% block content %}

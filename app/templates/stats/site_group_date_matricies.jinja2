@@ -1,0 +1,21 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Site <-> {{ data_set }} {{ by }} {{ data_type }}: {{ year }}{% endblock %}
+
+{% block content_before %}
+  Site <-> {{ data_set }} {{ by }} {{ data_type }}: {{ year }}
+{% endblock %}
+
+{% block content %}
+  {% for entry in matricies %}
+    {% for name, matrix in entry.items() %}
+    <h2 class="text-center">{{ name }}</h2>
+    <hr/>
+    {% with data=matrix %}
+      {% include "stats/generic_table.jinja2" %}
+    {% endwith %}
+    <hr/>
+    {% endfor %}
+  {% endfor %}
+
+{% endblock %}

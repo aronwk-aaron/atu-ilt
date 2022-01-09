@@ -58,17 +58,31 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href='{{ url_for('summary.sites_2020') }}'>Sites: 2020</a>
             <a class="dropdown-item" href='{{ url_for('summary.sites_2021') }}'>Sites: 2021</a>
+            <hr/>
             <a class="dropdown-item" href='{{ url_for('summary.site_species_2020') }}'>Site Species: 2020</a>
             <a class="dropdown-item" href='{{ url_for('summary.site_species_2021') }}'>Site Species: 2021</a>
+            <hr/>
             <a class="dropdown-item" href='{{ url_for('summary.two_weeks_2020') }}'>Two Week Counts: 2020</a>
             <a class="dropdown-item" href='{{ url_for('summary.two_weeks_2021') }}'>Two Week Counts: 2021</a>
+            <hr/>
             <a class="dropdown-item" href='{{ url_for('summary.cameras_2020') }}'>Cameras:2020</a>
             <a class="dropdown-item" href='{{ url_for('summary.cameras_2021') }}'>Cameras:2021</a>
             <a class="dropdown-item" href='{{ url_for('summary.species_route') }}'>Species</a>
+            <hr/>
             <a class="dropdown-item" href='{{ url_for('summary.site_recorded_species_matrix', year=2020) }}'>Recorded Species Matricies: 2020</a>
             <a class="dropdown-item" href='{{ url_for('summary.site_recorded_species_matrix', year=2021) }}'>Recorded Species Matricies: 2021</a>
             <a class="dropdown-item" href='{{ url_for('summary.site_surveyed_species_matrix', year=2020) }}'>Surveyed Species Matricies: 2020</a>
             <a class="dropdown-item" href='{{ url_for('summary.site_surveyed_species_matrix', year=2021) }}'>Surveyed Species Matricies: 2021</a>
+            <hr/>
+            <a class="dropdown-item" href='{{ url_for('summary.site_recorded_groups_matrix', year=2020) }}'>Recorded Groups Matricies: 2020</a>
+            <a class="dropdown-item" href='{{ url_for('summary.site_recorded_groups_matrix', year=2021) }}'>Recorded Groups Matricies: 2021</a>
+            <a class="dropdown-item" href='{{ url_for('summary.site_surveyed_groups_matrix', year=2020) }}'>Surveyed Groups Matricies: 2020</a>
+            <a class="dropdown-item" href='{{ url_for('summary.site_surveyed_groups_matrix', year=2021) }}'>Surveyed Groups Matricies: 2021</a>
+            <hr/>
+            <a class="dropdown-item" href='{{ url_for('summary.site_date_recorded_groups_matrix', year=2020) }}'>Recorded Date Groups Matricies: 2020</a>
+            <a class="dropdown-item" href='{{ url_for('summary.site_date_recorded_groups_matrix', year=2021) }}'>Recorded Date Groups Matricies: 2021</a>
+            <a class="dropdown-item" href='{{ url_for('summary.site_date_surveyed_groups_matrix', year=2020) }}'>Surveyed Date Groups Matricies: 2020</a>
+            <a class="dropdown-item" href='{{ url_for('summary.site_date_surveyed_groups_matrix', year=2021) }}'>Surveyed Date Groups Matricies: 2021</a>
           </div>
         </li>
         <a id='main-about' class='nav-link' href='{{ url_for('reports.index') }}'>Reports</a>
