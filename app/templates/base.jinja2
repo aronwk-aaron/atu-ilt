@@ -5,7 +5,7 @@
 <head>
 
   {# Title #}
-  <title>{% block title %}{% endblock %} - ATU ILT</title>
+  <title>{% block title %}{% endblock %} - {{ config.APP_NAME }}</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -91,8 +91,6 @@
     var _paq = window._paq = window._paq || [];
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
     _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-    _paq.push(["setCookieDomain", "*.cgodbey.com"]);
-    _paq.push(["setDomains", ["*.cgodbey.com"]]);
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function() {

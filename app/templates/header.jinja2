@@ -2,15 +2,14 @@
 <nav class='navbar navbar-expand-sm navbar-dark bg-primary flex-row pb-3'>
   <div class='container md-0 flex-nowrap'>
 
-    <a class='navbar-brand' href='{{ url_for('main.index') }}'>
-      {# img only visible when expanded #}
-      {# <img class="collapse navbar-collapse" width="300"
-           src='' alt=''/> #}
-      <span class="collapse navbar-collapse">ATU ILT Data Collection</span>
+    {# Logo and App Name #}
+    <nav class="navbar">
+      <a class="navbar-brand" href="{{ url_for('main.index') }}">
+        <img src="{{ url_for('static', filename='logo/logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
+        {{ config.APP_NAME }}
+      </a>
+    </nav>
 
-      {# text only visible when small display #}
-      <span class="d-sm-none">ATU ILT Data Collection</span>
-    </a>
 
     {# Visible only on large devices #}
     <nav class='navbar-nav'>

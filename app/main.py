@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, redirect, url_for
+from flask import send_from_directory, render_template, Blueprint, redirect, url_for
 from flask_user import login_required, roles_required
 from app.models import User, UserInvitation, UsersRoles
 
@@ -54,3 +54,12 @@ def edit_role(user_id, role_id):
     if user_id != 1:
         UsersRoles.update_userrole(user_id=user_id, role_id=role_id)
     return redirect(url_for('main.users'))
+
+
+@main_blueprint.route('/favicon.ico')
+def favicon():
+    return send_from_directory(
+        'static/logo/',
+        'favicon.ico',
+        mimetype='image/vnd.microsoft.icon'
+    )
