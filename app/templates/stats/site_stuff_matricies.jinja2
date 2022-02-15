@@ -8,7 +8,7 @@
 
 {% block content %}
   {% if data_set == "Recorded"%}
-    <h2 class="text-center">By Elapsed Time (in hours)</h2>
+    <h2 class="text-center">By Elapsed Time (in minutes)</h2>
     <hr/>
     {% with data=by_time %}
       {% include "stats/generic_table.jinja2" %}

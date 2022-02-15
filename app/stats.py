@@ -475,7 +475,7 @@ def gen_site_date_group_matrix(sites, group, date_range, data_type, data_set):
     if data_type == "time":
         for i in range(1,len(matrix)):
             for j in range(1, len(matrix[0])):
-                matrix[i][j] = round(matrix[i][j]/3600, 2)
+                matrix[i][j] = round(matrix[i][j]/60, 2)
 
     return matrix
 
@@ -1129,8 +1129,8 @@ def gen_site_species_data(sites):
         entry[4] = len(collections.Counter(c["species"]["species"] for c in site_recorded_disturbers))
 
         # magic lambda functions
-        entry[6] = round(sum(map(lambda x: time_difference(x), site_recorded_predator))/3600, 2)
-        entry[7] = round(sum(map(lambda x: time_difference(x), site_recorded_disturbers))/3600, 2)
+        entry[6] = round(sum(map(lambda x: time_difference(x), site_recorded_predator))/60, 2)
+        entry[7] = round(sum(map(lambda x: time_difference(x), site_recorded_disturbers))/60, 2)
 
         entry[5] = round(entry[6] + entry[7], 2)
 
@@ -1143,7 +1143,7 @@ def gen_site_species_data(sites):
             time_dict[pred] = sum(map(lambda x: time_difference(x) if (x["species"]["species"] == pred) else 0, site_recorded_predator))
         entry[9] = max(time_dict.items(), key=lambda x: x[1]) if (len(time_dict) > 0) else "None"
         if entry[9] != "None":
-            entry[9] = f"{entry[9][0]}: {round(entry[9][1]/3600, 2)}"
+            entry[9] = f"{entry[9][0]}: {round(entry[9][1]/60, 2)}"
 
         count_dict = {}
         for pred in pred_list:
@@ -1164,7 +1164,7 @@ def gen_site_species_data(sites):
             time_dict[dist] = sum(map(lambda x: time_difference(x) if (x["species"]["species"] == dist) else 0, site_recorded_disturbers))
         entry[12] = max(time_dict.items(), key=lambda x: x[1]) if (len(time_dict) > 0) else "None"
         if entry[12] != "None":
-            entry[12] = f"{entry[12][0]}: {round(entry[12][1]/3600, 2)}"
+            entry[12] = f"{entry[12][0]}: {round(entry[12][1]/60, 2)}"
 
         count_dict = {}
         for dist in dist_list:
@@ -1176,67 +1176,67 @@ def gen_site_species_data(sites):
         if entry[13] != "None":
             entry[13] = f"{entry[13][0]}: {entry[13][1]}"
 
-        entry[16] = round(entry[16]/3600, 2)
+        entry[16] = round(entry[16]/60, 2)
 
         entry[17] = sum(map(lambda x: x["count"], site_recorded_predator))
         entry[18] = len(site_recorded_predator)
         entry[19] = sum(map(lambda x: x["count"], site_recorded_disturbers))
         entry[20] = len(site_recorded_disturbers)
-        entry[21] = round(sum(map(lambda x: time_difference(x), site_c_mam))/3600, 2)
+        entry[21] = round(sum(map(lambda x: time_difference(x), site_c_mam))/60, 2)
         entry[22] = sum(map(lambda x: x["count"], site_c_mam))
         entry[23] = len(site_c_mam)
-        entry[24] = round(sum(map(lambda x: time_difference(x), site_c_avi))/3600, 2)
+        entry[24] = round(sum(map(lambda x: time_difference(x), site_c_avi))/60, 2)
         entry[25] = sum(map(lambda x: x["count"], site_c_avi))
         entry[26] = len(site_c_avi)
-        entry[27] = round(sum(map(lambda x: time_difference(x), site_c_hum))/3600, 2)
+        entry[27] = round(sum(map(lambda x: time_difference(x), site_c_hum))/60, 2)
         entry[28] = sum(map(lambda x: x["count"], site_c_hum))
         entry[29] = len(site_c_hum)
-        entry[30] = round(sum(map(lambda x: time_difference(x), site_c_rep))/3600, 2)
+        entry[30] = round(sum(map(lambda x: time_difference(x), site_c_rep))/60, 2)
         entry[31] = sum(map(lambda x: x["count"], site_c_rep))
         entry[32] = len(site_c_rep)
-        entry[33] = round(sum(map(lambda x: time_difference(x), site_c_env))/3600, 2)
+        entry[33] = round(sum(map(lambda x: time_difference(x), site_c_env))/60, 2)
         entry[34] = sum(map(lambda x: x["count"], site_c_env))
         entry[35] = len(site_c_env)
-        entry[36] = round(sum(map(lambda x: time_difference(x), site_c_oth))/3600, 2)
+        entry[36] = round(sum(map(lambda x: time_difference(x), site_c_oth))/60, 2)
         entry[37] = sum(map(lambda x: x["count"], site_c_oth))
         entry[38] = len(site_c_oth)
-        entry[39] = round(sum(map(lambda x: time_difference(x), site_r_non))/3600, 2)
+        entry[39] = round(sum(map(lambda x: time_difference(x), site_r_non))/60, 2)
         entry[40] = sum(map(lambda x: x["count"], site_r_non))
         entry[41] = len(site_r_non)
-        entry[42] = round(sum(map(lambda x: time_difference(x), site_r_hig))/3600, 2)
+        entry[42] = round(sum(map(lambda x: time_difference(x), site_r_hig))/60, 2)
         entry[43] = sum(map(lambda x: x["count"], site_r_hig))
         entry[44] = len(site_r_hig)
-        entry[45] = round(sum(map(lambda x: time_difference(x), site_r_low))/3600, 2)
+        entry[45] = round(sum(map(lambda x: time_difference(x), site_r_low))/60, 2)
         entry[46] = sum(map(lambda x: x["count"], site_r_low))
         entry[47] = len(site_r_low)
-        entry[48] = round(sum(map(lambda x: time_difference(x), site_g_her))/3600, 2)
+        entry[48] = round(sum(map(lambda x: time_difference(x), site_g_her))/60, 2)
         entry[49] = sum(map(lambda x: x["count"], site_g_her))
         entry[50] = len(site_g_her)
-        entry[51] = round(sum(map(lambda x: time_difference(x), site_g_hum))/3600, 2)
+        entry[51] = round(sum(map(lambda x: time_difference(x), site_g_hum))/60, 2)
         entry[52] = sum(map(lambda x: x["count"], site_g_hum))
         entry[53] = len(site_g_hum)
-        entry[54] = round(sum(map(lambda x: time_difference(x), site_g_mes))/3600, 2)
+        entry[54] = round(sum(map(lambda x: time_difference(x), site_g_mes))/60, 2)
         entry[55] = sum(map(lambda x: x["count"], site_g_mes))
         entry[56] = len(site_g_mes)
-        entry[57] = round(sum(map(lambda x: time_difference(x), site_g_rap))/3600, 2)
+        entry[57] = round(sum(map(lambda x: time_difference(x), site_g_rap))/60, 2)
         entry[58] = sum(map(lambda x: x["count"], site_g_rap))
         entry[59] = len(site_g_rap)
-        entry[60] = round(sum(map(lambda x: time_difference(x), site_g_sho))/3600, 2)
+        entry[60] = round(sum(map(lambda x: time_difference(x), site_g_sho))/60, 2)
         entry[61] = sum(map(lambda x: x["count"], site_g_sho))
         entry[62] = len(site_g_sho)
-        entry[63] = round(sum(map(lambda x: time_difference(x), site_g_sma))/3600, 2)
+        entry[63] = round(sum(map(lambda x: time_difference(x), site_g_sma))/60, 2)
         entry[64] = sum(map(lambda x: x["count"], site_g_sma))
         entry[65] = len(site_g_sma)
-        entry[66] = round(sum(map(lambda x: time_difference(x), site_g_son))/3600, 2)
+        entry[66] = round(sum(map(lambda x: time_difference(x), site_g_son))/60, 2)
         entry[67] = sum(map(lambda x: x["count"], site_g_son))
         entry[68] = len(site_g_son)
-        entry[69] = round(sum(map(lambda x: time_difference(x), site_g_tra))/3600, 2)
+        entry[69] = round(sum(map(lambda x: time_difference(x), site_g_tra))/60, 2)
         entry[70] = sum(map(lambda x: x["count"], site_g_tra))
         entry[71] = len(site_g_tra)
-        entry[72] = round(sum(map(lambda x: time_difference(x), site_g_wad))/3600, 2)
+        entry[72] = round(sum(map(lambda x: time_difference(x), site_g_wad))/60, 2)
         entry[73] = sum(map(lambda x: x["count"], site_g_wad))
         entry[74] = len(site_g_wad)
-        entry[75] = round(sum(map(lambda x: time_difference(x), site_g_wat))/3600, 2)
+        entry[75] = round(sum(map(lambda x: time_difference(x), site_g_wat))/60, 2)
         entry[76] = sum(map(lambda x: x["count"], site_g_wat))
         entry[77] = len(site_g_wat)
 
@@ -1281,7 +1281,7 @@ def gen_site_species_matrix(sites, species, data_type, data_set):
     if data_type == "time":
         for i in range(1,len(matrix)):
             for j in range(1, len(matrix[0])):
-                matrix[i][j] = round(matrix[i][j]/3600, 2)
+                matrix[i][j] = round(matrix[i][j]/60, 2)
 
     return matrix
 
@@ -1316,7 +1316,7 @@ def gen_site_group_matrix(sites, groups, data_type, data_set):
     if data_type == "time":
         for i in range(1,len(matrix)):
             for j in range(1, len(matrix[0])):
-                matrix[i][j] = round(matrix[i][j]/3600, 2)
+                matrix[i][j] = round(matrix[i][j]/60, 2)
 
     return matrix
 
@@ -1391,11 +1391,11 @@ def gen_species_data():
     sort_sublist(data['recorded_abundance'])
     sort_sublist(data['recorded_duration'])
 
-    # convert seconds to hours
+    # convert seconds to minutes
     for item in range(len(data['recorded_duration'])):
         # print(data['recorded_duration'][item][1])
         data['recorded_duration'][item][1] = round(
-            data['recorded_duration'][item][1]/3600, 1
+            data['recorded_duration'][item][1]/60, 1
         )
 
     data['surveyed_prevalence'].reverse()
