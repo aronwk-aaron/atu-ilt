@@ -434,6 +434,76 @@ def site_date_surveyed_groups_matrix(year):
         data_set="Surveyed"
     )
 
+
+@stats_blueprint.route('/chapter1/<year>')
+def chapter1(year):
+    sites_data = json.loads(
+        site_schema.jsonify(
+            site.query.order_by(site.id).filter(
+                    site.name.like(f"%{year[-2:]}")
+                ).all(), many=True
+        ).data
+    )
+
+    classifications = json.loads(
+        species_schema.jsonify(
+            species.query.order_by(
+            ).distinct(species.classification), many=True
+        ).data
+    )
+
+    by_time = chapter1(sites_data, classifications, "time", "recorded")
+    by_count = chapter1(sites_data, classifications, "count", "recorded")
+    by_occ = chapter1(sites_data, classifications, "occ", "recorded")
+
+    return render_template(
+        "stats/site_stuff_matricies.jinja2",
+        by="Group",
+        year=year,
+        by_time=by_time,
+        by_count=by_count,
+        by_occ=by_occ,
+        data_set="Recorded",
+        title="Predators by Class"
+    )
+
+
+def chapter1(sites, classifications, data_type, data_set):
+    header = ["Site"]
+    for classification in classifications:
+        header.append(classification["classification"])
+    matrix = []
+    matrix.append(header)
+    for site in sites:
+        intermed = [site["name"]]
+        intermed.extend([0] * len(classifications))
+        matrix.append(intermed)
+
+    for site in sites:
+        site_index = [
+            (i, el.index(site["name"]))
+            for i, el in enumerate(matrix)
+            if site["name"] in el
+        ][0][0]
+        for survey in site["surveys"]:
+            for item in survey[f"{data_set}_species"]:
+                if item["species"]["species_type"].lower() == "predator":
+                    groups_index = header.index(item["species"]["classification"])
+                    if data_type == "time":
+                        matrix[site_index][groups_index] += time_difference(item)
+                    elif data_type == "count":
+                        matrix[site_index][groups_index] += item["count"]
+                    else:
+                        matrix[site_index][groups_index] = 1
+
+    if data_type == "time":
+        for i in range(1,len(matrix)):
+            for j in range(1, len(matrix[0])):
+                matrix[i][j] = round(matrix[i][j]/60, 2)
+
+    return matrix
+
+
 def gen_site_date_group_matrix(sites, group, date_range, data_type, data_set):
     header = ["Site"]
     for date in date_range:

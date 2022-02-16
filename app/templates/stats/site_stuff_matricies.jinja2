@@ -4,6 +4,10 @@
 
 {% block content_before %}
   Site <-> {{ data_set }} {{ by }} {{ data_type }}: {{ year }}
+  {% if title %}
+    <br/>
+    {{ title }}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
