@@ -1,0 +1,29 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}
+  ATU Graduate Symposium 2022
+{% endblock title %}
+
+{% block content_before %}
+  ATU Graduate Symposium 2022
+{% endblock content_before %}
+
+{% block content_override %}
+  <div class="mx-5">
+    <img src="{{ url_for('static', filename='images/ATU_GS_Kimbrell_Spring2022.png') }}" class="d-block w-100" alt="ATU Graduate Symposium 2022 Poster">
+    <hr>
+    <h3>
+        <b>Abstract:</b> Causes of colony failure in interior least terns (Sternula antillarum antillarum) have been a prevalent topic for researchers investigating this previously endangered species. How site features of their Arkansas River sandbar habitats may factor into the frequency or types of tern predators, however, is unknown. I am interested in identifying which characteristics of sandbars may result in higher frequencies of predator encounters for colonies and which predator species are involved. I used a trio of on-foot colony, site characteristic, and trail camera surveys from the summer 2020 and 2021 nesting seasons for my investigation. This exploratory analysis used generalized additive models to identify the relationships of major avian and mammalian predator groups with eight site characteristics and interior least tern reproductive success. Analyses thus far indicate that the total count of avian predator encounters describes more variation in interior least tern reproductive success than mammalian predator encounters. Site variables like elevation and number of logs negatively correlate with avian predator encounters, indicating that separating avian predators by group (like raptors and waders, who have different hunting tactics) may aid in more precisely describing the relationships between predator encounters, site characteristics, and the reproductive success of these shorebirds. Better understanding these relationships will help inform managers on conservation actions that need to be taken to best support the ongoing recovery of this species across its range.
+        <br/>
+        <br/>
+        <b>Keywords:</b> interior least terns, sandbars, site characteristics, colony success, Arkansas River, avian predation, mammalian predation
+        <br/>
+        <br/>
+        <b>References:</b>
+        <br/>
+        Sherfy, M. H., Stucker, J. H., and D. A. Buhl. 2012. Selection of nest-site habitat by interior least terns in relation to sandbar construction. The Journal of Wildlife Management 76: 363-371.
+        <br/>
+        Thompson, B. C. and R. D. Slack. Physical aspects of colony selection by least terns on the Texas coast. Colonial Waterbirds 5:161-168.
+    </h3>
+  </div>
+{% endblock  %}

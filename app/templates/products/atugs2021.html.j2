@@ -1,0 +1,23 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}
+  ATU Graduate Symposium 2021
+{% endblock title %}
+
+{% block content_before %}
+  ATU Graduate Symposium 2021
+{% endblock content_before %}
+
+{% block content_override %}
+  <div class="mx-5">
+    <img src="{{ url_for('static', filename='images/ATU_GS_Godbey_Spring2021.png') }}" class="d-block w-100" alt="ATU Graduate Symposium 2021 Poster">
+    <hr>
+    <h3>
+        <b>Abstract:</b> Causes of colony failure in interior least terns (Sternula antillarum antillarum) have been a frequent topic for researchers. Depredation, as a cause of colony failure, has also been frequently studied, but the site characteristics that may lead to increased depredation in colonies have received much less attention. I am interested in identifying characteristics of sandbars on the Arkansas River that may result in higher disturbance risks for colonies and determining the species most often responsible for those disturbances. I conducted on-foot colony and trail camera surveys in summer 2020 to determine rate and duration of disturbances and to identify disturbing species. I will be examining frequentist statistics to test the influence of 15 site-related variables on multiple responses, including disturbance and predator species, site usage, and colony success. Initial results indicate that colonies are evenly distributed across both islands (12) and mainland sandbars (10). This usage, however, is not proportional to the number of available sandbars identified during the season, with 12 out of 14 island sandbars used, but 10 out of 29 mainland sandbars used. Meanwhile, herons, egrets, and humans are among the most frequently encountered disturbers across all sandbar types. I plan to examine these results to better understand how non-predatory disturbances may be influencing interior least tern colony site selection and success. I will also examine how site morphology relates to disturbance patterns. Understanding these relationships will help managers make informed conservation actions necessary to support the ongoing recovery of this species across its range.
+        <br/>
+        <br/>
+        <b>Keywords:</b> interior least tern site features, predation risk, disturbance, colony success, Arkansas River
+    </h3>
+  </div>
+{% endblock  %}
+

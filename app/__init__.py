@@ -128,3 +128,6 @@ def register_blueprints(app):
     app.register_blueprint(reports_blueprint, url_prefix='/reports')
     from .validation import validation_blueprint
     app.register_blueprint(validation_blueprint, url_prefix='/validation')
+    from .products import products_blueprint
+    app.register_blueprint(products_blueprint, url_prefix='/products')
+
