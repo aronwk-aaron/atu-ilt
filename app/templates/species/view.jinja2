@@ -20,6 +20,7 @@
               data-page-length='25'>
           <thead>
           <tr>
+            <th scope="col">Site</th>
             <th scope="col">Species</th>
             <th scope="col">Sighting Type</th>
             <th scope="col">Count</th>
@@ -29,6 +30,9 @@
           <tbody>
           {% for surveyed_species in surveyed_species %}
               <tr>
+                <td>
+                    {{ surveyed_species.survey.site.name }}
+                </td>
                 <td>
                     {{ surveyed_species.species.species }}
                 </td>
@@ -80,6 +84,7 @@
               data-page-length='25'>
           <thead>
           <tr>
+            <th scope="col">Site</th>
             <th scope="col">Species</th>
             <th scope="col">Start Time</th>
             <th scope="col">End Time</th>
@@ -92,6 +97,9 @@
           <tbody>
           {% for recorded_species in recorded_species %}
               <tr>
+                <td>
+                    {{ recorded_species.survey.site.name }}
+                </td>
                 <td>
                     {{ recorded_species.species.species }}
                 </td>

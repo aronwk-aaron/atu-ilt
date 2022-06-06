@@ -355,6 +355,7 @@ class survey_species(db.Model):
         db.ForeignKey(survey.id),
         primary_key=True
     )
+    survey = db.relationship('survey')
     species_id = db.Column(
         db.Integer,
         db.ForeignKey(species.id),
@@ -383,6 +384,7 @@ class survey_species_camera(db.Model):
         db.ForeignKey(survey.id),
         primary_key=True
     )
+    survey = db.relationship('survey')
     species_id = db.Column(
         db.Integer,
         db.ForeignKey(species.id),
