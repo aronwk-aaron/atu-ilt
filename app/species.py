@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect
-from app.models import species
+from app.models import species, survey_species, survey_species_camera
 from app.forms import species_form
 from flask_user import roles_accepted, login_required
 
@@ -10,6 +10,21 @@ species_blueprint = Blueprint('species', __name__)
 def index():
     species_query = species.query.all()
     return render_template('species/index.jinja2', species=species_query)
+
+
+@species_blueprint.route('/view/<id>')
+def view(id):
+    recorded_species = survey_species_camera.query.filter(
+        survey_species_camera.species_id == id).all()
+    surveyed_species = survey_species.query.filter(
+        survey_species.species_id == id).all()
+    speci = species.query.filter(species.id == id).first()
+    return render_template(
+        'species/view.jinja2',
+        speci=speci,
+        recorded_species=recorded_species,
+        surveyed_species=surveyed_species
+    )
 
 
 @species_blueprint.route('/new', methods=('GET', 'POST'))

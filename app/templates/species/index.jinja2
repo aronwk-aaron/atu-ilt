@@ -30,12 +30,20 @@
         <th scope="col">Type</th>
         <th scope="col">Risk</th>
         <th scope="col">Group</th>
+        <th scope="col">Surveyed</th>
+        <th scope="col">Recorded</th>
       </tr>
       </thead>
       <tbody>
         {% for species in species %}
           <tr>
             <td>
+              <a href="{{ url_for('species.view', id=species.id) }}"
+                class="btn btn-primary btn-block"
+                role="button"
+                aria-disabled="true">
+                View All
+              </a>
               {% if current_user.is_authenticated %}
                 <a href="{{ url_for('species.edit', id=species.id) }}"
                   class="btn btn-primary btn-block"
@@ -67,6 +75,12 @@
               {% if species.group %}
                 {{ helper.sentence_case(species.group) }}
               {% endif %}
+            </td>
+            <td>
+              {{ species.id|get_surveyed_count }}
+            </td>
+            <td>
+              {{ species.id|get_recorded_count }}
             </td>
           </tr>
         {% endfor %}

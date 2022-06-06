@@ -1,0 +1,149 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Viewing {{speci.species}}{% endblock %}
+
+{% block content_before %}
+  Viewing {{speci.species}}
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-start">
+      <div class="col-6 col-sm-3">
+        <h3>Surveyed Species</h3>
+      </div>
+    </div>
+    {% if surveyed_species %}
+    <div class='table-responsive'>
+      <table class="table table-white table-striped table-bordered table-hover"
+              id="sp_table_id"
+              data-order='[[ 1, "asc" ]]'
+              data-page-length='25'>
+          <thead>
+          <tr>
+            <th scope="col">Species</th>
+            <th scope="col">Sighting Type</th>
+            <th scope="col">Count</th>
+            <th scope="col">Comment</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for surveyed_species in surveyed_species %}
+              <tr>
+                <td>
+                    {{ surveyed_species.species.species }}
+                </td>
+                <td class="text-center">
+                  {% if surveyed_species.tracks %}
+                    <div class='mb-1'>Tracks<br/></div>
+                  {% endif %}
+                  {% if surveyed_species.sighting %}
+                    <div class='mb-1'>Saw<br/></div>
+                  {% endif %}
+                  {% if surveyed_species.scat %}
+                    <div class='mb-1'>Scat<br/></div>
+                  {% endif %}
+                  {% if surveyed_species.chick_mort %}
+                    <div class='mb-1'>Chick Mortality<br/></div>
+                  {% endif %}
+                  {% if surveyed_species.adult_mort %}
+                    <div class='mb-1'>Adult Mortality<br/></div>
+                  {% endif %}
+                  {% if surveyed_species.nest_dest %}
+                    <div class='mb-1'>Nest Destruction<br/></div>
+                  {% endif %}
+                </td>
+                <td>
+                    {{ surveyed_species.count }}
+                </td>
+                <td>
+                    {{ surveyed_species.comment }}
+                </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+    </div>
+  {% else %}
+    No Surveyed Species to show
+  {% endif %}
+    <hr/>
+    <div class="row justify-content-start">
+      <div class="col-6 col-sm-3">
+        <h3>Recorded Species</h3>
+      </div>
+    </div>
+    {% if recorded_species %}
+    <div class='table-responsive'>
+      <table class="table table-white table-striped table-bordered table-hover"
+              id="rp_table_id"
+              data-order='[[ 1, "asc" ]]'
+              data-page-length='25'>
+          <thead>
+          <tr>
+            <th scope="col">Species</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
+            <th scope="col">Elapsed Time</th>
+            <th scope="col">Count</th>
+            <th scope="col">Sightings</th>
+            <th scope="col">Comments</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for recorded_species in recorded_species %}
+              <tr>
+                <td>
+                    {{ recorded_species.species.species }}
+                </td>
+                <td>
+                    {{ recorded_species.start }}
+                </td>
+                <td>
+                    {{ recorded_species.end }}
+                </td>
+                <td>
+                  {{ recorded_species.start|time_delta(recorded_species.end) }}
+                </td>
+                <td>
+                    {{ recorded_species.count }}
+                </td>
+                <td class="text-center">
+                  {% if recorded_species.scat %}
+                    <div class='mb-1'>Scat<br/></div>
+                  {% endif %}
+                  {% if recorded_species.chick_mort %}
+                    <div class='mb-1'>Chick Mortality<br/></div>
+                  {% endif %}
+                  {% if recorded_species.adult_mort %}
+                    <div class='mb-1'>Adult Mortality<br/></div>
+                  {% endif %}
+                  {% if recorded_species.nest_dest %}
+                    <div class='mb-1'>Nest Destruction<br/></div>
+                  {% endif %}
+                </td>
+                <td>
+                    {{ recorded_species.comment }}
+                </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+    </div>
+  {% else %}
+    No Recorded Species to show
+  {% endif %}
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script>
+    $(document).ready( function () {
+      $('#sp_table_id').DataTable({
+      });
+    });
+    $(document).ready( function () {
+      $('#rp_table_id').DataTable({
+      });
+    });
+  </script>
+{% endblock %}

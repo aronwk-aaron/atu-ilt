@@ -3,7 +3,7 @@ from flask import Flask
 from flask_assets import Environment
 from webassets import Bundle
 
-from app.models import db, migrate
+from app.models import db, migrate, survey_species, survey_species_camera
 from app.schemas import ma
 from flask_wtf.csrf import CSRFProtect
 
@@ -64,6 +64,22 @@ def create_app():
     app.cli.add_command(init_users)
     # app.cli.add_command(export_csv)
     app.cli.add_command(fix_times)
+
+    @app.template_filter('get_recorded_count')
+    def get_recorded_count(id):
+        if not id:
+            return "NO ID"
+        return survey_species_camera.query.filter(
+                survey_species_camera.species_id == id
+            ).count()
+
+    @app.template_filter('get_surveyed_count')
+    def get_surveyed_count(id):
+        if not id:
+            return "NO ID"
+        return survey_species.query.filter(
+                survey_species.species_id == id
+            ).count()
 
     @user_registered.connect_via(app)
     def after_register_hook(sender, user, **extra):
