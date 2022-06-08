@@ -24,11 +24,16 @@ from wtforms.validators import (
     Optional
 )
 
-from flask_wtf.file import FileField
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 
 class image_form(FlaskForm):
-    file = FileField()
+    file = FileField(
+        validators=[
+            FileRequired(),
+            FileAllowed(['png'], '.png only!')
+        ]
+    )
     submit = SubmitField()
 
 

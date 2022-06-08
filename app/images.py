@@ -11,7 +11,7 @@ images_blueprint = Blueprint('images', __name__)
 def index():
     images = pathlib.Path('app/static/uploads')
     images.resolve().mkdir(parents=True, exist_ok=True)
-    files = [path for path in images.rglob(".*") if path.is_file()]
+    files = [path for path in images.rglob("*.png") if path.is_file()]
     return render_template('images/index.jinja2', images=len(files))
 
 
@@ -22,7 +22,6 @@ def upload():
 
     form = image_form()
     if form.validate_on_submit():
-        print(form.file.data)
         f = form.file.data
         name = secure_filename(f.filename)
         f.save("app/static/uploads/" + name)
