@@ -146,4 +146,6 @@ def register_blueprints(app):
     app.register_blueprint(validation_blueprint, url_prefix='/validation')
     from .products import products_blueprint
     app.register_blueprint(products_blueprint, url_prefix='/products')
+    from .images import images_blueprint
+    app.register_blueprint(images_blueprint, url_prefix='/images')
 

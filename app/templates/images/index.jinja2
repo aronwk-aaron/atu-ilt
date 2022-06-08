@@ -1,0 +1,37 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Images{% endblock %}
+
+{% block content_before %}
+  Images
+{% endblock %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+    <a href="{{ url_for('images.upload') }}"
+                    class="btn btn-primary"
+                    role="button"
+                    aria-disabled="true">
+        Upload
+      </a>
+    <hr/>
+  {% endif %}
+    {% for i in range(images) %}
+      <img
+        src="{{url_for('images.get', id=i)}}"
+        class="border p-1 border-primary rounded m-1"
+        width=1024
+      >
+    {% endfor %}
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script>
+    $(document).ready( function () {
+      $('#table_id').DataTable({
+        "columnDefs": [{ "orderable": false, "searchable": false, "targets": 0 }]
+      });
+    });
+  </script>
+{% endblock %}

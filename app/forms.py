@@ -24,6 +24,13 @@ from wtforms.validators import (
     Optional
 )
 
+from flask_wtf.file import FileField
+
+
+class image_form(FlaskForm):
+    file = FileField()
+    submit = SubmitField()
+
 
 class camera_form(FlaskForm):
     name = StringField(
