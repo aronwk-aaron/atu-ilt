@@ -17,7 +17,7 @@ def index():
 
 @images_blueprint.route('/upload', methods=('GET', 'POST'))
 @login_required
-@roles_accepted('user', 'admin')
+@roles_accepted('admin')
 def upload():
 
     form = image_form()

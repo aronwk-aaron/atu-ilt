@@ -104,6 +104,7 @@
           <a id='validation_overlap' class='nav-link' href='{{ url_for('validation.recorded_species_overlap') }}'>validation</a>
           {% if current_user.has_roles('admin') %}
             <a id='main-users' class='nav-link' href='{{ url_for('main.users') }}'>Users</a>
+            <a id='main-users' class='nav-link' href='{{ url_for('images.index') }}'>Images</a>
           {% endif %}
         {% endif %}
         <a id='main-about' class='nav-link' href='{{ url_for('main.about') }}'>About</a>
